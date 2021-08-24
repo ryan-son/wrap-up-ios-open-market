@@ -27,7 +27,7 @@ final class NetworkManager: NetworkManageable {
     private let session: URLSession
     private let okResponse: Range<Int> = (200 ..< 300)
 
-    init(session: URLSession) {
+    init(session: URLSession = .shared) {
         self.session = session
     }
 
