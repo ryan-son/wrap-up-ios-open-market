@@ -20,7 +20,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Started up with app based lifecycle")
             window = UIWindow(frame: UIScreen.main.bounds)
 
-            let viewController = ViewController()
+            let viewController = MarketItemsViewController()
             window?.rootViewController = viewController
             window?.makeKeyAndVisible()
         }
