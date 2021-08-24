@@ -19,6 +19,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             print("Started up with app based lifecycle")
             window = UIWindow(frame: UIScreen.main.bounds)
+
             let viewController = ViewController()
             window?.rootViewController = viewController
             window?.makeKeyAndVisible()

@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -16,6 +17,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+
         let viewController = ViewController()
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
