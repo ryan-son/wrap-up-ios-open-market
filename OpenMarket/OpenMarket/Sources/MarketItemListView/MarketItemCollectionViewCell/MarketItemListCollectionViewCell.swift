@@ -12,56 +12,6 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "MarketItemListCollectionViewCell"
     private var viewModel: MarketItemCellViewModel?
 
-    private enum Style {
-
-        enum ThumbnailImageView {
-            static let cornerRadius: CGFloat = 10
-            static let defaultImage = UIImage(systemName: "ellipsis")
-        }
-
-        enum TextContentStackView {
-            static let spacing: CGFloat = 8
-        }
-
-        enum UpperStackView {
-            static let spacing: CGFloat = 8
-        }
-
-        enum TitleLabel {
-            static let font: UIFont.TextStyle = .title3
-            static let textColor: UIColor = .label
-        }
-
-        enum StockLabel {
-            static let font: UIFont.TextStyle = .callout
-            static let textColor: UIColor = .secondaryLabel
-            static let outOfStockTextColor: UIColor = .systemOrange
-        }
-
-        enum LowerStackView {
-            static let spacing: CGFloat = .zero
-        }
-
-        enum DiscountedPriceLabel {
-            static let font: UIFont.TextStyle = .body
-            static let textColor: UIColor = .tertiaryLabel
-        }
-
-        enum PriceLabel {
-            static let font: UIFont.TextStyle = .headline
-            static let textColor: UIColor = .label
-        }
-
-        enum SeparatorView {
-            static let backgroundColor: UIColor = .separator
-            static let height: CGFloat = 0.5
-        }
-
-        enum Constraint {
-            static let contentViewPadding: CGFloat = 20
-        }
-    }
-
     private let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = Style.ThumbnailImageView.cornerRadius
@@ -172,7 +122,8 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
             thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                         constant: Style.Constraint.contentViewPadding),
             thumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            thumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7),
+            thumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
+                                                       multiplier: Style.Constraint.thumbnailSizeAgainstContentView),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor),
             textContentStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor,
                                                           constant: Style.Constraint.contentViewPadding),
@@ -228,4 +179,59 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
         discountedPriceLabel.attributedText = nil
         priceLabel.text = nil
     }
+}
+
+extension MarketItemListCollectionViewCell {
+
+    private enum Style {
+
+        enum ThumbnailImageView {
+            static let cornerRadius: CGFloat = 10
+            static let defaultImage = UIImage(systemName: "ellipsis")
+        }
+
+        enum TextContentStackView {
+            static let spacing: CGFloat = 8
+        }
+
+        enum UpperStackView {
+            static let spacing: CGFloat = 8
+        }
+
+        enum TitleLabel {
+            static let font: UIFont.TextStyle = .title3
+            static let textColor: UIColor = .label
+        }
+
+        enum StockLabel {
+            static let font: UIFont.TextStyle = .callout
+            static let textColor: UIColor = .secondaryLabel
+            static let outOfStockTextColor: UIColor = .systemOrange
+        }
+
+        enum LowerStackView {
+            static let spacing: CGFloat = .zero
+        }
+
+        enum DiscountedPriceLabel {
+            static let font: UIFont.TextStyle = .body
+            static let textColor: UIColor = .tertiaryLabel
+        }
+
+        enum PriceLabel {
+            static let font: UIFont.TextStyle = .headline
+            static let textColor: UIColor = .label
+        }
+
+        enum SeparatorView {
+            static let backgroundColor: UIColor = .separator
+            static let height: CGFloat = 0.5
+        }
+
+        enum Constraint {
+            static let thumbnailSizeAgainstContentView: CGFloat = 0.7
+            static let contentViewPadding: CGFloat = 20
+        }
+    }
+
 }

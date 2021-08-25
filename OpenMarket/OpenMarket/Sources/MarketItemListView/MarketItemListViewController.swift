@@ -9,6 +9,11 @@ import UIKit
 
 final class MarketItemListViewController: UIViewController {
 
+    private enum CellStyle {
+        case list
+        case grid
+    }
+
     private let viewModel = MarketItemListViewModel()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -19,6 +24,7 @@ final class MarketItemListViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    private var cellStyle: CellStyle = .list
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +42,12 @@ final class MarketItemListViewController: UIViewController {
 
     private func setupNavigationBar() {
         navigationController?.navigationBar.barTintColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
         title = "Open Market"
+        let changeCellStyleBarButton = UIBarButtonItem(image: UIImage(systemName: "list.dash"),
+                                                       style: .plain, target: self,
+                                                       action: #selector(changeCellStyleButtonTapped))
+        navigationItem.rightBarButtonItems = [changeCellStyleBarButton]
     }
 
     private func setupViews() {
@@ -58,6 +69,24 @@ final class MarketItemListViewController: UIViewController {
             default:
                 break
             }
+        }
+    }
+
+    @objc private func changeCellStyleButtonTapped() {
+        toggleCellStyle()
+        changeCellStyleButtonImage()
+    }
+
+    private func toggleCellStyle() {
+        cellStyle = cellStyle == .list ? .grid : .list
+    }
+
+    private func changeCellStyleButtonImage() {
+        switch cellStyle {
+        case .list:
+            navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.listCellButtonImage
+        case .grid:
+            navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.gridCellButtonImage
         }
     }
 }
@@ -97,5 +126,16 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return .zero
+    }
+}
+
+extension MarketItemListViewController {
+
+    private enum Style {
+
+        enum ChangeCellStyleBarButton {
+            static let listCellButtonImage = UIImage(systemName: "list.dash")
+            static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
+        }
     }
 }
