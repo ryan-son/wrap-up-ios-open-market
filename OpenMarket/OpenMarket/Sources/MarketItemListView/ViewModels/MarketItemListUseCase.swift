@@ -21,6 +21,7 @@ protocol MarketItemListUseCaseProtocol {
     func fetchItems(
         completion: @escaping (Result<[MarketItem], MarketItemListUseCaseError>) -> Void
     ) -> URLSessionDataTask?
+    func refresh()
 }
 
 final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
@@ -73,5 +74,11 @@ final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
 
         task?.resume()
         return task
+    }
+
+    func refresh() {
+        isFetching = false
+        isLastPage = false
+        page = 1
     }
 }

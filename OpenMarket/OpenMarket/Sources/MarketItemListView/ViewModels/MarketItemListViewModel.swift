@@ -19,6 +19,7 @@ final class MarketItemListViewModel {
         case fetched(indexPaths: [IndexPath])
         case insert
         case delete
+        case refresh
         case error(MarketItemListViewModelError)
     }
 
@@ -26,17 +27,22 @@ final class MarketItemListViewModel {
     private var listener: ((State) -> Void)?
     private(set) var marketItems: [MarketItem] = [] {
         didSet {
-//            oldValue.count < items.count
-//                ? changed?(.fetch(indices: [oldValue.count...items.count]))
-//                : changed?(.delete)
-            state = .fetched(indexPaths: (oldValue.count ..< marketItems.count).map {
-                return IndexPath(item: $0, section: .zero)
-            })
+            switch marketItems.count {
+            case .zero:
+                state = .refresh
+            case oldValue.count...:
+                let indexPaths = (oldValue.count ..< marketItems.count).map { IndexPath(item: $0, section: .zero) }
+                state = .fetched(indexPaths: indexPaths)
+            default:
+                print("not yet")
+            }
         }
     }
     private var state: State = .empty {
         didSet {
-            listener?(state)
+            DispatchQueue.main.async {
+                self.listener?(self.state)
+            }
         }
     }
 
@@ -57,5 +63,12 @@ final class MarketItemListViewModel {
                 self?.state = .error(.useCaseError(error))
             }
         }
+    }
+
+    func refresh() {
+        useCase.refresh()
+        ThumbnailUseCase.sharedCache.removeAllObjects()
+        marketItems.removeAll()
+        list()
     }
 }

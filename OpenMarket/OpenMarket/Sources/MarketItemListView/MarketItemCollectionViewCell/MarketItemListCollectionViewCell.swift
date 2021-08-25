@@ -90,7 +90,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
     private let upperStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .firstBaseline
         stackView.distribution = .fill
         stackView.spacing = Style.UpperStackView.spacing
         return stackView

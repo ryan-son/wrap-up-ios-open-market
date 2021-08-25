@@ -23,6 +23,16 @@ final class MarketItemListViewController: UIViewController {
         enum ChangeCellStyleBarButton {
             static let listCellButtonImage = UIImage(systemName: "list.dash")
             static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
+            static let tintColor: UIColor = .label
+        }
+
+        enum AddNewPostButton {
+            static let size: CGFloat = 80
+            static let cornerRadius: CGFloat = size / 2
+            static let image = UIImage(systemName: "plus.circle.fill")
+            static let backgroundColor: UIColor = .systemBackground
+            static let trailingConstant: CGFloat = -30
+            static let bottomConstant: CGFloat = -70
         }
     }
 
@@ -44,6 +54,18 @@ final class MarketItemListViewController: UIViewController {
         return collectionView
     }()
     private var cellStyle: CellStyle = .list
+
+    private let addNewPostButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(addNewPostButtonTapped), for: .touchUpInside)
+        button.setBackgroundImage(Style.AddNewPostButton.image, for: .normal)
+        button.tintColor = SharedStyle.tintColor
+        button.backgroundColor = Style.AddNewPostButton.backgroundColor
+        button.layer.cornerRadius = Style.AddNewPostButton.cornerRadius
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,11 +89,16 @@ final class MarketItemListViewController: UIViewController {
         let changeCellStyleBarButton = UIBarButtonItem(image: Style.ChangeCellStyleBarButton.gridCellButtonImage,
                                                        style: .plain, target: self,
                                                        action: #selector(changeCellStyleButtonTapped))
-        navigationItem.rightBarButtonItems = [changeCellStyleBarButton]
+        changeCellStyleBarButton.tintColor = Style.ChangeCellStyleBarButton.tintColor
+        navigationItem.rightBarButtonItem = changeCellStyleBarButton
     }
 
     private func setupViews() {
         view.addSubview(collectionView)
+        collectionView.addSubview(addNewPostButton)
+
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(refreshMarketItems), for: .valueChanged)
     }
 
     private func setupConstraints() {
@@ -80,6 +107,15 @@ final class MarketItemListViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            addNewPostButton.widthAnchor.constraint(equalToConstant: Style.AddNewPostButton.size),
+            addNewPostButton.heightAnchor.constraint(equalToConstant: Style.AddNewPostButton.size),
+            addNewPostButton.trailingAnchor.constraint(equalTo: collectionView.frameLayoutGuide.trailingAnchor,
+                                                       constant: Style.AddNewPostButton.trailingConstant),
+            addNewPostButton.bottomAnchor.constraint(equalTo: collectionView.frameLayoutGuide.bottomAnchor,
+                                                     constant: Style.AddNewPostButton.bottomConstant)
         ])
     }
 
@@ -92,9 +128,10 @@ final class MarketItemListViewController: UIViewController {
         viewModel.bind { [weak self] state in
             switch state {
             case .fetched(let indexPaths):
-                DispatchQueue.main.async {
-                    self?.collectionView.insertItems(at: indexPaths)
-                }
+                self?.collectionView.insertItems(at: indexPaths)
+            case .refresh:
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
             default:
                 break
             }
@@ -117,10 +154,18 @@ final class MarketItemListViewController: UIViewController {
     private func changeCellStyleButtonImage() {
         switch cellStyle {
         case .list:
-            navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.gridCellButtonImage
+            navigationItem.rightBarButtonItems?.last?.image = Style.ChangeCellStyleBarButton.gridCellButtonImage
         case .grid:
-            navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.listCellButtonImage
+            navigationItem.rightBarButtonItems?.last?.image = Style.ChangeCellStyleBarButton.listCellButtonImage
         }
+    }
+
+    @objc private func addNewPostButtonTapped() {
+        print("Add new post")
+    }
+
+    @objc private func refreshMarketItems() {
+        self.viewModel.refresh()
     }
 }
 
