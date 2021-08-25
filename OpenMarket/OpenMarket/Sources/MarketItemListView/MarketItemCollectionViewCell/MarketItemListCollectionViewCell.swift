@@ -45,6 +45,15 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
             static let font: UIFont.TextStyle = .body
             static let textColor: UIColor = .secondaryLabel
         }
+
+        enum SeparatorView {
+            static let backgroundColor: UIColor = .separator
+            static let height: CGFloat = 1
+        }
+
+        enum Constraint {
+            static let contentViewPadding: CGFloat = 20
+        }
     }
 
     private let thumbnailImageView: UIImageView = {
@@ -111,6 +120,13 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
+    private let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Style.SeparatorView.backgroundColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -140,18 +156,31 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(textContentStackView)
+        contentView.addSubview(separatorView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                        constant: Style.Constraint.contentViewPadding),
             thumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             thumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor),
-            textContentStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 20),
+            textContentStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor,
+                                                          constant: Style.Constraint.contentViewPadding),
             textContentStackView.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
             textContentStackView.bottomAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor),
-            textContentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            textContentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                           constant: -Style.Constraint.contentViewPadding)
+        ])
+
+        NSLayoutConstraint.activate([
+            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                   constant: Style.Constraint.contentViewPadding),
+            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                    constant: -Style.Constraint.contentViewPadding),
+            separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: Style.SeparatorView.height)
         ])
     }
 
