@@ -35,6 +35,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
         enum StockLabel {
             static let font: UIFont.TextStyle = .callout
             static let textColor: UIColor = .secondaryLabel
+            static let outOfStockTextColor: UIColor = .systemOrange
         }
 
         enum LowerStackView {
@@ -53,7 +54,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
         enum SeparatorView {
             static let backgroundColor: UIColor = .separator
-            static let height: CGFloat = 1
+            static let height: CGFloat = 0.5
         }
 
         enum Constraint {
@@ -202,6 +203,10 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
                 self?.discountedPriceLabel.isHidden = !metaData.hasDiscountedPrice
                 self?.discountedPriceLabel.attributedText = metaData.discountedPrice
                 self?.priceLabel.text = metaData.price
+
+                self?.stockLabel.textColor = metaData.isOutOfStock ?
+                    Style.StockLabel.outOfStockTextColor
+                    : Style.StockLabel.textColor
             case .error(_):
                 self?.thumbnailImageView.image = Style.ThumbnailImageView.defaultImage
             default:

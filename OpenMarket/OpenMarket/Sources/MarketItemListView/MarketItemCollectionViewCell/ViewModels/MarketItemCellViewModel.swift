@@ -22,6 +22,7 @@ final class MarketItemCellViewModel {
         let hasDiscountedPrice: Bool
         let discountedPrice: NSAttributedString
         let price: String
+        let isOutOfStock: Bool
         let stock: String
     }
 
@@ -87,13 +88,23 @@ final class MarketItemCellViewModel {
         let price: String = hasDiscountedPrice
             ? "\(marketItem.currency) \(marketItem.discountedPrice?.priceFormatted() ?? "")"
             : "\(marketItem.currency) \(marketItem.price.priceFormatted())"
-        let stock: String = marketItem.stock > 999 ? "잔여수량: 999+" : "잔여수량: \(marketItem.stock)"
+        let isOutOfStock: Bool = marketItem.stock == .zero
+        let stock: String
+
+        if isOutOfStock {
+            stock = "품절"
+        } else if marketItem.stock > 999 {
+            stock = "잔여수량: 999+"
+        } else {
+            stock = "잔여수량: \(marketItem.stock)"
+        }
 
         let metaData = MetaData(title: marketItem.title,
                                 thumbnail: nil,
                                 hasDiscountedPrice: hasDiscountedPrice,
                                 discountedPrice: discountedPrice,
                                 price: price,
+                                isOutOfStock: isOutOfStock,
                                 stock: stock)
         state = .update(metaData)
     }
