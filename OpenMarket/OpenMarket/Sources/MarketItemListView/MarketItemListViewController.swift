@@ -15,9 +15,9 @@ final class MarketItemListViewController: UIViewController {
     }
 
     private let viewModel = MarketItemListViewModel()
-    private lazy var collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
         collectionView.register(MarketItemListCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MarketItemListCollectionViewCell.reuseIdentifier)
@@ -31,6 +31,7 @@ final class MarketItemListViewController: UIViewController {
         setupAttributes()
         setupNavigationBar()
         setupViews()
+        setupConstraints()
         setupDelegates()
         bindWithViewModel()
         viewModel.list()
@@ -52,6 +53,15 @@ final class MarketItemListViewController: UIViewController {
 
     private func setupViews() {
         view.addSubview(collectionView)
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     private func setupDelegates() {
@@ -119,7 +129,7 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 120)
+        return CGSize(width: collectionView.bounds.width, height: Style.listCellHeight)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -131,7 +141,7 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if viewModel.marketItems.count == indexPath.item + 5 {
+        if viewModel.marketItems.count == indexPath.item + Style.numberOfLastItemsToTriggerFetch {
             viewModel.list()
         }
     }
@@ -140,6 +150,9 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
 extension MarketItemListViewController {
 
     private enum Style {
+
+        static let listCellHeight: CGFloat = 120
+        static let numberOfLastItemsToTriggerFetch: Int = 3
 
         enum ChangeCellStyleBarButton {
             static let listCellButtonImage = UIImage(systemName: "list.dash")
