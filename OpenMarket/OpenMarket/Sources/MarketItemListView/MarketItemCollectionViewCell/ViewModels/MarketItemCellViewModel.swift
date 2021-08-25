@@ -43,6 +43,7 @@ final class MarketItemCellViewModel {
             }
         }
     }
+    private let imageSize = CGSize(width: 50, height: 50)
 
     init(marketItem: MarketItem, thumbnailUseCase: ThumbnailUseCaseProtocol = ThumbnailUseCase()) {
         self.marketItem = marketItem
@@ -65,13 +66,14 @@ final class MarketItemCellViewModel {
         }
 
         thumbnailTask = useCase.fetchThumbnail(from: path) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let thumbnail):
-                guard case var .update(metaData) = self?.state else { return }
-                metaData.thumbnail = thumbnail
-                self?.state = .update(metaData)
+                guard case var .update(metaData) = self.state else { return }
+                metaData.thumbnail = thumbnail?.resizedImage(targetSize: self.imageSize)
+                self.state = .update(metaData)
             case .failure(let error):
-                self?.state = .error(.useCaseError(error))
+                self.state = .error(.useCaseError(error))
             }
         }
     }
