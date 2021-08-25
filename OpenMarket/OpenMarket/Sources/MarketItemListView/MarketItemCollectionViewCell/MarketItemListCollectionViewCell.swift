@@ -14,6 +14,11 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
     private enum Style {
 
+        enum ThumbnailImageView {
+            static let cornerRadius: CGFloat = 15
+            static let defaultImage = UIImage(systemName: "ellipsis")
+        }
+
         enum TextContentStackView {
             static let spacing: CGFloat = 8
         }
@@ -38,12 +43,12 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
         enum DiscountedPriceLabel {
             static let font: UIFont.TextStyle = .body
-            static let textColor: UIColor = .systemRed
+            static let textColor: UIColor = .tertiaryLabel
         }
 
         enum PriceLabel {
-            static let font: UIFont.TextStyle = .body
-            static let textColor: UIColor = .secondaryLabel
+            static let font: UIFont.TextStyle = .headline
+            static let textColor: UIColor = .label
         }
 
         enum SeparatorView {
@@ -58,6 +63,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
     private let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.layer.cornerRadius = Style.ThumbnailImageView.cornerRadius
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -197,7 +203,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
                 self?.discountedPriceLabel.attributedText = metaData.discountedPrice
                 self?.priceLabel.text = metaData.price
             case .error(_):
-                self?.thumbnailImageView.image = UIImage(systemName: "ellipsis")
+                self?.thumbnailImageView.image = Style.ThumbnailImageView.defaultImage
             default:
                 break
             }
