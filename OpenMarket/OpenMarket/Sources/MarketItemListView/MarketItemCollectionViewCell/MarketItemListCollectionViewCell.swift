@@ -173,7 +173,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
     private func reset() {
         viewModel?.cancelThumbnailRequest()
-        thumbnailImageView.image = nil
+        thumbnailImageView.image = Style.ThumbnailImageView.defaultImage
         titleLabel.text = nil
         stockLabel.text = nil
         discountedPriceLabel.attributedText = nil
