@@ -35,6 +35,8 @@ final class MarketItemListViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = .systemBackground
+        navigationController?.navigationBar.isTranslucent = false
         title = "Open Market"
     }
 
