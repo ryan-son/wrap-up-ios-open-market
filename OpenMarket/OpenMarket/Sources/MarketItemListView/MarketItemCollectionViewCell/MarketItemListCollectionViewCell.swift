@@ -15,7 +15,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
     private enum Style {
 
         enum TextContentStackView {
-            static let spacing: CGFloat = 5
+            static let spacing: CGFloat = 8
         }
 
         enum UpperStackView {
@@ -23,17 +23,17 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
         }
 
         enum TitleLabel {
-            static let font: UIFont.TextStyle = .headline
+            static let font: UIFont.TextStyle = .title3
             static let textColor: UIColor = .label
         }
 
         enum StockLabel {
-            static let font: UIFont.TextStyle = .body
+            static let font: UIFont.TextStyle = .callout
             static let textColor: UIColor = .secondaryLabel
         }
 
         enum LowerStackView {
-            static let spacing: CGFloat = 8
+            static let spacing: CGFloat = .zero
         }
 
         enum DiscountedPriceLabel {
@@ -81,13 +81,15 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
     private let stockLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.StockLabel.font)
+        label.textColor = Style.StockLabel.textColor
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
 
     private let lowerStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.spacing = Style.LowerStackView.spacing
@@ -142,14 +144,14 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             thumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             thumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor),
-            textContentStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),
+            textContentStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 20),
             textContentStackView.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
             textContentStackView.bottomAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor),
-            textContentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            textContentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
 
