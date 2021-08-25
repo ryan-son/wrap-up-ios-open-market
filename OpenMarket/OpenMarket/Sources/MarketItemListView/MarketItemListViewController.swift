@@ -9,6 +9,17 @@ import UIKit
 
 final class MarketItemListViewController: UIViewController {
 
+    private enum Style {
+
+        static let listCellHeight: CGFloat = 120
+        static let numberOfLastItemsToTriggerFetch: Int = 3
+
+        enum ChangeCellStyleBarButton {
+            static let listCellButtonImage = UIImage(systemName: "list.dash")
+            static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
+        }
+    }
+
     private enum CellStyle {
         case list
         case grid
@@ -72,7 +83,7 @@ final class MarketItemListViewController: UIViewController {
     private func bindWithViewModel() {
         viewModel.bind { [weak self] state in
             switch state {
-            case .fetch(let indexPaths):
+            case .fetched(let indexPaths):
                 DispatchQueue.main.async {
                     self?.collectionView.insertItems(at: indexPaths)
                 }
@@ -143,20 +154,6 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
                         forItemAt indexPath: IndexPath) {
         if viewModel.marketItems.count == indexPath.item + Style.numberOfLastItemsToTriggerFetch {
             viewModel.list()
-        }
-    }
-}
-
-extension MarketItemListViewController {
-
-    private enum Style {
-
-        static let listCellHeight: CGFloat = 120
-        static let numberOfLastItemsToTriggerFetch: Int = 3
-
-        enum ChangeCellStyleBarButton {
-            static let listCellButtonImage = UIImage(systemName: "list.dash")
-            static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
         }
     }
 }

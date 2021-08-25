@@ -16,7 +16,7 @@ final class MarketItemListViewModel {
 
     enum State {
         case empty
-        case fetch(indexPaths: [IndexPath])
+        case fetched(indexPaths: [IndexPath])
         case insert
         case delete
         case error(MarketItemListViewModelError)
@@ -29,7 +29,7 @@ final class MarketItemListViewModel {
 //            oldValue.count < items.count
 //                ? changed?(.fetch(indices: [oldValue.count...items.count]))
 //                : changed?(.delete)
-            state = .fetch(indexPaths: (oldValue.count ..< marketItems.count).map {
+            state = .fetched(indexPaths: (oldValue.count ..< marketItems.count).map {
                 return IndexPath(item: $0, section: .zero)
             })
         }

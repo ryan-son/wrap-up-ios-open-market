@@ -9,6 +9,56 @@ import UIKit
 
 final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
+    private enum Style {
+
+        enum ThumbnailImageView {
+            static let cornerRadius: CGFloat = 10
+        }
+
+        enum TextContentStackView {
+            static let spacing: CGFloat = 8
+        }
+
+        enum UpperStackView {
+            static let spacing: CGFloat = 8
+        }
+
+        enum TitleLabel {
+            static let font: UIFont.TextStyle = .title3
+            static let textColor: UIColor = .label
+        }
+
+        enum StockLabel {
+            static let font: UIFont.TextStyle = .callout
+            static let textColor: UIColor = .secondaryLabel
+            static let outOfStockTextColor: UIColor = .systemOrange
+        }
+
+        enum LowerStackView {
+            static let spacing: CGFloat = .zero
+        }
+
+        enum DiscountedPriceLabel {
+            static let font: UIFont.TextStyle = .body
+            static let textColor: UIColor = .tertiaryLabel
+        }
+
+        enum PriceLabel {
+            static let font: UIFont.TextStyle = .headline
+            static let textColor: UIColor = .label
+        }
+
+        enum SeparatorView {
+            static let backgroundColor: UIColor = .separator
+            static let height: CGFloat = 0.5
+        }
+
+        enum Constraint {
+            static let thumbnailSizeAgainstContentView: CGFloat = 0.7
+            static let contentViewPadding: CGFloat = 20
+        }
+    }
+
     static let reuseIdentifier = "MarketItemListCollectionViewCell"
     private var viewModel: MarketItemCellViewModel?
 
@@ -179,58 +229,4 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
         discountedPriceLabel.attributedText = nil
         priceLabel.text = nil
     }
-}
-
-extension MarketItemListCollectionViewCell {
-
-    private enum Style {
-
-        enum ThumbnailImageView {
-            static let cornerRadius: CGFloat = 10
-        }
-
-        enum TextContentStackView {
-            static let spacing: CGFloat = 8
-        }
-
-        enum UpperStackView {
-            static let spacing: CGFloat = 8
-        }
-
-        enum TitleLabel {
-            static let font: UIFont.TextStyle = .title3
-            static let textColor: UIColor = .label
-        }
-
-        enum StockLabel {
-            static let font: UIFont.TextStyle = .callout
-            static let textColor: UIColor = .secondaryLabel
-            static let outOfStockTextColor: UIColor = .systemOrange
-        }
-
-        enum LowerStackView {
-            static let spacing: CGFloat = .zero
-        }
-
-        enum DiscountedPriceLabel {
-            static let font: UIFont.TextStyle = .body
-            static let textColor: UIColor = .tertiaryLabel
-        }
-
-        enum PriceLabel {
-            static let font: UIFont.TextStyle = .headline
-            static let textColor: UIColor = .label
-        }
-
-        enum SeparatorView {
-            static let backgroundColor: UIColor = .separator
-            static let height: CGFloat = 0.5
-        }
-
-        enum Constraint {
-            static let thumbnailSizeAgainstContentView: CGFloat = 0.7
-            static let contentViewPadding: CGFloat = 20
-        }
-    }
-
 }
