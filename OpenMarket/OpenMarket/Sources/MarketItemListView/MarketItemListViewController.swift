@@ -133,6 +133,7 @@ extension MarketItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell: MarketItemRepresentable
+
         switch cellStyle {
         case .list:
             guard let listCell = collectionView.dequeueReusableCell(
@@ -195,7 +196,7 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
         case .list:
             return .zero
         default:
-            return 20
+            return Style.gridSectionMinimumLineSpacing
         }
     }
 

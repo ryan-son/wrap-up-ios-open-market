@@ -32,6 +32,15 @@ final class MarketItemCellViewModel {
         case error(MarketItemCellViewModelError)
     }
 
+    private enum Style {
+
+        static let targetImageSize = CGSize(width: 50, height: 50)
+        static let outOfStockText: String = "품절"
+        static let stockLabelPrefix: String = "재고:"
+        static let stockLabelUpperLimit: Int = 999
+        static let stockLabelUpperLimitText: String = "999+"
+    }
+
     private let marketItem: MarketItem
     private let useCase: ThumbnailUseCaseProtocol
     private var thumbnailTask: URLSessionDataTask?
@@ -43,7 +52,6 @@ final class MarketItemCellViewModel {
             }
         }
     }
-    private let imageSize = CGSize(width: 50, height: 50)
 
     init(marketItem: MarketItem, thumbnailUseCase: ThumbnailUseCaseProtocol = ThumbnailUseCase()) {
         self.marketItem = marketItem
@@ -66,14 +74,13 @@ final class MarketItemCellViewModel {
         }
 
         thumbnailTask = useCase.fetchThumbnail(from: path) { [weak self] result in
-            guard let self = self else { return }
             switch result {
             case .success(let thumbnail):
-                guard case var .update(metaData) = self.state else { return }
-                metaData.thumbnail = thumbnail?.resizedImage(targetSize: self.imageSize)
-                self.state = .update(metaData)
+                guard case var .update(metaData) = self?.state else { return }
+                metaData.thumbnail = thumbnail?.resizedImage(targetSize: Style.targetImageSize)
+                self?.state = .update(metaData)
             case .failure(let error):
-                self.state = .error(.useCaseError(error))
+                self?.state = .error(.useCaseError(error))
             }
         }
     }
@@ -94,11 +101,11 @@ final class MarketItemCellViewModel {
         let stock: String
 
         if isOutOfStock {
-            stock = "품절"
-        } else if marketItem.stock > 999 {
-            stock = "재고: 999+"
+            stock = Style.outOfStockText
+        } else if marketItem.stock > Style.stockLabelUpperLimit {
+            stock = "\(Style.stockLabelPrefix) \(Style.stockLabelUpperLimitText)"
         } else {
-            stock = "재고: \(marketItem.stock)"
+            stock = "\(Style.stockLabelPrefix) \(marketItem.stock)"
         }
 
         let metaData = MetaData(title: marketItem.title,

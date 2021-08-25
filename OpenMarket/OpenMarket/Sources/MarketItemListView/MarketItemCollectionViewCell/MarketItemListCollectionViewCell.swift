@@ -32,6 +32,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
         enum TitleLabel {
             static let font: UIFont.TextStyle = .title3
             static let textColor: UIColor = .label
+            static let numberOfLines: Int = 2
         }
 
         enum StockLabel {
@@ -98,8 +99,9 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.TitleLabel.font)
+        label.textColor = Style.TitleLabel.textColor
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
+        label.numberOfLines = Style.TitleLabel.numberOfLines
         return label
     }()
 

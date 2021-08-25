@@ -11,6 +11,9 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
 
     private enum Style {
 
+        static let borderWidth: CGFloat = 0.5
+        static let cornerRadius: CGFloat = 10
+
         enum ThumbnailImageView {
             static let cornerRadius: CGFloat = 10
         }
@@ -22,6 +25,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
         enum TitleLabel {
             static let font: UIFont.TextStyle = .title3
             static let textColor: UIColor = .label
+            static let numberOfLines: Int = 2
         }
 
         enum StockLabel {
@@ -74,9 +78,10 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.TitleLabel.font)
+        label.textColor = Style.TitleLabel.textColor
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
         label.textAlignment = .center
+        label.numberOfLines = Style.TitleLabel.numberOfLines
         return label
     }()
 
@@ -115,14 +120,14 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.borderWidth = 0.5
-        layer.cornerRadius = 10
+        setupAttributes()
         setupViews()
         setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupAttributes()
         setupViews()
         setupConstraints()
     }
@@ -130,6 +135,11 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
     override func prepareForReuse() {
         super.prepareForReuse()
         reset()
+    }
+
+    private func setupAttributes() {
+        layer.borderWidth = Style.borderWidth
+        layer.cornerRadius = Style.cornerRadius
     }
 
     private func setupViews() {
