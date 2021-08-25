@@ -24,7 +24,7 @@ final class MarketItemListViewModel {
 
     private let useCase: MarketItemListUseCaseProtocol
     private var listener: ((State) -> Void)?
-    private var marketItems: [MarketItem] = [] {
+    private(set) var marketItems: [MarketItem] = [] {
         didSet {
 //            oldValue.count < items.count
 //                ? changed?(.fetch(indices: [oldValue.count...items.count]))
