@@ -96,9 +96,9 @@ final class MarketItemCellViewModel {
         if isOutOfStock {
             stock = "품절"
         } else if marketItem.stock > 999 {
-            stock = "잔여수량: 999+"
+            stock = "재고: 999+"
         } else {
-            stock = "잔여수량: \(marketItem.stock)"
+            stock = "재고: \(marketItem.stock)"
         }
 
         let metaData = MetaData(title: marketItem.title,

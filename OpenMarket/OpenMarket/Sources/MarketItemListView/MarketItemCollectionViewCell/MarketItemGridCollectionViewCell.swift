@@ -1,5 +1,5 @@
 //
-//  MarketItemListCollectionViewCell.swift
+//  MarketItemGridCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by Ryan-Son on 2021/08/25.
@@ -7,13 +7,7 @@
 
 import UIKit
 
-protocol MarketItemRepresentable: UICollectionViewCell {
-
-    func bind(with viewModel: MarketItemCellViewModel)
-    func fire()
-}
-
-final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRepresentable {
+final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRepresentable {
 
     private enum Style {
 
@@ -22,10 +16,6 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
         }
 
         enum TextContentStackView {
-            static let spacing: CGFloat = 8
-        }
-
-        enum UpperStackView {
             static let spacing: CGFloat = 8
         }
 
@@ -40,7 +30,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
             static let outOfStockTextColor: UIColor = .systemOrange
         }
 
-        enum LowerStackView {
+        enum PriceStackView {
             static let spacing: CGFloat = .zero
         }
 
@@ -54,18 +44,13 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
             static let textColor: UIColor = .label
         }
 
-        enum SeparatorView {
-            static let backgroundColor: UIColor = .separator
-            static let height: CGFloat = 0.5
-        }
-
         enum Constraint {
-            static let thumbnailSizeAgainstContentView: CGFloat = 0.7
+            static let thumbnailSizeAgainstContentView: CGFloat = 0.4
             static let contentViewPadding: CGFloat = 20
         }
     }
 
-    static let reuseIdentifier = "MarketItemListCollectionViewCell"
+    static let reuseIdentifier = "MarketItemGridCollectionViewCell"
     private var viewModel: MarketItemCellViewModel?
 
     private let thumbnailImageView: UIImageView = {
@@ -79,19 +64,10 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
     private let textContentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.spacing = Style.TextContentStackView.spacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private let upperStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = Style.UpperStackView.spacing
         return stackView
     }()
 
@@ -100,6 +76,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
         label.font = UIFont.preferredFont(forTextStyle: Style.TitleLabel.font)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
+        label.textAlignment = .center
         return label
     }()
 
@@ -112,12 +89,12 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
         return label
     }()
 
-    private let lowerStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fill
-        stackView.spacing = Style.LowerStackView.spacing
+        stackView.spacing = Style.PriceStackView.spacing
         return stackView
     }()
 
@@ -136,15 +113,10 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
         return label
     }()
 
-    private let separatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Style.SeparatorView.backgroundColor
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layer.borderWidth = 0.5
+        layer.cornerRadius = 10
         setupViews()
         setupConstraints()
     }
@@ -161,43 +133,33 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell, MarketItemRe
     }
 
     private func setupViews() {
-        upperStackView.addArrangedSubview(titleLabel)
-        upperStackView.addArrangedSubview(stockLabel)
+        priceStackView.addArrangedSubview(discountedPriceLabel)
+        priceStackView.addArrangedSubview(priceLabel)
 
-        lowerStackView.addArrangedSubview(discountedPriceLabel)
-        lowerStackView.addArrangedSubview(priceLabel)
-
-        textContentStackView.addArrangedSubview(upperStackView)
-        textContentStackView.addArrangedSubview(lowerStackView)
+        textContentStackView.addArrangedSubview(titleLabel)
+        textContentStackView.addArrangedSubview(priceStackView)
+        textContentStackView.addArrangedSubview(stockLabel)
 
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(textContentStackView)
-        contentView.addSubview(separatorView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                        constant: Style.Constraint.contentViewPadding),
-            thumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                    constant: Style.Constraint.contentViewPadding),
             thumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
                                                        multiplier: Style.Constraint.thumbnailSizeAgainstContentView),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor),
-            textContentStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor,
+            thumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            textContentStackView.topAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor,
+                                                      constant: Style.Constraint.contentViewPadding),
+            textContentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                           constant: Style.Constraint.contentViewPadding),
-            textContentStackView.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
-            textContentStackView.bottomAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor),
             textContentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                           constant: -Style.Constraint.contentViewPadding)
-        ])
-
-        NSLayoutConstraint.activate([
-            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                   constant: Style.Constraint.contentViewPadding),
-            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                    constant: -Style.Constraint.contentViewPadding),
-            separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            separatorView.heightAnchor.constraint(equalToConstant: Style.SeparatorView.height)
+                                                           constant: -Style.Constraint.contentViewPadding),
+            textContentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                         constant: -Style.Constraint.contentViewPadding)
         ])
     }
 

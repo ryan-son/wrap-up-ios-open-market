@@ -11,8 +11,14 @@ final class MarketItemListViewController: UIViewController {
 
     private enum Style {
 
-        static let listCellHeight: CGFloat = 120
-        static let numberOfLastItemsToTriggerFetch: Int = 3
+        static let listCellHeight: CGFloat = 160
+        static let portraitGridItemsPerRow: CGFloat = 2
+        static let portraitGridItemsPerColumn: CGFloat = 2.7
+        static let landscapeGridItemsPerRow: CGFloat = 4
+        static let landscapeGridItemsPerColumn: CGFloat = 1.2
+        static let numberOfLastItemsToTriggerFetch: Int = 10
+        static let gridSectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        static let gridSectionMinimumLineSpacing: CGFloat = 20
 
         enum ChangeCellStyleBarButton {
             static let listCellButtonImage = UIImage(systemName: "list.dash")
@@ -32,6 +38,8 @@ final class MarketItemListViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(MarketItemListCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MarketItemListCollectionViewCell.reuseIdentifier)
+        collectionView.register(MarketItemGridCollectionViewCell.self,
+                                forCellWithReuseIdentifier: MarketItemGridCollectionViewCell.reuseIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -56,7 +64,7 @@ final class MarketItemListViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Open Market"
-        let changeCellStyleBarButton = UIBarButtonItem(image: UIImage(systemName: "list.dash"),
+        let changeCellStyleBarButton = UIBarButtonItem(image: Style.ChangeCellStyleBarButton.gridCellButtonImage,
                                                        style: .plain, target: self,
                                                        action: #selector(changeCellStyleButtonTapped))
         navigationItem.rightBarButtonItems = [changeCellStyleBarButton]
@@ -96,6 +104,10 @@ final class MarketItemListViewController: UIViewController {
     @objc private func changeCellStyleButtonTapped() {
         toggleCellStyle()
         changeCellStyleButtonImage()
+
+        guard let indexPathForFirstVisibleCell = collectionView.indexPathsForVisibleItems.sorted().first else { return }
+        collectionView.reloadData()
+        collectionView.scrollToItem(at: indexPathForFirstVisibleCell, at: .bottom, animated: false)
     }
 
     private func toggleCellStyle() {
@@ -105,9 +117,9 @@ final class MarketItemListViewController: UIViewController {
     private func changeCellStyleButtonImage() {
         switch cellStyle {
         case .list:
-            navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.listCellButtonImage
-        case .grid:
             navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.gridCellButtonImage
+        case .grid:
+            navigationItem.rightBarButtonItems?.first?.image = Style.ChangeCellStyleBarButton.listCellButtonImage
         }
     }
 }
@@ -120,39 +132,88 @@ extension MarketItemListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let listCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MarketItemListCollectionViewCell.reuseIdentifier,
-            for: indexPath
-        ) as? MarketItemListCollectionViewCell else { return MarketItemListCollectionViewCell() }
+        var cell: MarketItemRepresentable
+        switch cellStyle {
+        case .list:
+            guard let listCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MarketItemListCollectionViewCell.reuseIdentifier,
+                for: indexPath
+            ) as? MarketItemListCollectionViewCell else { return MarketItemListCollectionViewCell() }
+
+            cell = listCell
+        case .grid:
+            guard let gridCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MarketItemGridCollectionViewCell.reuseIdentifier,
+                for: indexPath
+            ) as? MarketItemGridCollectionViewCell else { return MarketItemGridCollectionViewCell() }
+
+            cell = gridCell
+        }
 
         let marketItem = viewModel.marketItems[indexPath.item]
         let marketItemCellViewModel = MarketItemCellViewModel(marketItem: marketItem)
 
-        listCell.bind(with: marketItemCellViewModel)
-        listCell.fire()
+        cell.bind(with: marketItemCellViewModel)
+        cell.fire()
 
-        return listCell
+        return cell
     }
 }
 
 extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
 
+    private func cellSize(viewWidth: CGFloat, viewHeight: CGFloat) -> CGSize {
+        let itemsPerRow: CGFloat = traitCollection.horizontalSizeClass == .compact
+            ? Style.portraitGridItemsPerRow
+            : Style.landscapeGridItemsPerRow
+        let widthPadding = Style.gridSectionInset.left * (itemsPerRow + 1)
+        let itemsPerColumn: CGFloat = traitCollection.horizontalSizeClass == .compact
+            ? Style.portraitGridItemsPerColumn
+            : Style.landscapeGridItemsPerColumn
+        let heightPadding = Style.gridSectionInset.top * (itemsPerColumn + 1)
+
+        let cellWidth = (viewWidth - widthPadding) / itemsPerRow
+        let cellHeight = (viewHeight - heightPadding) / itemsPerColumn
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: Style.listCellHeight)
+        switch cellStyle {
+        case .list:
+            return CGSize(width: collectionView.bounds.width, height: Style.listCellHeight)
+        case .grid:
+            return cellSize(viewWidth: collectionView.bounds.width, viewHeight: collectionView.bounds.height)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return .zero
+        switch cellStyle {
+        case .list:
+            return .zero
+        default:
+            return 20
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        switch cellStyle {
+        case .list:
+            return .zero
+        default:
+            return Style.gridSectionInset
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if viewModel.marketItems.count == indexPath.item + Style.numberOfLastItemsToTriggerFetch {
+        if viewModel.marketItems.count <= indexPath.item + Style.numberOfLastItemsToTriggerFetch {
             viewModel.list()
         }
     }
