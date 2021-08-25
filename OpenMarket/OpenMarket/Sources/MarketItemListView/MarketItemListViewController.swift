@@ -22,6 +22,7 @@ final class MarketItemListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAttributes()
         setupNavigationBar()
         setupViews()
         setupDelegates()
@@ -29,19 +30,22 @@ final class MarketItemListViewController: UIViewController {
         viewModel.list()
     }
 
-    private func setupDelegates() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
+    private func setupAttributes() {
+        view.backgroundColor = .systemBackground
     }
 
     private func setupNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = .systemBackground
-        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = .systemBackground
         title = "Open Market"
     }
 
     private func setupViews() {
         view.addSubview(collectionView)
+    }
+
+    private func setupDelegates() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
 
     private func bindWithViewModel() {

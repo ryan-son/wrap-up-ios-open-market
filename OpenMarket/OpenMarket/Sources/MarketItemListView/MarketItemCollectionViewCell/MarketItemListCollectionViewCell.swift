@@ -15,7 +15,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
     private enum Style {
 
         enum ThumbnailImageView {
-            static let cornerRadius: CGFloat = 15
+            static let cornerRadius: CGFloat = 10
             static let defaultImage = UIImage(systemName: "ellipsis")
         }
 
@@ -65,6 +65,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
     private let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = Style.ThumbnailImageView.cornerRadius
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
