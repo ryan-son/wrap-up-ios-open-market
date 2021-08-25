@@ -160,7 +160,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
                     Style.StockLabel.outOfStockTextColor
                     : Style.StockLabel.textColor
             case .error(_):
-                self?.thumbnailImageView.image = Style.ThumbnailImageView.defaultImage
+                self?.thumbnailImageView.image = nil
             default:
                 break
             }
@@ -173,7 +173,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
     private func reset() {
         viewModel?.cancelThumbnailRequest()
-        thumbnailImageView.image = Style.ThumbnailImageView.defaultImage
+        thumbnailImageView.image = nil
         titleLabel.text = nil
         stockLabel.text = nil
         discountedPriceLabel.attributedText = nil
@@ -187,7 +187,6 @@ extension MarketItemListCollectionViewCell {
 
         enum ThumbnailImageView {
             static let cornerRadius: CGFloat = 10
-            static let defaultImage = UIImage(systemName: "ellipsis")
         }
 
         enum TextContentStackView {
