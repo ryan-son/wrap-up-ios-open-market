@@ -11,6 +11,7 @@ final class MarketItemListViewController: UIViewController {
 
     private enum Style {
 
+        static let navigationBarTitle: String = "Ryan Market"
         static let listCellHeight: CGFloat = 160
         static let portraitGridItemsPerRow: CGFloat = 2
         static let portraitGridItemsPerColumn: CGFloat = 2.7
@@ -19,11 +20,11 @@ final class MarketItemListViewController: UIViewController {
         static let numberOfLastItemsToTriggerFetch: Int = 10
         static let gridSectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         static let gridSectionMinimumLineSpacing: CGFloat = 20
+        static let navigationBarButtonItemTintColor: UIColor = .label
 
         enum ChangeCellStyleBarButton {
             static let listCellButtonImage = UIImage(systemName: "list.dash")
             static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
-            static let tintColor: UIColor = .label
         }
 
         enum AddNewPostButton {
@@ -85,12 +86,16 @@ final class MarketItemListViewController: UIViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.barTintColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Open Market"
+        title = Style.navigationBarTitle
         let changeCellStyleBarButton = UIBarButtonItem(image: Style.ChangeCellStyleBarButton.gridCellButtonImage,
                                                        style: .plain, target: self,
                                                        action: #selector(changeCellStyleButtonTapped))
-        changeCellStyleBarButton.tintColor = Style.ChangeCellStyleBarButton.tintColor
-        navigationItem.rightBarButtonItem = changeCellStyleBarButton
+        let refreshBarButton = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                               target: self,
+                                               action: #selector(refreshMarketItems))
+        let rightBarButtonItems = [refreshBarButton, changeCellStyleBarButton]
+        rightBarButtonItems.forEach { $0.tintColor = Style.navigationBarButtonItemTintColor }
+        navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: true)
     }
 
     private func setupViews() {
@@ -130,6 +135,7 @@ final class MarketItemListViewController: UIViewController {
             case .fetched(let indexPaths):
                 self?.collectionView.insertItems(at: indexPaths)
             case .refresh:
+                self?.scrollToTop()
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()
             default:
@@ -166,6 +172,10 @@ final class MarketItemListViewController: UIViewController {
 
     @objc private func refreshMarketItems() {
         self.viewModel.refresh()
+    }
+
+    private func scrollToTop() {
+        collectionView.scrollToItem(at: IndexPath(item: .zero, section: .zero), at: .top, animated: false)
     }
 }
 
@@ -262,5 +272,14 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
         if viewModel.marketItems.count <= indexPath.item + Style.numberOfLastItemsToTriggerFetch {
             viewModel.list()
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let marketItem = viewModel.marketItems[indexPath.item]
+        let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
+        let marketItemDetailViewController = MarketItemDetailViewController()
+
+        marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+        navigationController?.pushViewController(marketItemDetailViewController, animated: true)
     }
 }
