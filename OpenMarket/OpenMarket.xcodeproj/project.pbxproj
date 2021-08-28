@@ -32,6 +32,7 @@
 		AAAD850826D99A5000B23520 /* MarketItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD850726D99A5000B23520 /* MarketItemDetailViewController.swift */; };
 		AAAD850B26D99A7D00B23520 /* MarketItemDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD850A26D99A7D00B23520 /* MarketItemDetailUseCase.swift */; };
 		AAAD850D26D99E1900B23520 /* MarketItemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD850C26D99E1900B23520 /* MarketItemDetailViewModel.swift */; };
+		AAAD851526DAA45300B23520 /* MarketItemRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD851426DAA45300B23520 /* MarketItemRegisterUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		AAAD850726D99A5000B23520 /* MarketItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemDetailViewController.swift; path = ../../../../../../retry/OpenMarket/MarketItemDetailViewController.swift; sourceTree = "<group>"; };
 		AAAD850A26D99A7D00B23520 /* MarketItemDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemDetailUseCase.swift; path = ../../../../../../../retry/OpenMarket/MarketItemDetailUseCase.swift; sourceTree = "<group>"; };
 		AAAD850C26D99E1900B23520 /* MarketItemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemDetailViewModel.swift; path = ../../../../../../../retry/OpenMarket/MarketItemDetailViewModel.swift; sourceTree = "<group>"; };
+		AAAD851426DAA45300B23520 /* MarketItemRegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemRegisterUseCase.swift; path = ../../../../../../../retry/OpenMarket/MarketItemRegisterUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 			children = (
 				AAAD850626D999A500B23520 /* MarketItemDetailView */,
 				AAAD84DC26D995AD00B23520 /* MarketItemListView */,
+				AAAD851226DAA3FE00B23520 /* MarketItemRegisterView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -289,6 +292,22 @@
 				AAAD850C26D99E1900B23520 /* MarketItemDetailViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AAAD851226DAA3FE00B23520 /* MarketItemRegisterView */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD851326DAA41500B23520 /* MarketItemRegisterViewModel */,
+			);
+			path = MarketItemRegisterView;
+			sourceTree = "<group>";
+		};
+		AAAD851326DAA41500B23520 /* MarketItemRegisterViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD851426DAA45300B23520 /* MarketItemRegisterUseCase.swift */,
+			);
+			path = MarketItemRegisterViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAAD84F626D995AD00B23520 /* MarketItem.swift in Sources */,
+				AAAD851526DAA45300B23520 /* MarketItemRegisterUseCase.swift in Sources */,
 				AAAD84FC26D995AD00B23520 /* MarketItemGridCollectionViewCell.swift in Sources */,
 				AAAD850826D99A5000B23520 /* MarketItemDetailViewController.swift in Sources */,
 				AAAD850B26D99A7D00B23520 /* MarketItemDetailUseCase.swift in Sources */,
