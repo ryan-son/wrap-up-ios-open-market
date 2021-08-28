@@ -29,6 +29,9 @@
 		AAAD84FE26D995AD00B23520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAAD84EA26D995AD00B23520 /* Assets.xcassets */; };
 		AAAD84FF26D995AD00B23520 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAAD84EB26D995AD00B23520 /* LaunchScreen.storyboard */; };
 		AAAD850526D9970600B23520 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AAAD850426D9970600B23520 /* .swiftlint.yml */; };
+		AAAD850826D99A5000B23520 /* MarketItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD850726D99A5000B23520 /* MarketItemDetailViewController.swift */; };
+		AAAD850B26D99A7D00B23520 /* MarketItemDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD850A26D99A7D00B23520 /* MarketItemDetailUseCase.swift */; };
+		AAAD850D26D99E1900B23520 /* MarketItemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD850C26D99E1900B23520 /* MarketItemDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +80,9 @@
 		AAAD84EA26D995AD00B23520 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAAD84EC26D995AD00B23520 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAAD850426D9970600B23520 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		AAAD850726D99A5000B23520 /* MarketItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemDetailViewController.swift; path = ../../../../../../retry/OpenMarket/MarketItemDetailViewController.swift; sourceTree = "<group>"; };
+		AAAD850A26D99A7D00B23520 /* MarketItemDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemDetailUseCase.swift; path = ../../../../../../../retry/OpenMarket/MarketItemDetailUseCase.swift; sourceTree = "<group>"; };
+		AAAD850C26D99E1900B23520 /* MarketItemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MarketItemDetailViewModel.swift; path = ../../../../../../../retry/OpenMarket/MarketItemDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +166,6 @@
 				AAAD84D126D995AD00B23520 /* Networking */,
 				AAAD84D426D995AD00B23520 /* Utils */,
 				AAAD84D926D995AD00B23520 /* Models */,
-				AAAD84DC26D995AD00B23520 /* MarketItemListView */,
 				AAAD84E726D995AD00B23520 /* Views */,
 			);
 			path = Sources;
@@ -245,16 +250,10 @@
 		AAAD84E726D995AD00B23520 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AAAD84E826D995AD00B23520 /* MarketItemListView */,
+				AAAD850626D999A500B23520 /* MarketItemDetailView */,
+				AAAD84DC26D995AD00B23520 /* MarketItemListView */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		AAAD84E826D995AD00B23520 /* MarketItemListView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MarketItemListView;
 			sourceTree = "<group>";
 		};
 		AAAD84E926D995AD00B23520 /* Resources */ = {
@@ -272,6 +271,24 @@
 				AAAD84AB26D9952500B23520 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AAAD850626D999A500B23520 /* MarketItemDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD850726D99A5000B23520 /* MarketItemDetailViewController.swift */,
+				AAAD850926D99A6200B23520 /* ViewModels */,
+			);
+			path = MarketItemDetailView;
+			sourceTree = "<group>";
+		};
+		AAAD850926D99A6200B23520 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD850A26D99A7D00B23520 /* MarketItemDetailUseCase.swift */,
+				AAAD850C26D99E1900B23520 /* MarketItemDetailViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,10 +444,13 @@
 			files = (
 				AAAD84F626D995AD00B23520 /* MarketItem.swift in Sources */,
 				AAAD84FC26D995AD00B23520 /* MarketItemGridCollectionViewCell.swift in Sources */,
+				AAAD850826D99A5000B23520 /* MarketItemDetailViewController.swift in Sources */,
+				AAAD850B26D99A7D00B23520 /* MarketItemDetailUseCase.swift in Sources */,
 				AAAD84F126D995AD00B23520 /* Int+Extension.swift in Sources */,
 				AAAD84F326D995AD00B23520 /* UIImage+Extension.swift in Sources */,
 				AAAD84EF26D995AD00B23520 /* NetworkManager.swift in Sources */,
 				AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */,
+				AAAD850D26D99E1900B23520 /* MarketItemDetailViewModel.swift in Sources */,
 				AAAD84F426D995AD00B23520 /* SharedStyle.swift in Sources */,
 				AAAD84F026D995AD00B23520 /* EndPoint.swift in Sources */,
 				AAAD84F526D995AD00B23520 /* MarketItemList.swift in Sources */,

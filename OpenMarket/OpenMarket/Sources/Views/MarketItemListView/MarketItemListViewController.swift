@@ -274,12 +274,12 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let marketItem = viewModel.marketItems[indexPath.item]
-//        let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
-//        let marketItemDetailViewController = MarketItemDetailViewController()
-//
-//        marketItemDetailViewController.bind(with: marketItemDetailViewModel)
-//        navigationController?.pushViewController(marketItemDetailViewController, animated: true)
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let marketItem = viewModel.marketItems[indexPath.item]
+        let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
+        let marketItemDetailViewController = MarketItemDetailViewController()
+
+        marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+        navigationController?.pushViewController(marketItemDetailViewController, animated: true)
+    }
 }
