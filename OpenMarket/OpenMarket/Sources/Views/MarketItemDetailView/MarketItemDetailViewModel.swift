@@ -17,7 +17,7 @@ final class MarketItemDetailViewModel {
         case update
         case error(MarketItemDetailUseCaseError)
     }
-    
+
     struct MetaData {
         let title: String
         let descriptions: String
@@ -107,7 +107,6 @@ final class MarketItemDetailViewModel {
             case .failure(let error):
                 self?.state = .error(.networkError(error))
             }
-            
         }
     }
 
@@ -140,6 +139,4 @@ final class MarketItemDetailViewModel {
                                 numberOfImages: marketItem.images?.count ?? .zero)
         return metaData
     }
-
-    
 }

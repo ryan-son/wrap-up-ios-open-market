@@ -225,7 +225,6 @@ final class MarketItemDetailViewController: UIViewController {
                 self?.addImageViewToImageScrollView(image, at: index)
             case .error(let error):
                 print(error)
-                break
             case .update:
                 break
             default:
