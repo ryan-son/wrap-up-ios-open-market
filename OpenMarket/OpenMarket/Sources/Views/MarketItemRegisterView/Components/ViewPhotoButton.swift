@@ -25,7 +25,7 @@ final class ViewPhotoButton: UIButton {
         }
     }
 
-    private let deleteButton: UIButton = {
+    private(set) var deleteButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(Style.DeleteButton.image, for: .normal)
         button.tintColor = Style.DeleteButton.tintColor
@@ -84,5 +84,9 @@ final class ViewPhotoButton: UIButton {
         layer.borderWidth = Style.borderWidth
         self.layer.addSublayer(layer)
         deleteButton.layer.insertSublayer(layer, at: .zero)
+    }
+
+    func addDeleteButtonTarget(target: Any?, action: Selector, for event: UIControl.Event) {
+        deleteButton.addTarget(target, action: action, for: event)
     }
 }

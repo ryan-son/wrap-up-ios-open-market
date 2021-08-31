@@ -65,7 +65,7 @@ final class MarketItemRegisterViewController: UIViewController {
         return button
     }()
 
-    private var viewPhotoButtons: [UIButton] = []
+    private var viewPhotoButtons: [ViewPhotoButton] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,10 +79,10 @@ final class MarketItemRegisterViewController: UIViewController {
 
         viewModel.bind { [weak self] state in
             switch state {
-            case .appendImage(let image):
-                self?.appendViewPhotoButton(with: image)
+            case .appendImage(let index, let image):
+                self?.appendViewPhotoButton(at: index, with: image)
             case .deleteImage(let index):
-                self?.deleteViewPhotoButton(at: index)
+                self?.removeViewPhotoButton(at: index)
             default:
                 break
             }
@@ -116,8 +116,9 @@ final class MarketItemRegisterViewController: UIViewController {
         imagePicker.present(from: addPhotoButton)
     }
 
-    private func appendViewPhotoButton(with image: UIImage) {
+    private func appendViewPhotoButton(at index: Int, with image: UIImage) {
         let viewPhotoButton = ViewPhotoButton(image: image)
+        viewPhotoButton.addDeleteButtonTarget(target: self, action: #selector(removePhoto), for: .touchUpInside)
         viewPhotoButton.alpha = .zero
         photoStackView.addArrangedSubview(viewPhotoButton)
         viewPhotoButtons.append(viewPhotoButton)
@@ -132,10 +133,17 @@ final class MarketItemRegisterViewController: UIViewController {
         }
     }
 
-    private func deleteViewPhotoButton(at index: Int) {
+    @objc private func removePhoto(_ sender: UIButton) {
+        for index in viewPhotoButtons.indices where sender == viewPhotoButtons[index].deleteButton {
+            viewModel?.removeImage(at: index)
+        }
+    }
+
+    private func removeViewPhotoButton(at index: Int) {
         guard index < viewPhotoButtons.count else { return }
         let buttonToDelete = viewPhotoButtons[index]
-        photoStackView.removeArrangedSubview(buttonToDelete)
+        buttonToDelete.removeFromSuperview()
+        viewPhotoButtons.remove(at: index)
     }
 }
 
