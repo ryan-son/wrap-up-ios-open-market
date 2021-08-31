@@ -34,7 +34,7 @@ final class MarketItemListViewModel {
                 let indexPaths = (oldValue.count ..< marketItems.count).map { IndexPath(item: $0, section: .zero) }
                 state = .fetched(indexPaths: indexPaths)
             default:
-                print("not yet")
+                break
             }
         }
     }

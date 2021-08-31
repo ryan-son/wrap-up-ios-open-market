@@ -243,9 +243,14 @@ final class MarketItemDetailViewController: UIViewController {
         imageView.frame = CGRect(x: xPosition, y: .zero, width: imageScrollView.bounds.width, height: imageScrollView.bounds.height)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
+        imageView.alpha = .zero
         imageScrollView.insertSubview(imageView, belowSubview: imageScrollViewPageControl)
         imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
         imageViews.append(imageView)
+
+        UIView.animate(withDuration: 0.6) {
+            imageView.alpha = 1
+        }
     }
 
     private func setPageControlPage(to selectedPage: Int) {

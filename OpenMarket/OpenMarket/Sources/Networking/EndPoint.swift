@@ -11,6 +11,7 @@ enum EndPoint {
 
     case items(page: Int)
     case item(id: Int)
+    case uploadItem
 
     private static let scheme: String = "https://"
     private static let host: String = "camp-open-market-2.herokuapp.com/"
@@ -23,6 +24,8 @@ enum EndPoint {
             return EndPoint.scheme + EndPoint.host + EndPoint.itemsURI + "\(page)"
         case .item(let id):
             return EndPoint.scheme + EndPoint.host + EndPoint.itemURI + "\(id)"
+        case .uploadItem:
+            return EndPoint.scheme + EndPoint.host + EndPoint.itemURI
         }
     }
 }

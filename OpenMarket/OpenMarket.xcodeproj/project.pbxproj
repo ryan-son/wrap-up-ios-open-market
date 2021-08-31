@@ -33,6 +33,13 @@
 		AAAD851B26DAAEC000B23520 /* MarketItemDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD851826DAAEC000B23520 /* MarketItemDetailUseCase.swift */; };
 		AAAD851C26DAAEC000B23520 /* MarketItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD851926DAAEC000B23520 /* MarketItemDetailViewController.swift */; };
 		AAAD852026DAAEC900B23520 /* MarketItemRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD851F26DAAEC900B23520 /* MarketItemRegisterUseCase.swift */; };
+		AAAD852B26DB70A900B23520 /* MarketItemRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */; };
+		AAAD852D26DBA60400B23520 /* MarketItemRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD852C26DBA60400B23520 /* MarketItemRegisterViewModel.swift */; };
+		AAAD852F26DBECBF00B23520 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD852E26DBECBF00B23520 /* MultipartFormData.swift */; };
+		AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853026DC880800B23520 /* URL+Extensions.swift */; };
+		AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */; };
+		AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */; };
+		AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +92,13 @@
 		AAAD851826DAAEC000B23520 /* MarketItemDetailUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketItemDetailUseCase.swift; sourceTree = "<group>"; };
 		AAAD851926DAAEC000B23520 /* MarketItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketItemDetailViewController.swift; sourceTree = "<group>"; };
 		AAAD851F26DAAEC900B23520 /* MarketItemRegisterUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterUseCase.swift; sourceTree = "<group>"; };
+		AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterViewController.swift; sourceTree = "<group>"; };
+		AAAD852C26DBA60400B23520 /* MarketItemRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterViewModel.swift; sourceTree = "<group>"; };
+		AAAD852E26DBECBF00B23520 /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
+		AAAD853026DC880800B23520 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarketItem.swift; sourceTree = "<group>"; };
+		AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchMarketItem.swift; sourceTree = "<group>"; };
+		AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMarketItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,9 +179,9 @@
 			isa = PBXGroup;
 			children = (
 				AAAD84CE26D995AD00B23520 /* Entries */,
+				AAAD84D926D995AD00B23520 /* Models */,
 				AAAD84D126D995AD00B23520 /* Networking */,
 				AAAD84D426D995AD00B23520 /* Utils */,
-				AAAD84D926D995AD00B23520 /* Models */,
 				AAAD84E726D995AD00B23520 /* Views */,
 			);
 			path = Sources;
@@ -187,6 +201,7 @@
 			children = (
 				AAAD84D226D995AD00B23520 /* NetworkManager.swift */,
 				AAAD84D326D995AD00B23520 /* EndPoint.swift */,
+				AAAD852E26DBECBF00B23520 /* MultipartFormData.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -198,6 +213,7 @@
 				AAAD84D626D995AD00B23520 /* String+Extensions.swift */,
 				AAAD84D726D995AD00B23520 /* UIImage+Extension.swift */,
 				AAAD84D826D995AD00B23520 /* SharedStyle.swift */,
+				AAAD853026DC880800B23520 /* URL+Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -205,6 +221,7 @@
 		AAAD84D926D995AD00B23520 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AAAD853226DC9C0100B23520 /* DTO */,
 				AAAD84DA26D995AD00B23520 /* MarketItemList.swift */,
 				AAAD84DB26D995AD00B23520 /* MarketItem.swift */,
 			);
@@ -279,9 +296,8 @@
 		AAAD851626DAAEC000B23520 /* MarketItemDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				AAAD851726DAAEC000B23520 /* MarketItemDetailViewModel.swift */,
-				AAAD851826DAAEC000B23520 /* MarketItemDetailUseCase.swift */,
 				AAAD851926DAAEC000B23520 /* MarketItemDetailViewController.swift */,
+				AAAD852926DB707000B23520 /* ViewModels */,
 			);
 			path = MarketItemDetailView;
 			sourceTree = "<group>";
@@ -289,6 +305,7 @@
 		AAAD851D26DAAEC900B23520 /* MarketItemRegisterView */ = {
 			isa = PBXGroup;
 			children = (
+				AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */,
 				AAAD851E26DAAEC900B23520 /* MarketItemRegisterViewModel */,
 			);
 			path = MarketItemRegisterView;
@@ -298,8 +315,28 @@
 			isa = PBXGroup;
 			children = (
 				AAAD851F26DAAEC900B23520 /* MarketItemRegisterUseCase.swift */,
+				AAAD852C26DBA60400B23520 /* MarketItemRegisterViewModel.swift */,
 			);
 			path = MarketItemRegisterViewModel;
+			sourceTree = "<group>";
+		};
+		AAAD852926DB707000B23520 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD851726DAAEC000B23520 /* MarketItemDetailViewModel.swift */,
+				AAAD851826DAAEC000B23520 /* MarketItemDetailUseCase.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AAAD853226DC9C0100B23520 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */,
+				AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */,
+				AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -453,12 +490,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAAD852B26DB70A900B23520 /* MarketItemRegisterViewController.swift in Sources */,
 				AAAD84F626D995AD00B23520 /* MarketItem.swift in Sources */,
 				AAAD852026DAAEC900B23520 /* MarketItemRegisterUseCase.swift in Sources */,
 				AAAD84FC26D995AD00B23520 /* MarketItemGridCollectionViewCell.swift in Sources */,
 				AAAD84F126D995AD00B23520 /* Int+Extension.swift in Sources */,
 				AAAD851B26DAAEC000B23520 /* MarketItemDetailUseCase.swift in Sources */,
 				AAAD84F326D995AD00B23520 /* UIImage+Extension.swift in Sources */,
+				AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */,
 				AAAD84EF26D995AD00B23520 /* NetworkManager.swift in Sources */,
 				AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */,
 				AAAD84F426D995AD00B23520 /* SharedStyle.swift in Sources */,
@@ -466,9 +505,14 @@
 				AAAD84F526D995AD00B23520 /* MarketItemList.swift in Sources */,
 				AAAD84FD26D995AD00B23520 /* MarketItemListCollectionViewCell.swift in Sources */,
 				AAAD84F226D995AD00B23520 /* String+Extensions.swift in Sources */,
+				AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */,
 				AAAD84F926D995AD00B23520 /* MarketItemListUseCase.swift in Sources */,
+				AAAD852D26DBA60400B23520 /* MarketItemRegisterViewModel.swift in Sources */,
+				AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */,
 				AAAD851A26DAAEC000B23520 /* MarketItemDetailViewModel.swift in Sources */,
+				AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */,
 				AAAD84FA26D995AD00B23520 /* ThumbnailUseCase.swift in Sources */,
+				AAAD852F26DBECBF00B23520 /* MultipartFormData.swift in Sources */,
 				AAAD84EE26D995AD00B23520 /* SceneDelegate.swift in Sources */,
 				AAAD851C26DAAEC000B23520 /* MarketItemDetailViewController.swift in Sources */,
 				AAAD84FB26D995AD00B23520 /* MarketItemCellViewModel.swift in Sources */,
