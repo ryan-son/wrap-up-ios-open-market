@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 final class MarketItemRegisterViewModel {
 
@@ -13,13 +14,28 @@ final class MarketItemRegisterViewModel {
         case empty
         case register
         case edit
-        case addImage
+        case appendImage(UIImage)
+        case deleteImage(Int)
         case error(Error)
     }
 
-    var marketItem: MarketItem?
-    var images: [URL] = []
-    var password: String?
+    private var marketItem: MarketItem?
+    private(set) var images: [UIImage] = [] {
+        didSet {
+            let difference = oldValue.difference(from: images)
+
+            for change in difference {
+                switch change {
+                case let .insert(_, image, _):
+                    state = .appendImage(image)
+                case let .remove(offset, _, _):
+                    state = .deleteImage(offset)
+                }
+            }
+        }
+    }
+    private var imageURLs: [URL] = []
+    private var password: String?
     private let useCase: MarketItemRegisterUseCase
     private var listener: ((State) -> Void)?
     private var state: State = .empty {
@@ -47,9 +63,9 @@ final class MarketItemRegisterViewModel {
 
         switch method {
         case .post:
-            uploadItem = PostMarketItem(from: marketItem, images: images, password: password)
-        default:
-            uploadItem = PatchMarketItem(from: marketItem, images: images, password: password)
+            uploadItem = PostMarketItem(from: marketItem, images: imageURLs, password: password)
+        case .patch:
+            uploadItem = PatchMarketItem(from: marketItem, images: imageURLs, password: password)
         }
 
         useCase.upload(uploadItem, to: path, method: method) { [weak self] result in
@@ -61,5 +77,10 @@ final class MarketItemRegisterViewModel {
                 self?.state = .error(error)
             }
         }
+    }
+
+    func appendImage(_ image: UIImage, at url: URL) {
+        images.append(image)
+        imageURLs.append(url)
     }
 }

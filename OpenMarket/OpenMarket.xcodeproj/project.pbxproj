@@ -40,6 +40,9 @@
 		AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */; };
 		AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */; };
 		AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */; };
+		AAAD853B26DDCE7500B23520 /* ViewPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853A26DDCE7500B23520 /* ViewPhotoButton.swift */; };
+		AAAD853D26DDCEE600B23520 /* AddPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853C26DDCEE600B23520 /* AddPhotoButton.swift */; };
+		AAAD854126DDDC6B00B23520 /* RegisterImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +102,9 @@
 		AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarketItem.swift; sourceTree = "<group>"; };
 		AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchMarketItem.swift; sourceTree = "<group>"; };
 		AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMarketItem.swift; sourceTree = "<group>"; };
+		AAAD853A26DDCE7500B23520 /* ViewPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPhotoButton.swift; sourceTree = "<group>"; };
+		AAAD853C26DDCEE600B23520 /* AddPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoButton.swift; sourceTree = "<group>"; };
+		AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,8 +205,8 @@
 		AAAD84D126D995AD00B23520 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				AAAD84D226D995AD00B23520 /* NetworkManager.swift */,
 				AAAD84D326D995AD00B23520 /* EndPoint.swift */,
+				AAAD84D226D995AD00B23520 /* NetworkManager.swift */,
 				AAAD852E26DBECBF00B23520 /* MultipartFormData.swift */,
 			);
 			path = Networking;
@@ -306,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */,
+				AAAD853926DDCC8700B23520 /* Components */,
 				AAAD851E26DAAEC900B23520 /* MarketItemRegisterViewModel */,
 			);
 			path = MarketItemRegisterView;
@@ -337,6 +344,16 @@
 				AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		AAAD853926DDCC8700B23520 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD853C26DDCEE600B23520 /* AddPhotoButton.swift */,
+				AAAD853A26DDCE7500B23520 /* ViewPhotoButton.swift */,
+				AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -498,6 +515,7 @@
 				AAAD851B26DAAEC000B23520 /* MarketItemDetailUseCase.swift in Sources */,
 				AAAD84F326D995AD00B23520 /* UIImage+Extension.swift in Sources */,
 				AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */,
+				AAAD854126DDDC6B00B23520 /* RegisterImagePicker.swift in Sources */,
 				AAAD84EF26D995AD00B23520 /* NetworkManager.swift in Sources */,
 				AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */,
 				AAAD84F426D995AD00B23520 /* SharedStyle.swift in Sources */,
@@ -506,11 +524,13 @@
 				AAAD84FD26D995AD00B23520 /* MarketItemListCollectionViewCell.swift in Sources */,
 				AAAD84F226D995AD00B23520 /* String+Extensions.swift in Sources */,
 				AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */,
+				AAAD853D26DDCEE600B23520 /* AddPhotoButton.swift in Sources */,
 				AAAD84F926D995AD00B23520 /* MarketItemListUseCase.swift in Sources */,
 				AAAD852D26DBA60400B23520 /* MarketItemRegisterViewModel.swift in Sources */,
 				AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */,
 				AAAD851A26DAAEC000B23520 /* MarketItemDetailViewModel.swift in Sources */,
 				AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */,
+				AAAD853B26DDCE7500B23520 /* ViewPhotoButton.swift in Sources */,
 				AAAD84FA26D995AD00B23520 /* ThumbnailUseCase.swift in Sources */,
 				AAAD852F26DBECBF00B23520 /* MultipartFormData.swift in Sources */,
 				AAAD84EE26D995AD00B23520 /* SceneDelegate.swift in Sources */,
