@@ -58,7 +58,7 @@ final class MultipartFormData {
             guard let value = value else { continue }
 
             if let urls = value as? [URL], let firstURL = urls.first, firstURL.isFileURL {
-                appendFiles(urls, key, value)
+                urls.forEach { appendFile(from: $0, key, value) }
             } else {
                 append(withName: key, value: value)
             }
@@ -68,15 +68,13 @@ final class MultipartFormData {
         return body
     }
 
-    private func appendFiles(_ urls: [URL], _ key: String, _ value: Any) {
-        urls.forEach {
-            let fileName = $0.lastPathComponent
-            let mimeType = $0.mimeType()
-            let path = $0.path
+    private func appendFile(from url: URL, _ key: String, _ value: Any) {
+        let fileName = url.lastPathComponent
+        let mimeType = url.mimeType()
+        let path = url.path
 
-            if let file = fileManager.contents(atPath: path) {
-                self.append(withName: key, fileName: fileName, mimeType: mimeType, value: file)
-            }
+        if let file = fileManager.contents(atPath: path) {
+            self.append(withName: key, fileName: fileName, mimeType: mimeType, value: file)
         }
     }
 

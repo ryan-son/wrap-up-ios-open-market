@@ -32,6 +32,7 @@ final class MarketItemRegisterViewController: UIViewController {
         super.viewDidAppear(animated)
         openLibrary()
     }
+
     func openLibrary() {
         picker.sourceType = .photoLibrary
         present(picker, animated: false, completion: nil)

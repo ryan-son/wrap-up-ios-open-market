@@ -96,8 +96,6 @@ final class NetworkManager: NetworkManageable {
         request.httpBody = encoded
 
         let task = session.dataTask(with: request) { [weak self] data, response, error in
-            print(response)
-            print(String(data: data!, encoding: .utf8))
             if let error = error {
                 completion(.failure(.requestError(error)))
                 return
@@ -124,16 +122,5 @@ final class NetworkManager: NetworkManageable {
 
         task.resume()
         return task
-    }
-
-    private func encodeMarketItem(_ marketItem: MultipartUploadable) -> Data? {
-        let multipartFormData = MultipartFormData()
-
-        do {
-            return multipartFormData.encode(parameters: marketItem.asDictionary)
-        } catch {
-            print(error)
-            return nil
-        }
     }
 }
