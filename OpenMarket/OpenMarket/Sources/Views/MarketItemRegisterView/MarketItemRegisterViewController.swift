@@ -114,8 +114,12 @@ final class MarketItemRegisterViewController: UIViewController {
     }
 
     @objc private func showImagePicker() {
-        guard let numberOfImages = viewModel?.images.count,
-              numberOfImages <= Style.maxImageCount else { return }
+        guard let numberOfImages = viewModel?.images.count else { return }
+        guard numberOfImages < Style.maxImageCount else {
+            showCannotExceedMaxImageCountAlert()
+            return
+        }
+
         let addPhotoCellIndex = IndexPath(item: .zero, section: .zero)
         guard let addPhotoCell = photoCollectionView.cellForItem(at: addPhotoCellIndex) else { return }
         imagePicker.present(from: addPhotoCell)
@@ -131,6 +135,15 @@ final class MarketItemRegisterViewController: UIViewController {
                 viewModel?.removeImage(at: index)
             }
         }
+    }
+
+    private func showCannotExceedMaxImageCountAlert() {
+        let alert = UIAlertController(title: "사진은 최대 5장까지 첨부하실 수 있어요.",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

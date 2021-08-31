@@ -240,7 +240,8 @@ final class MarketItemDetailViewController: UIViewController {
     private func addImageViewToImageScrollView(_ image: UIImage, at index: Int) {
         let imageView = UIImageView()
         let xPosition: CGFloat = view.frame.width * CGFloat(index)
-        imageView.frame = CGRect(x: xPosition, y: .zero, width: imageScrollView.bounds.width, height: imageScrollView.bounds.height)
+        imageView.frame =
+            CGRect(x: xPosition, y: .zero, width: imageScrollView.bounds.width, height: imageScrollView.bounds.height)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
         imageView.alpha = .zero
