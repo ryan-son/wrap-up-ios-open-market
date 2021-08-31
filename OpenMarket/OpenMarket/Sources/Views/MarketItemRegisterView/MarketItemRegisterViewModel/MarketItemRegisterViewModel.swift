@@ -22,7 +22,7 @@ final class MarketItemRegisterViewModel {
     private var marketItem: MarketItem?
     private(set) var images: [UIImage] = [] {
         didSet {
-            let difference = oldValue.difference(from: images)
+            let difference = images.difference(from: oldValue)
 
             for change in difference {
                 switch change {

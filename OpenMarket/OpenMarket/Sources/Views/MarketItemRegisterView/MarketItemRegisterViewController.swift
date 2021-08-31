@@ -15,6 +15,7 @@ final class MarketItemRegisterViewController: UIViewController {
 
     private enum Style {
 
+        static let backgroundColor: UIColor = .systemBackground
         static let placeholderTextColor: UIColor = .secondaryLabel
         static let layerColor: UIColor = .secondaryLabel
         static let textColor: UIColor = .label
@@ -25,11 +26,11 @@ final class MarketItemRegisterViewController: UIViewController {
         }
 
         enum ViewPhotoButton {
-            static let size: CGFloat = 80
+            static let size: CGFloat = 75
         }
 
         enum Constraint {
-            static let viewOffsetFromTop: CGFloat = 50
+            static let viewOffsetFromTop: CGFloat = 30
         }
     }
 
@@ -51,14 +52,14 @@ final class MarketItemRegisterViewController: UIViewController {
     private let photoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .leading
+        stackView.distribution = .fill
         stackView.spacing = Style.PhotoStackView.spacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
 
-    private let addPhotoButton: UIButton = {
+    private let addPhotoButton: AddPhotoButton = {
         let button = AddPhotoButton()
         button.addTarget(self, action: #selector(showImagePicker), for: .touchUpInside)
         return button
@@ -68,6 +69,9 @@ final class MarketItemRegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAttributes()
+        setupViews()
+        setupConstraints()
     }
 
     func bind(with viewModel: MarketItemRegisterViewModel) {
@@ -83,6 +87,11 @@ final class MarketItemRegisterViewController: UIViewController {
                 break
             }
         }
+    }
+
+    private func setAttributes() {
+        title = intent == .register ? "Item Registration" : "Edit Item"
+        view.backgroundColor = Style.backgroundColor
     }
 
     private func setupViews() {

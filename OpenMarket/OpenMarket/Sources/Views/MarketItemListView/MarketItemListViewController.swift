@@ -167,11 +167,14 @@ final class MarketItemListViewController: UIViewController {
     }
 
     @objc private func addNewPostButtonTapped() {
-        print("Add new post")
+        let registerViewModel = MarketItemRegisterViewModel()
+        let registerViewController = MarketItemRegisterViewController(intent: .register)
+        registerViewController.bind(with: registerViewModel)
+        navigationController?.pushViewController(registerViewController, animated: true)
     }
 
     @objc private func refreshMarketItems() {
-        self.viewModel.refresh()
+        viewModel.refresh()
     }
 
     private func scrollToTop() {
