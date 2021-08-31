@@ -58,7 +58,9 @@ final class MultipartFormData {
             guard let value = value else { continue }
 
             if let urls = value as? [URL], urls.count == urls.filter({ $0.isFileURL }).count {
-                urls.forEach { appendFile(withName: key, from: $0) }
+                appendFiles(withName: key, from: urls)
+            } else if let url = value as? URL, url.isFileURL {
+                appendFile(withName: key, from: url)
             } else {
                 append(withName: key, value: value)
             }
@@ -68,23 +70,34 @@ final class MultipartFormData {
         return body
     }
 
-    private func appendFile(withName: String, from url: URL) {
+    private func appendFile(withName name: String, from url: URL) {
         let fileName = url.lastPathComponent
         let mimeType = url.mimeType()
         let path = url.path
 
         if let file = fileManager.contents(atPath: path) {
-            self.append(withName: withName, fileName: fileName, mimeType: mimeType, value: file)
+            body.append(contentHeader(withName: name, fileName: fileName, mimeType: mimeType))
+            body.append(file)
+        }
+    }
+
+    private func appendFiles(withName name: String, from urls: [URL]) {
+        urls.forEach {
+            let fileName = $0.lastPathComponent
+            let mimeType = $0.mimeType()
+            let path = $0.path
+
+            if let file = fileManager.contents(atPath: path) {
+                body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: mimeType))
+                body.append(file)
+            }
         }
     }
 
     private func append(withName name: String, fileName: String? = nil, mimeType: String? = nil, value: Any) {
         body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
 
-        if let value = value as? Data {
-            body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: mimeType))
-            body.append(value)
-        } else if let value = value as? [Any] {
+        if let value = value as? [Any] {
             body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: mimeType))
             body.append("\(value)")
         } else {
