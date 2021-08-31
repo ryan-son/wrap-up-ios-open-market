@@ -40,9 +40,10 @@
 		AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */; };
 		AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */; };
 		AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */; };
-		AAAD853B26DDCE7500B23520 /* ViewPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853A26DDCE7500B23520 /* ViewPhotoButton.swift */; };
-		AAAD853D26DDCEE600B23520 /* AddPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853C26DDCEE600B23520 /* AddPhotoButton.swift */; };
 		AAAD854126DDDC6B00B23520 /* RegisterImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */; };
+		AAAD854626DE7FFA00B23520 /* PhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854526DE7FFA00B23520 /* PhotoCellViewModel.swift */; };
+		AAAD854826DE801700B23520 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854726DE801700B23520 /* PhotoCollectionViewCell.swift */; };
+		AAAD854B26DE806D00B23520 /* AddPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854A26DE806D00B23520 /* AddPhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,9 +103,10 @@
 		AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarketItem.swift; sourceTree = "<group>"; };
 		AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchMarketItem.swift; sourceTree = "<group>"; };
 		AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMarketItem.swift; sourceTree = "<group>"; };
-		AAAD853A26DDCE7500B23520 /* ViewPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPhotoButton.swift; sourceTree = "<group>"; };
-		AAAD853C26DDCEE600B23520 /* AddPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoButton.swift; sourceTree = "<group>"; };
 		AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterImagePicker.swift; sourceTree = "<group>"; };
+		AAAD854526DE7FFA00B23520 /* PhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellViewModel.swift; sourceTree = "<group>"; };
+		AAAD854726DE801700B23520 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		AAAD854A26DE806D00B23520 /* AddPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,7 +241,7 @@
 			children = (
 				AAAD84DD26D995AD00B23520 /* MarketItemListViewController.swift */,
 				AAAD84DE26D995AD00B23520 /* ViewModels */,
-				AAAD84E126D995AD00B23520 /* MarketItemCollectionViewCell */,
+				AAAD854C26DE9F5A00B23520 /* Components */,
 			);
 			path = MarketItemListView;
 			sourceTree = "<group>";
@@ -349,9 +351,42 @@
 		AAAD853926DDCC8700B23520 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				AAAD853C26DDCEE600B23520 /* AddPhotoButton.swift */,
-				AAAD853A26DDCE7500B23520 /* ViewPhotoButton.swift */,
+				AAAD854926DE805800B23520 /* AddPhotoCollectionViewCell */,
+				AAAD854326DE7F9D00B23520 /* PhotoCollectionViewCell */,
 				AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		AAAD854326DE7F9D00B23520 /* PhotoCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD854426DE7FC000B23520 /* ViewModels */,
+				AAAD854726DE801700B23520 /* PhotoCollectionViewCell.swift */,
+			);
+			path = PhotoCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		AAAD854426DE7FC000B23520 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD854526DE7FFA00B23520 /* PhotoCellViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AAAD854926DE805800B23520 /* AddPhotoCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD854A26DE806D00B23520 /* AddPhotoCollectionViewCell.swift */,
+			);
+			path = AddPhotoCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		AAAD854C26DE9F5A00B23520 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD84E126D995AD00B23520 /* MarketItemCollectionViewCell */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -516,6 +551,7 @@
 				AAAD84F326D995AD00B23520 /* UIImage+Extension.swift in Sources */,
 				AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */,
 				AAAD854126DDDC6B00B23520 /* RegisterImagePicker.swift in Sources */,
+				AAAD854626DE7FFA00B23520 /* PhotoCellViewModel.swift in Sources */,
 				AAAD84EF26D995AD00B23520 /* NetworkManager.swift in Sources */,
 				AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */,
 				AAAD84F426D995AD00B23520 /* SharedStyle.swift in Sources */,
@@ -524,13 +560,13 @@
 				AAAD84FD26D995AD00B23520 /* MarketItemListCollectionViewCell.swift in Sources */,
 				AAAD84F226D995AD00B23520 /* String+Extensions.swift in Sources */,
 				AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */,
-				AAAD853D26DDCEE600B23520 /* AddPhotoButton.swift in Sources */,
 				AAAD84F926D995AD00B23520 /* MarketItemListUseCase.swift in Sources */,
+				AAAD854826DE801700B23520 /* PhotoCollectionViewCell.swift in Sources */,
 				AAAD852D26DBA60400B23520 /* MarketItemRegisterViewModel.swift in Sources */,
+				AAAD854B26DE806D00B23520 /* AddPhotoCollectionViewCell.swift in Sources */,
 				AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */,
 				AAAD851A26DAAEC000B23520 /* MarketItemDetailViewModel.swift in Sources */,
 				AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */,
-				AAAD853B26DDCE7500B23520 /* ViewPhotoButton.swift in Sources */,
 				AAAD84FA26D995AD00B23520 /* ThumbnailUseCase.swift in Sources */,
 				AAAD852F26DBECBF00B23520 /* MultipartFormData.swift in Sources */,
 				AAAD84EE26D995AD00B23520 /* SceneDelegate.swift in Sources */,

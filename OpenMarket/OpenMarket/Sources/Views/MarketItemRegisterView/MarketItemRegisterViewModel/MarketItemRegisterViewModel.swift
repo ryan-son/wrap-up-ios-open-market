@@ -14,7 +14,7 @@ final class MarketItemRegisterViewModel {
         case empty
         case register
         case edit
-        case appendImage(Int, UIImage)
+        case appendImage(Int)
         case deleteImage(Int)
         case error(Error)
     }
@@ -26,8 +26,8 @@ final class MarketItemRegisterViewModel {
 
             for change in difference {
                 switch change {
-                case let .insert(offset, image, _):
-                    state = .appendImage(offset, image)
+                case let .insert(offset, _, _):
+                    state = .appendImage(offset)
                 case let .remove(offset, _, _):
                     state = .deleteImage(offset)
                 }

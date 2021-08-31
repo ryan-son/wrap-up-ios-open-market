@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PatchMarketItem: Encodable, MultipartUploadable {
+struct PatchMarketItem: MultipartUploadable {
 
     let id: Int
     let title: String?

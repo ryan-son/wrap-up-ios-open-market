@@ -12,7 +12,7 @@ protocol MultipartUploadable: Uploadable {
     var asDictionary: [String: Any?] { get }
 }
 
-struct PostMarketItem: Encodable, MultipartUploadable {
+struct PostMarketItem: MultipartUploadable {
 
     let title: String
     let descriptions: String?

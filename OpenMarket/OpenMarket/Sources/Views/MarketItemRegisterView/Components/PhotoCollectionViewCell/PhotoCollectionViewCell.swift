@@ -1,13 +1,13 @@
 //
-//  ViewPhotoButton.swift
+//  PhotoCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by Ryan-Son on 2021/08/31.
+//  Created by Ryan-Son on 2021/09/01.
 //
 
 import UIKit
 
-final class ViewPhotoButton: UIButton {
+final class PhotoCollectionViewCell: UICollectionViewCell {
 
     private enum Style {
 
@@ -25,7 +25,19 @@ final class ViewPhotoButton: UIButton {
         }
     }
 
-    private(set) var deleteButton: UIButton = {
+    static let reuseIdentifier: String = "PhotoCollectionViewCell"
+    private var viewModel: PhotoCellViewModel?
+
+    private let photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = Style.cornerRadius
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
+    let deleteButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(Style.DeleteButton.image, for: .normal)
         button.tintColor = Style.DeleteButton.tintColor
@@ -38,42 +50,54 @@ final class ViewPhotoButton: UIButton {
         return button
     }()
 
-    init(image: UIImage) {
+    override init(frame: CGRect) {
         super.init(frame: .zero)
         setStyle()
         setupViews()
         setupConstraints()
-        setImage(image, for: .normal)
-
     }
 
-    @available(iOS, unavailable, message: "Use init(image:) instead")
+    @available(iOS, unavailable, message: "Use init(frame:) instead")
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    func bind(with viewModel: PhotoCellViewModel) {
+        self.viewModel = viewModel
+
+        viewModel.bind { [weak self] photo in
+            self?.photoImageView.image = photo
+        }
+    }
+
+    func fire() {
+        viewModel?.fire()
     }
 
     private func setStyle() {
         layer.borderColor = Style.borderColor
         layer.borderWidth = Style.borderWidth
         layer.cornerRadius = Style.cornerRadius
-        imageView?.layer.cornerRadius = Style.cornerRadius
-        imageView?.contentMode = .scaleAspectFit
-        imageView?.clipsToBounds = true
     }
 
     private func setupViews() {
+        addSubview(photoImageView)
         addSubview(deleteButton)
         addBorder()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            photoImageView.topAnchor.constraint(equalTo: topAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             deleteButton.widthAnchor.constraint(equalToConstant: Style.DeleteButton.size),
             deleteButton.heightAnchor.constraint(equalToConstant: Style.DeleteButton.size),
             deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor,
                                                    constant: Style.DeleteButton.size / 2),
             deleteButton.topAnchor.constraint(equalTo: topAnchor,
-                                                   constant: -Style.DeleteButton.size / 2)
+                                              constant: -Style.DeleteButton.size / 2)
         ])
     }
 

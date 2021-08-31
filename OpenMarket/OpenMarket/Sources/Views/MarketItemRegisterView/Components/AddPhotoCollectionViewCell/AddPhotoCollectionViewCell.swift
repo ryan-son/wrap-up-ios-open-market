@@ -1,13 +1,13 @@
 //
-//  AddPhotoButton.swift
+//  AddPhotoCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by Ryan-Son on 2021/08/31.
+//  Created by Ryan-Son on 2021/09/01.
 //
 
 import UIKit
 
-final class AddPhotoButton: UIButton {
+final class AddPhotoCollectionViewCell: UICollectionViewCell {
 
     private enum Style {
 
@@ -33,6 +33,8 @@ final class AddPhotoButton: UIButton {
             static let initialText: String = "0/5"
         }
     }
+
+    static let reuseIdentifier: String = "AddPhotoCollectionViewCell"
 
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -63,14 +65,14 @@ final class AddPhotoButton: UIButton {
         return label
     }()
 
-    init() {
+    override init(frame: CGRect) {
         super.init(frame: .zero)
         setStyle()
         setupViews()
         setupConstraints()
     }
 
-    @available(iOS, unavailable, message: "Use init() instead")
+    @available(iOS, unavailable, message: "Use init(frame:) instead")
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
