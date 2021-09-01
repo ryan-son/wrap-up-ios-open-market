@@ -49,7 +49,7 @@ final class ThumbnailUseCase: ThumbnailUseCaseProtocol {
             return nil
         }
 
-        let task = networkManager.fetchData(from: path) { result in
+        let task = networkManager.fetch(from: path) { result in
             switch result {
             case .success(let data):
                 guard let thumbnail = UIImage(data: data) else {

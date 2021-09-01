@@ -30,11 +30,13 @@ final class MarketItemDetailViewModel {
 		case fetch(MarketItemDetailViewModel.MetaData)
 		case fetchImage(UIImage, Int)
 		case update
+		case delete
+		case deleteFailed
 		case error(MarketItemDetailUseCaseError)
 	}
 
 	// MARK: Binder and its state
-	
+
 	private var listener: ((State) -> Void)?
 	private var state: State = .empty {
 		willSet {
@@ -47,12 +49,12 @@ final class MarketItemDetailViewModel {
 			}
 		}
 	}
-	
+
 	// MARK: Bound properties
 
 	private var marketItem: MarketItem?
 	private(set) var images: [UIImage] = []
-	
+
 	// MARK: Properties
 
     private let marketItemID: Int
@@ -149,6 +151,21 @@ final class MarketItemDetailViewModel {
                                 numberOfImages: marketItem.images?.count ?? .zero)
         return metaData
     }
+
+	func deleteMarketItem(with password: String) {
+		useCase.deleteMarketItem(itemID: marketItemID, password: password) { [weak self] result in
+			switch result {
+			case .success(let statusCode):
+				if NetworkManager.okStatusCode ~= statusCode {
+					self?.state = .delete
+				} else {
+					self?.state = .deleteFailed
+				}
+			case .failure(let error):
+				self?.state = .error(error)
+			}
+		}
+	}
 }
 
 // MARK: - Namespaces

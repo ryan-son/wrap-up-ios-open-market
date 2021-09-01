@@ -18,12 +18,15 @@ enum NetworkManagerError: Error {
 
 protocol NetworkManageable {
 
-    func fetchData(from urlString: String,
-                   completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask?
+	func fetch(from urlString: String,
+			   completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask?
     func multipartUpload(_ marketItem: MultipartUploadable,
                          to urlString: String,
                          method: NetworkManager.UploadHTTPMethod,
                          completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) -> URLSessionDataTask?
+	func delete(_ deleteData: Data,
+				at urlString: String,
+				completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask?
 }
 
 final class NetworkManager: NetworkManageable {
@@ -35,7 +38,8 @@ final class NetworkManager: NetworkManageable {
 	// MARK: Properties
 
     private let session: URLSession
-    private let okResponse: Range<Int> = (200 ..< 300)
+    static let okStatusCode: Range<Int> = (200 ..< 300)
+	static let notFoundStatusCode: Int = 404
 
 	// MARK: Initializers
 
@@ -45,14 +49,13 @@ final class NetworkManager: NetworkManageable {
 
 	// MARK: Networking methods
 
-    func fetchData(from urlString: String,
-                   completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask? {
+	func fetch(from urlString: String, completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask? {
         guard let url = URL(string: urlString) else {
             completion(.failure(.urlCreationFailed))
             return nil
         }
 
-        let task = session.dataTask(with: url) { [weak self] data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(.requestError(error)))
                 return
@@ -63,8 +66,7 @@ final class NetworkManager: NetworkManageable {
                 return
             }
 
-            guard let okResponse = self?.okResponse,
-                  okResponse ~= response.statusCode else {
+			guard NetworkManager.okStatusCode ~= response.statusCode else {
                 completion(.failure(.gotFailedResponse(statusCode: response.statusCode)))
                 return
             }
@@ -101,7 +103,7 @@ final class NetworkManager: NetworkManageable {
         )
         request.httpBody = encoded
 
-        let task = session.dataTask(with: request) { [weak self] data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(.requestError(error)))
                 return
@@ -112,8 +114,7 @@ final class NetworkManager: NetworkManageable {
                 return
             }
 
-            guard let okResponse = self?.okResponse,
-                  okResponse ~= response.statusCode else {
+            guard NetworkManager.okStatusCode ~= response.statusCode else {
                 completion(.failure(.gotFailedResponse(statusCode: response.statusCode)))
                 return
             }
@@ -129,4 +130,40 @@ final class NetworkManager: NetworkManageable {
         task.resume()
         return task
     }
+
+	func delete(_ deleteData: Data,
+				at urlString: String,
+				completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask? {
+		guard let url = URL(string: urlString) else {
+			completion(.failure(.urlCreationFailed))
+			return nil
+		}
+
+		var request = URLRequest(url: url)
+		request.httpMethod = "DELETE"
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.httpBody = deleteData
+
+		let task = session.dataTask(with: request) { _, response, error in
+			if let error = error {
+				completion(.failure(.requestError(error)))
+				return
+			}
+
+			guard let response = response as? HTTPURLResponse else {
+				completion(.failure(.invalidHTTPResponse))
+				return
+			}
+
+			guard NetworkManager.okStatusCode ~= response.statusCode ||
+					response.statusCode == NetworkManager.notFoundStatusCode else {
+				completion(.failure(.gotFailedResponse(statusCode: response.statusCode)))
+				return
+			}
+
+			completion(.success(response.statusCode))
+		}
+		task.resume()
+		return task
+	}
 }

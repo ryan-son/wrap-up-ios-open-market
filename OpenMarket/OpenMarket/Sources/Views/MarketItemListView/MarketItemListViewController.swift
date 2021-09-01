@@ -271,19 +271,32 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
         let marketItem = viewModel.marketItems[indexPath.item]
         let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
         let marketItemDetailViewController = MarketItemDetailViewController()
+		marketItemDetailViewController.delegate = self
 
         marketItemDetailViewController.bind(with: marketItemDetailViewModel)
         navigationController?.pushViewController(marketItemDetailViewController, animated: true)
     }
 }
 
+// MARK: - MarketItemRegisterViewControllerDelegate
+
 extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate {
 
 	func didEndEditing(with marketItem: MarketItem) {
 		let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
 		let marketItemDetailViewController = MarketItemDetailViewController()
+		marketItemDetailViewController.delegate = self
 		marketItemDetailViewController.bind(with: marketItemDetailViewModel)
 		navigationController?.pushViewController(marketItemDetailViewController, animated: false)
+	}
+}
+
+// MARK: - MarketItemDetailViewControllerDelegate
+
+extension MarketItemListViewController: MarketItemDetailViewControllerDelegate {
+
+	func didDeleteMarketItem() {
+		refreshMarketItems()
 	}
 }
 

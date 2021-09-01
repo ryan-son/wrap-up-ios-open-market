@@ -54,7 +54,7 @@ final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
         isFetching = true
 
         let path = EndPoint.items(page: page).path
-        let task = networkManager.fetchData(from: path) { [weak self] result in
+        let task = networkManager.fetch(from: path) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
