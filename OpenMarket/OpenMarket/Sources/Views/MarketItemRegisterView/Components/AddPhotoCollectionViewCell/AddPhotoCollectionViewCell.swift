@@ -14,7 +14,7 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         static let borderColor: CGColor = UIColor.secondaryLabel.cgColor
         static let borderWidth: CGFloat = 0.5
         static let cornerRadius: CGFloat = 10
-        static let minimumContentInset: CGFloat = 15
+        static let minimumContentInset: CGFloat = 8
 
         enum ContentStackView {
             static let spacing: CGFloat = 3
@@ -61,6 +61,7 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: Style.ImageCountLabel.font)
         label.textColor = Style.ImageCountLabel.textColor
         label.text = Style.ImageCountLabel.initialText
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.isUserInteractionEnabled = false
         return label
     }()

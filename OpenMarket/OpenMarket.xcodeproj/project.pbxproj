@@ -44,6 +44,9 @@
 		AAAD854626DE7FFA00B23520 /* PhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854526DE7FFA00B23520 /* PhotoCellViewModel.swift */; };
 		AAAD854826DE801700B23520 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854726DE801700B23520 /* PhotoCollectionViewCell.swift */; };
 		AAAD854B26DE806D00B23520 /* AddPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854A26DE806D00B23520 /* AddPhotoCollectionViewCell.swift */; };
+		AAAD854E26DEA42C00B23520 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854D26DEA42C00B23520 /* SeparatorView.swift */; };
+		AAAD855026DEA70100B23520 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854F26DEA70100B23520 /* PlaceholderTextView.swift */; };
+		AAAD855226DEB2F400B23520 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD855126DEB2F400B23520 /* CurrencyTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +110,9 @@
 		AAAD854526DE7FFA00B23520 /* PhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellViewModel.swift; sourceTree = "<group>"; };
 		AAAD854726DE801700B23520 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		AAAD854A26DE806D00B23520 /* AddPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		AAAD854D26DEA42C00B23520 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
+		AAAD854F26DEA70100B23520 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
+		AAAD855126DEB2F400B23520 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,8 +320,8 @@
 			isa = PBXGroup;
 			children = (
 				AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */,
-				AAAD853926DDCC8700B23520 /* Components */,
 				AAAD851E26DAAEC900B23520 /* MarketItemRegisterViewModel */,
+				AAAD853926DDCC8700B23520 /* Components */,
 			);
 			path = MarketItemRegisterView;
 			sourceTree = "<group>";
@@ -353,7 +359,10 @@
 			children = (
 				AAAD854926DE805800B23520 /* AddPhotoCollectionViewCell */,
 				AAAD854326DE7F9D00B23520 /* PhotoCollectionViewCell */,
+				AAAD855126DEB2F400B23520 /* CurrencyTextField.swift */,
+				AAAD854F26DEA70100B23520 /* PlaceholderTextView.swift */,
 				AAAD854026DDDC6B00B23520 /* RegisterImagePicker.swift */,
+				AAAD854D26DEA42C00B23520 /* SeparatorView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -542,6 +551,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAAD854E26DEA42C00B23520 /* SeparatorView.swift in Sources */,
 				AAAD852B26DB70A900B23520 /* MarketItemRegisterViewController.swift in Sources */,
 				AAAD84F626D995AD00B23520 /* MarketItem.swift in Sources */,
 				AAAD852026DAAEC900B23520 /* MarketItemRegisterUseCase.swift in Sources */,
@@ -554,6 +564,7 @@
 				AAAD854626DE7FFA00B23520 /* PhotoCellViewModel.swift in Sources */,
 				AAAD84EF26D995AD00B23520 /* NetworkManager.swift in Sources */,
 				AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */,
+				AAAD855226DEB2F400B23520 /* CurrencyTextField.swift in Sources */,
 				AAAD84F426D995AD00B23520 /* SharedStyle.swift in Sources */,
 				AAAD84F026D995AD00B23520 /* EndPoint.swift in Sources */,
 				AAAD84F526D995AD00B23520 /* MarketItemList.swift in Sources */,
@@ -564,6 +575,7 @@
 				AAAD854826DE801700B23520 /* PhotoCollectionViewCell.swift in Sources */,
 				AAAD852D26DBA60400B23520 /* MarketItemRegisterViewModel.swift in Sources */,
 				AAAD854B26DE806D00B23520 /* AddPhotoCollectionViewCell.swift in Sources */,
+				AAAD855026DEA70100B23520 /* PlaceholderTextView.swift in Sources */,
 				AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */,
 				AAAD851A26DAAEC000B23520 /* MarketItemDetailViewModel.swift in Sources */,
 				AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */,
