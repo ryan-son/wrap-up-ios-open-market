@@ -17,6 +17,8 @@ final class MarketItemRegisterViewController: UIViewController {
 
     enum Style {
 
+        static let registerTitle: String = "Registration"
+        static let editTitle: String = "Edit"
         static let backgroundColor: UIColor = .systemBackground
         static let placeholderTextColor: UIColor = .secondaryLabel
         static let layerColor: UIColor = .secondaryLabel
@@ -26,15 +28,21 @@ final class MarketItemRegisterViewController: UIViewController {
         static let spacing: CGFloat = 10
 
         enum PhotoCollectionView {
-            static let sectionInset = UIEdgeInsets(top: 30, left: 20, bottom: 30, right: 20)
+            static let horizontalSectionInset: CGFloat = 30
+            static let verticalSectionInsetAgainstCollectionViewHeight: CGFloat = 0.1
             static let sectionMinimumLineSpacing: CGFloat = 20
-            static let itemSize = CGSize(width: 50, height: 50)
+            static let itemSizeAgainstCollectionViewHeight: CGFloat = 0.6
             static let heightRatioAgainstPortraitViewHeight: CGFloat = 0.15
             static let heightRatioAgainstLandscapeViewHeight: CGFloat = 0.3
         }
 
         enum Constraint {
             static let currencyTextFieldWidth: CGFloat = 50
+        }
+
+        enum Alert {
+            static let cannotExceedMaxImageCountAlertTitle: String = "사진은 최대 5장까지 첨부하실 수 있어요."
+            static let okActionTitle: String = "확인"
         }
     }
 
@@ -150,7 +158,7 @@ final class MarketItemRegisterViewController: UIViewController {
     // MARK: Set attributes of the view controller
 
     private func setAttributes() {
-        title = intent == .register ? "Item Registration" : "Edit Item"
+        title = intent == .register ? Style.registerTitle : Style.registerTitle
         view.backgroundColor = Style.backgroundColor
     }
 
@@ -188,8 +196,8 @@ final class MarketItemRegisterViewController: UIViewController {
     // MARK: Alerts
 
     private func showCannotExceedMaxImageCountAlert() {
-        let alert = UIAlertController(title: "사진은 최대 5장까지 첨부하실 수 있어요.", message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
+        let alert = UIAlertController(title: Style.Alert.cannotExceedMaxImageCountAlertTitle, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: Style.Alert.okActionTitle, style: .default)
         alert.addAction(okAction)
         present(alert, animated: true)
     }

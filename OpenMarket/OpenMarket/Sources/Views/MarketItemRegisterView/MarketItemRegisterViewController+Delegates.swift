@@ -41,7 +41,7 @@ extension MarketItemRegisterViewController: UICollectionViewDataSource {
 extension MarketItemRegisterViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.height * 0.6
+        let height = collectionView.frame.height * Style.PhotoCollectionView.itemSizeAgainstCollectionViewHeight
         return CGSize(width: height, height: height)
     }
 
@@ -50,8 +50,11 @@ extension MarketItemRegisterViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let vertical = collectionView.frame.height * 0.1
-        return UIEdgeInsets(top: vertical, left: 30, bottom: vertical, right: 30)
+        let vertical = collectionView.frame.height * Style.PhotoCollectionView.verticalSectionInsetAgainstCollectionViewHeight
+        return UIEdgeInsets(top: vertical,
+                            left: Style.PhotoCollectionView.horizontalSectionInset,
+                            bottom: vertical,
+                            right: Style.PhotoCollectionView.horizontalSectionInset)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
