@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol PlaceholderTextViewDelegate: AnyObject {
+
+	func didFillTextView(category: PlaceholderTextView.TextViewType, with text: String)
+}
+
 final class PlaceholderTextView: UITextView {
 
     enum TextViewType {
@@ -22,6 +27,7 @@ final class PlaceholderTextView: UITextView {
 
     private let type: TextViewType
     private var placeholderText: String?
+	weak var placeholderTextViewDelegate: PlaceholderTextViewDelegate?
 
 	// MARK: Initializers
 
@@ -84,7 +90,9 @@ extension PlaceholderTextView: UITextViewDelegate {
         if text.isEmpty {
             textColor = Style.placeholderTextColor
             text = placeholderText(type: type)
-        }
+		} else {
+			placeholderTextViewDelegate?.didFillTextView(category: type, with: text)
+		}
     }
 }
 
@@ -105,6 +113,6 @@ extension PlaceholderTextView {
 		static let price: String = "가격"
 		static let stock: String = "잔여수량"
 		static let password: String = "비밀번호"
-		static let descriptions: String = "올리실 글 내용을 작성해주세요."
+		static let descriptions: String = "글 내용을 작성해주세요."
 	}
 }

@@ -15,24 +15,13 @@ protocol MultipartUploadable: Uploadable {
 struct PostMarketItem: MultipartUploadable {
 
     let title: String
-    let descriptions: String?
+    let descriptions: String
     let price: Int
     let currency: String
     let stock: Int
     let discountedPrice: Int?
     let images: [URL]
     let password: String
-
-    init(from marketItem: MarketItem, images: [URL], password: String) {
-        self.title = marketItem.title
-        self.descriptions = marketItem.descriptions
-        self.price = marketItem.price
-        self.currency = marketItem.currency
-        self.stock = marketItem.stock
-        self.discountedPrice = marketItem.discountedPrice
-        self.images = images
-        self.password = password
-    }
 
     var asDictionary: [String: Any?] {
         [

@@ -77,3 +77,21 @@ extension MarketItemRegisterViewController: ImagePickerDelegate {
         viewModel?.appendImage(image, at: url)
     }
 }
+
+// MARK: - PlaceholderTextViewDelegate
+
+extension MarketItemRegisterViewController: PlaceholderTextViewDelegate {
+
+	func didFillTextView(category: PlaceholderTextView.TextViewType, with text: String) {
+		viewModel?.setMarketItemInfo(of: category, with: text)
+	}
+}
+
+// MARK: - CurrencyTextFieldDelegate
+
+extension MarketItemRegisterViewController: CurrencyTextFieldDelegate {
+
+	func didFillTextField(with text: String) {
+		viewModel?.setMarketItemCurrency(with: text)
+	}
+}

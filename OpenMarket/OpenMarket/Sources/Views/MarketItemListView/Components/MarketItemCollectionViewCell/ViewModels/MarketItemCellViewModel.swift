@@ -36,7 +36,7 @@ final class MarketItemCellViewModel {
     }
 
 	// MARK: Binder and state
-	
+
 	private var listener: ((State) -> Void)?
 	private var state: State = .empty {
 		didSet {
@@ -49,8 +49,6 @@ final class MarketItemCellViewModel {
     private let marketItem: MarketItem
     private let useCase: ThumbnailUseCaseProtocol
     private var thumbnailTask: URLSessionDataTask?
-
-
 
     init(marketItem: MarketItem, thumbnailUseCase: ThumbnailUseCaseProtocol = ThumbnailUseCase()) {
         self.marketItem = marketItem

@@ -92,6 +92,7 @@ final class MarketItemRegisterViewController: UIViewController {
         super.viewDidLoad()
         setAttributes()
         setDelegates()
+		setupNavigationBar()
         setupViews()
         setupConstraints()
         addKeyboardNotificationObservers()
@@ -125,14 +126,26 @@ final class MarketItemRegisterViewController: UIViewController {
     // MARK: Set attributes of the view controller
 
     private func setAttributes() {
-        title = intent == .register ? Style.registerTitle : Style.registerTitle
         view.backgroundColor = Style.backgroundColor
     }
 
     private func setDelegates() {
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
+		titleInputTextView.placeholderTextViewDelegate = self
+		currencyPickerTextField.currencyTextFieldDelegate = self
+		priceInputTextView.placeholderTextViewDelegate = self
+		discountedPriceInputTextView.placeholderTextViewDelegate = self
+		stockInputTextView.placeholderTextViewDelegate = self
+		passwordInputTextView.placeholderTextViewDelegate = self
+		descriptionsInputTextView.placeholderTextViewDelegate = self
     }
+
+	private func setupNavigationBar() {
+		title = intent == .register ? Style.registerTitle : Style.registerTitle
+		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(submit))
+		navigationItem.rightBarButtonItem = doneButton
+	}
 
     // MARK: Actions
 
@@ -160,7 +173,30 @@ final class MarketItemRegisterViewController: UIViewController {
         }
     }
 
+	@objc private func submit() {
+		guard let marketItem: MultipartUploadable = viewModel?.marketItemToSubmit() else {
+			showContentNotFilledAlert()
+			return
+		}
+
+		switch intent {
+		case .register:
+			viewModel?.upload(marketItem, by: .post)
+		case .edit:
+			viewModel?.upload(marketItem, by: .patch)
+		}
+	}
+
     // MARK: Alerts
+
+	private func showContentNotFilledAlert() {
+		let alert = UIAlertController(title: Style.Alert.contentNotFilledAlertTitle,
+									  message: Style.Alert.contentNotFilledAlertMessage,
+									  preferredStyle: .alert)
+		let okAction = UIAlertAction(title: Style.Alert.okActionTitle, style: .default)
+		alert.addAction(okAction)
+		present(alert, animated: true)
+	}
 
     private func showCannotExceedMaxImageCountAlert() {
         let alert = UIAlertController(title: Style.Alert.cannotExceedMaxImageCountAlertTitle, message: nil, preferredStyle: .alert)
@@ -225,6 +261,10 @@ final class MarketItemRegisterViewController: UIViewController {
         photoCollectionViewCompactSizeClassHeightAnchor?.isActive.toggle()
         photoCollectionViewRegularSizeClassHeightAnchor?.isActive.toggle()
     }
+
+	private func presentRegisteredPost() {
+		<#function body#>
+	}
 }
 
 // MARK: - Set up views and constraints
@@ -255,8 +295,7 @@ extension MarketItemRegisterViewController {
         NSLayoutConstraint.activate([
             titleInputTextView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             titleInputTextView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            titleInputTextView.topAnchor.constraint(equalTo: photoSectionSeparatorView.bottomAnchor,
-                                                    constant: Style.separatorSpacing),
+            titleInputTextView.topAnchor.constraint(equalTo: photoSectionSeparatorView.bottomAnchor, constant: Style.separatorSpacing),
 
             currencyPickerTextField.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             currencyPickerTextField.widthAnchor.constraint(equalToConstant: Style.Constraint.currencyTextFieldWidth),
@@ -337,40 +376,4 @@ extension MarketItemRegisterViewController {
             stockSectionSeparatorView.topAnchor.constraint(equalTo: stockInputTextView.bottomAnchor, constant: Style.separatorSpacing)
         ])
     }
-}
-
-// MARK: - Namespaces
-
-extension MarketItemRegisterViewController {
-
-	enum Style {
-
-		static let registerTitle: String = "Registration"
-		static let editTitle: String = "Edit"
-		static let backgroundColor: UIColor = .systemBackground
-		static let placeholderTextColor: UIColor = .secondaryLabel
-		static let layerColor: UIColor = .secondaryLabel
-		static let textColor: UIColor = .label
-		static let maxImageCount: Int = 5
-		static let separatorSpacing: CGFloat = 15
-		static let spacing: CGFloat = 10
-
-		enum PhotoCollectionView {
-			static let horizontalSectionInset: CGFloat = 30
-			static let verticalSectionInsetAgainstCollectionViewHeight: CGFloat = 0.1
-			static let sectionMinimumLineSpacing: CGFloat = 20
-			static let itemSizeAgainstCollectionViewHeight: CGFloat = 0.6
-			static let heightRatioAgainstPortraitViewHeight: CGFloat = 0.15
-			static let heightRatioAgainstLandscapeViewHeight: CGFloat = 0.3
-		}
-
-		enum Constraint {
-			static let currencyTextFieldWidth: CGFloat = 50
-		}
-
-		enum Alert {
-			static let cannotExceedMaxImageCountAlertTitle: String = "사진은 최대 5장까지 첨부하실 수 있어요."
-			static let okActionTitle: String = "확인"
-		}
-	}
 }

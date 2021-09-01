@@ -51,11 +51,16 @@ final class MarketItemRegisterViewModel {
 
 	// MARK: Properties
 
+	private let useCase: MarketItemRegisterUseCase
 	private var marketItem: MarketItem?
-    private var imageURLs: [URL] = []
+	private var title: String?
+	private var imageURLs: [URL] = []
+	private var currency: String?
+	private var price: String?
+	private var discountedPrice: String?
+	private var stock: String?
     private var password: String?
-    private let useCase: MarketItemRegisterUseCase
-
+	private var descriptions: String?
 
 	// MARK: Initializers
 
@@ -70,20 +75,10 @@ final class MarketItemRegisterViewModel {
         self.listener = listener
     }
 
-    func upload(by method: NetworkManager.UploadHTTPMethod) {
-        let path  = EndPoint.uploadItem.path
-        guard let marketItem = marketItem,
-              let password = password else { return }
-        let uploadItem: MultipartUploadable
+	func upload(_ item: MultipartUploadable, by method: NetworkManager.UploadHTTPMethod) {
+		let path  = method == .post ? EndPoint.uploadItem.path : EndPoint.item(id: marketItem?.id ?? .zero).path
 
-        switch method {
-        case .post:
-            uploadItem = PostMarketItem(from: marketItem, images: imageURLs, password: password)
-        case .patch:
-            uploadItem = PatchMarketItem(from: marketItem, images: imageURLs, password: password)
-        }
-
-        useCase.upload(uploadItem, to: path, method: method) { [weak self] result in
+        useCase.upload(item, to: path, method: method) { [weak self] result in
             switch result {
             case .success(let marketItem):
                 self?.marketItem = marketItem
@@ -103,4 +98,65 @@ final class MarketItemRegisterViewModel {
         images.remove(at: index)
         imageURLs.remove(at: index)
     }
+
+	func setMarketItemInfo(of category: PlaceholderTextView.TextViewType, with text: String) {
+		switch category {
+		case .title:
+			self.title = text
+		case .price:
+			self.price = text
+		case .discountedPrice:
+			self.discountedPrice = text
+		case .stock:
+			self.stock = text
+		case .password:
+			self.password = text
+		case .descriptions:
+			self.descriptions = text
+		}
+	}
+
+	func setMarketItemCurrency(with currency: String) {
+		self.currency = currency
+	}
+
+	func marketItemToSubmit() -> MultipartUploadable? {
+		if marketItem == nil {
+			return createPostMarketItem()
+		} else {
+			return createPatchMarketItem()
+		}
+	}
+
+	private func createPostMarketItem() -> PostMarketItem? {
+		guard let password = password,
+			  let title = title,
+			  let descriptions = descriptions,
+			  let priceString = price,
+			  let price = Int(priceString),
+			  let currency = currency,
+			  let stockString = stock,
+			  let stock = Int(stockString) else { return nil }
+
+		return PostMarketItem(title: title,
+							  descriptions: descriptions,
+							  price: price,
+							  currency: currency,
+							  stock: stock,
+							  discountedPrice: discountedPrice == nil ? nil : Int(discountedPrice!),
+							  images: imageURLs,
+							  password: password)
+	}
+
+	private func createPatchMarketItem() -> PatchMarketItem? {
+		guard let password = password else { return nil }
+		return PatchMarketItem(title: title,
+							   descriptions: descriptions,
+							   price: price == nil ? nil : Int(price!),
+							   currency: currency,
+							   stock: stock == nil ? nil : Int(stock!),
+							   discountedPrice: discountedPrice == nil ? nil : Int(discountedPrice!),
+							   images: imageURLs,
+							   password: password)
+	}
 }

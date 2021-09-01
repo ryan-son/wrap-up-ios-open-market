@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol CurrencyTextFieldDelegate: AnyObject {
+
+	func didFillTextField(with text: String)
+}
+
 final class CurrencyTextField: UITextField {
 
 	// MARK: Properties
@@ -14,6 +19,7 @@ final class CurrencyTextField: UITextField {
     private let pickerView = UIPickerView()
     private let currencies: [String] = ["KRW", "USD", "JPY", "CNY", "GBP"]
     private var selectedCurrency: String?
+	weak var currencyTextFieldDelegate: CurrencyTextFieldDelegate?
 
 	// MARK: Initializers
 
@@ -57,6 +63,9 @@ final class CurrencyTextField: UITextField {
 
     @objc private func endEdit() {
         endEditing(true)
+		guard let text = text,
+			  !text.isEmpty && text != Style.placeholderText else { return }
+		currencyTextFieldDelegate?.didFillTextField(with: text)
     }
 
 	// MARK: Overriden methods to hide cursor
