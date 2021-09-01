@@ -283,7 +283,7 @@ extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate
 		let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
 		let marketItemDetailViewController = MarketItemDetailViewController()
 		marketItemDetailViewController.bind(with: marketItemDetailViewModel)
-		navigationController?.pushViewController(marketItemDetailViewController, animated: true)
+		navigationController?.pushViewController(marketItemDetailViewController, animated: false)
 	}
 }
 

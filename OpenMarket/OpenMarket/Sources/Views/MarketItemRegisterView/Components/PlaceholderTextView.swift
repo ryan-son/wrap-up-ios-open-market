@@ -91,10 +91,12 @@ extension PlaceholderTextView: UITextViewDelegate {
         if text.isEmpty {
             textColor = Style.placeholderTextColor
             text = placeholderText(type: type)
-		} else {
-			placeholderTextViewDelegate?.didFillTextView(category: type, with: text)
 		}
     }
+
+	func textViewDidChange(_ textView: UITextView) {
+		placeholderTextViewDelegate?.didFillTextView(category: type, with: text)
+	}
 }
 
 // MARK: - Namespaces
