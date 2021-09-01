@@ -42,7 +42,6 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         stackView.alignment = .center
         stackView.distribution = .equalCentering
         stackView.spacing = Style.ContentStackView.spacing
-        stackView.isUserInteractionEnabled = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -51,7 +50,6 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = Style.CameraIconImageView.image
         imageView.tintColor = Style.CameraIconImageView.tintColor
-        imageView.isUserInteractionEnabled = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -62,7 +60,6 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         label.textColor = Style.ImageCountLabel.textColor
         label.text = Style.ImageCountLabel.initialText
         label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.isUserInteractionEnabled = false
         return label
     }()
 
@@ -79,28 +76,28 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
     }
 
     private func setStyle() {
-        layer.borderColor = Style.borderColor
-        layer.borderWidth = Style.borderWidth
-        layer.cornerRadius = Style.cornerRadius
+        contentView.layer.borderColor = Style.borderColor
+        contentView.layer.borderWidth = Style.borderWidth
+        contentView.layer.cornerRadius = Style.cornerRadius
+        contentView.isUserInteractionEnabled = true
     }
 
     private func setupViews() {
         contentStackView.addArrangedSubview(cameraIconImageView)
         contentStackView.addArrangedSubview(imageCountLabel)
-
-        addSubview(contentStackView)
+        contentView.addSubview(contentStackView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentStackView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor,
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor,
                                                   constant: Style.minimumContentInset),
-            contentStackView.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor,
+            contentStackView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor,
                                                      constant: -Style.minimumContentInset),
-            contentStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            cameraIconImageView.widthAnchor.constraint(equalTo: widthAnchor,
+            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            cameraIconImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
                                                        multiplier: Style.CameraIconImageView.widthAgainstButton),
             cameraIconImageView.heightAnchor.constraint(equalTo: cameraIconImageView.widthAnchor,
                                                         multiplier: Style.CameraIconImageView.heightAgainstOwnWidth)

@@ -75,38 +75,38 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     }
 
     private func setStyle() {
-        layer.borderColor = Style.borderColor
-        layer.borderWidth = Style.borderWidth
-        layer.cornerRadius = Style.cornerRadius
+        contentView.layer.borderColor = Style.borderColor
+        contentView.layer.borderWidth = Style.borderWidth
+        contentView.layer.cornerRadius = Style.cornerRadius
     }
 
     private func setupViews() {
-        addSubview(photoImageView)
-        addSubview(deleteButton)
+        contentView.addSubview(photoImageView)
+        contentView.addSubview(deleteButton)
         addBorder()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            photoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            photoImageView.topAnchor.constraint(equalTo: topAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             deleteButton.widthAnchor.constraint(equalToConstant: Style.DeleteButton.size),
             deleteButton.heightAnchor.constraint(equalToConstant: Style.DeleteButton.size),
-            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor,
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                    constant: Style.DeleteButton.size / 2),
-            deleteButton.topAnchor.constraint(equalTo: topAnchor,
+            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor,
                                               constant: -Style.DeleteButton.size / 2)
         ])
     }
 
     private func addBorder() {
         let layer = CALayer()
-        layer.frame = CGRect(x: .zero, y: .zero, width: frame.size.width, height: frame.size.height)
+        layer.frame = CGRect(x: .zero, y: .zero, width: contentView.frame.size.width, height: contentView.frame.size.height)
         layer.borderColor = Style.borderColor
         layer.borderWidth = Style.borderWidth
-        self.layer.addSublayer(layer)
+        contentView.layer.addSublayer(layer)
         deleteButton.layer.insertSublayer(layer, at: .zero)
     }
 

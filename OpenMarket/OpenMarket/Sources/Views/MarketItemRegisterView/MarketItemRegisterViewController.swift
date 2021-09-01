@@ -13,7 +13,7 @@ final class MarketItemRegisterViewController: UIViewController {
         case register, edit
     }
 
-    private enum Style {
+    enum Style {
 
         static let backgroundColor: UIColor = .systemBackground
         static let placeholderTextColor: UIColor = .secondaryLabel
@@ -37,8 +37,9 @@ final class MarketItemRegisterViewController: UIViewController {
     }
 
     private let intent: Intent
-    private var viewModel: MarketItemRegisterViewModel?
+    private(set) var viewModel: MarketItemRegisterViewModel?
     private lazy var imagePicker = ImagePicker(presentationController: self, delegate: self)
+    private var contentScrollViewBottomAnchor: NSLayoutConstraint?
     private var photoCollectionViewCompactSizeClassHeightAnchor: NSLayoutConstraint?
     private var photoCollectionViewRegularSizeClassHeightAnchor: NSLayoutConstraint?
 
@@ -68,10 +69,8 @@ final class MarketItemRegisterViewController: UIViewController {
         collectionView.isDirectionalLockEnabled = true
         collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(AddPhotoCollectionViewCell.self,
-                                forCellWithReuseIdentifier: AddPhotoCollectionViewCell.reuseIdentifier)
-        collectionView.register(PhotoCollectionViewCell.self,
-                                forCellWithReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier)
+        collectionView.register(AddPhotoCollectionViewCell.self, forCellWithReuseIdentifier: AddPhotoCollectionViewCell.reuseIdentifier)
+        collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -79,7 +78,6 @@ final class MarketItemRegisterViewController: UIViewController {
     private let photoSectionSeparatorView = SeparatorView()
     private let titleInputTextView = PlaceholderTextView(type: .title)
     private let titleSectionSeparatorView = SeparatorView()
-
     private let currencyPickerTextField = CurrencyTextField()
     private let discountedPriceInputTextView: PlaceholderTextView = {
         let textView = PlaceholderTextView(type: .discountedPrice)
@@ -111,6 +109,13 @@ final class MarketItemRegisterViewController: UIViewController {
         setDelegates()
         setupViews()
         setupConstraints()
+        addKeyboardNotificationObservers()
+        addKeyboardDismissGestureRecognizer()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeKeyboardNotificationObservers()
     }
 
     func bind(with viewModel: MarketItemRegisterViewModel) {
@@ -140,6 +145,97 @@ final class MarketItemRegisterViewController: UIViewController {
         photoCollectionView.delegate = self
     }
 
+    @objc func showImagePicker() {
+        guard let numberOfImages = viewModel?.images.count else { return }
+        guard numberOfImages < Style.maxImageCount else {
+            showCannotExceedMaxImageCountAlert()
+            return
+        }
+
+        let addPhotoCellIndex = IndexPath(item: .zero, section: .zero)
+        guard let addPhotoCell = photoCollectionView.cellForItem(at: addPhotoCellIndex) else { return }
+        imagePicker.present(from: addPhotoCell)
+    }
+
+    @objc func removePhoto(_ sender: UIButton) {
+        guard let imageCount = viewModel?.images.count else { return }
+
+        for index in .zero ..< imageCount {
+            let indexPath = IndexPath(item: index + 1, section: .zero)
+            guard let cell = photoCollectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell else { return }
+            if cell.deleteButton == sender {
+                viewModel?.removeImage(at: index)
+            }
+        }
+    }
+
+    private func showCannotExceedMaxImageCountAlert() {
+        let alert = UIAlertController(title: "사진은 최대 5장까지 첨부하실 수 있어요.", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+
+    // MARK: Handling keyboard notifications
+
+    private func addKeyboardNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        contentScrollView.contentInset.bottom = keyboardFrame.height / 2
+        contentScrollViewBottomAnchor?.constant = -keyboardFrame.height
+
+        guard let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        let contentInset: UIEdgeInsets = .zero
+        contentScrollView.contentInset = contentInset
+        contentScrollView.scrollIndicatorInsets = contentInset
+        contentScrollViewBottomAnchor?.constant = .zero
+
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    private func removeKeyboardNotificationObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    // MARK: Dismiss keyboard by tapping
+
+    func addKeyboardDismissGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        photoCollectionViewCompactSizeClassHeightAnchor?.isActive.toggle()
+        photoCollectionViewRegularSizeClassHeightAnchor?.isActive.toggle()
+    }
+}
+
+// MARK: - Set up views and constraints
+
+extension MarketItemRegisterViewController {
+
     private func setupViews() {
         contentScrollView.addSubview(photoCollectionView)
         contentScrollView.addSubview(photoSectionSeparatorView)
@@ -157,85 +253,68 @@ final class MarketItemRegisterViewController: UIViewController {
     }
 
     private func setupConstraints() {
+        setupContentScrollViewConstraints()
+        setupPhotoCollectionViewConstraints()
+        setupSeparatorViewConstraints()
+
         NSLayoutConstraint.activate([
-            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentScrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            contentScrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
-            contentScrollView.contentLayoutGuide.topAnchor.constraint(equalTo: photoCollectionView.topAnchor),
-            contentScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: descriptionsInputTextView.bottomAnchor),
-
-            photoCollectionView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
-            photoCollectionView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
-            photoCollectionView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
-
-            photoSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-            photoSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            photoSectionSeparatorView.topAnchor.constraint(equalTo: photoCollectionView.bottomAnchor),
-
             titleInputTextView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             titleInputTextView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
             titleInputTextView.topAnchor.constraint(equalTo: photoSectionSeparatorView.bottomAnchor,
                                                     constant: Style.separatorSpacing),
 
-            titleSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-            titleSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            titleSectionSeparatorView.topAnchor.constraint(equalTo: titleInputTextView.bottomAnchor,
-                                                           constant: Style.separatorSpacing),
-
             currencyPickerTextField.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             currencyPickerTextField.widthAnchor.constraint(equalToConstant: Style.Constraint.currencyTextFieldWidth),
-            currencyPickerTextField.topAnchor.constraint(equalTo: titleSectionSeparatorView.bottomAnchor,
-                                                         constant: Style.separatorSpacing),
+            currencyPickerTextField.topAnchor.constraint(equalTo: titleSectionSeparatorView.bottomAnchor, constant: Style.separatorSpacing),
             currencyPickerTextField.bottomAnchor.constraint(equalTo: discountedPriceInputTextView.bottomAnchor),
 
-            priceInputTextView.leadingAnchor.constraint(equalTo: currencyPickerTextField.trailingAnchor,
-                                                        constant: Style.spacing),
+            priceInputTextView.leadingAnchor.constraint(equalTo: currencyPickerTextField.trailingAnchor, constant: Style.spacing),
             priceInputTextView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            priceInputTextView.topAnchor.constraint(equalTo: titleSectionSeparatorView.bottomAnchor,
-                                                    constant: Style.separatorSpacing),
+            priceInputTextView.topAnchor.constraint(equalTo: titleSectionSeparatorView.bottomAnchor, constant: Style.separatorSpacing),
 
-            discountedPriceInputTextView.leadingAnchor.constraint(equalTo: currencyPickerTextField.trailingAnchor,
-                                                                  constant: Style.spacing),
+            discountedPriceInputTextView.leadingAnchor.constraint(equalTo: currencyPickerTextField.trailingAnchor, constant: Style.spacing),
             discountedPriceInputTextView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
             discountedPriceInputTextView.topAnchor.constraint(equalTo: priceInputTextView.bottomAnchor),
 
-            priceSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-            priceSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            priceSectionSeparatorView.topAnchor.constraint(equalTo: discountedPriceInputTextView.bottomAnchor,
-                                                           constant: Style.separatorSpacing),
-
             stockInputTextView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             stockInputTextView.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -Style.spacing),
-            stockInputTextView.topAnchor.constraint(equalTo: priceSectionSeparatorView.bottomAnchor,
-                                                    constant: Style.separatorSpacing),
+            stockInputTextView.topAnchor.constraint(equalTo: priceSectionSeparatorView.bottomAnchor, constant: Style.separatorSpacing),
 
-            passwordInputTextView.leadingAnchor.constraint(equalTo: stockInputTextView.trailingAnchor,
-                                                           constant: Style.spacing),
+            passwordInputTextView.leadingAnchor.constraint(equalTo: stockInputTextView.trailingAnchor, constant: Style.spacing),
             passwordInputTextView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            passwordInputTextView.topAnchor.constraint(equalTo: priceSectionSeparatorView.bottomAnchor,
-                                                       constant: Style.separatorSpacing),
-
-            stockSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-            stockSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            stockSectionSeparatorView.topAnchor.constraint(equalTo: stockInputTextView.bottomAnchor,
-                                                           constant: Style.separatorSpacing),
+            passwordInputTextView.topAnchor.constraint(equalTo: priceSectionSeparatorView.bottomAnchor, constant: Style.separatorSpacing),
 
             descriptionsInputTextView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             descriptionsInputTextView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            descriptionsInputTextView.topAnchor.constraint(equalTo: stockSectionSeparatorView.bottomAnchor,
-                                                           constant: Style.separatorSpacing)
+            descriptionsInputTextView.topAnchor.constraint(equalTo: stockSectionSeparatorView.bottomAnchor, constant: Style.separatorSpacing)
+        ])
+    }
+
+    private func setupContentScrollViewConstraints() {
+        contentScrollViewBottomAnchor = contentScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        contentScrollViewBottomAnchor?.isActive = true
+
+        NSLayoutConstraint.activate([
+            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            contentScrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
+            contentScrollView.contentLayoutGuide.topAnchor.constraint(equalTo: photoCollectionView.topAnchor),
+            contentScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: descriptionsInputTextView.bottomAnchor)
+        ])
+    }
+
+    private func setupPhotoCollectionViewConstraints() {
+        NSLayoutConstraint.activate([
+            photoCollectionView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
+            photoCollectionView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
+            photoCollectionView.topAnchor.constraint(equalTo: contentScrollView.topAnchor)
         ])
 
-        photoCollectionViewCompactSizeClassHeightAnchor = photoCollectionView.heightAnchor.constraint(
-            equalTo: view.heightAnchor,
-            multiplier: Style.PhotoCollectionView.heightRatioAgainstPortraitViewHeight
-        )
-        photoCollectionViewRegularSizeClassHeightAnchor = photoCollectionView.heightAnchor.constraint(
-            equalTo: view.heightAnchor,
-            multiplier: Style.PhotoCollectionView.heightRatioAgainstLandscapeViewHeight
-        )
+        photoCollectionViewCompactSizeClassHeightAnchor =
+            photoCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: Style.PhotoCollectionView.heightRatioAgainstPortraitViewHeight)
+        photoCollectionViewRegularSizeClassHeightAnchor =
+            photoCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: Style.PhotoCollectionView.heightRatioAgainstLandscapeViewHeight)
 
         if traitCollection.horizontalSizeClass == .compact {
             photoCollectionViewCompactSizeClassHeightAnchor?.isActive = true
@@ -244,117 +323,23 @@ final class MarketItemRegisterViewController: UIViewController {
         }
     }
 
-    @objc private func showImagePicker() {
-        guard let numberOfImages = viewModel?.images.count else { return }
-        guard numberOfImages < Style.maxImageCount else {
-            showCannotExceedMaxImageCountAlert()
-            return
-        }
+    private func setupSeparatorViewConstraints() {
+        NSLayoutConstraint.activate([
+            photoSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            photoSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            photoSectionSeparatorView.topAnchor.constraint(equalTo: photoCollectionView.bottomAnchor),
 
-        let addPhotoCellIndex = IndexPath(item: .zero, section: .zero)
-        guard let addPhotoCell = photoCollectionView.cellForItem(at: addPhotoCellIndex) else { return }
-        imagePicker.present(from: addPhotoCell)
-    }
+            titleSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            titleSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            titleSectionSeparatorView.topAnchor.constraint(equalTo: titleInputTextView.bottomAnchor, constant: Style.separatorSpacing),
 
-    @objc private func removePhoto(_ sender: UIButton) {
-        guard let imageCount = viewModel?.images.count else { return }
+            priceSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            priceSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            priceSectionSeparatorView.topAnchor.constraint(equalTo: discountedPriceInputTextView.bottomAnchor, constant: Style.separatorSpacing),
 
-        for index in .zero ..< imageCount {
-            let indexPath = IndexPath(item: index + 1, section: .zero)
-            guard let cell = photoCollectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell else { return }
-            if cell.deleteButton == sender {
-                viewModel?.removeImage(at: index)
-            }
-        }
-    }
-
-    private func showCannotExceedMaxImageCountAlert() {
-        let alert = UIAlertController(title: "사진은 최대 5장까지 첨부하실 수 있어요.",
-                                      message: nil,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        photoCollectionViewCompactSizeClassHeightAnchor?.isActive.toggle()
-        photoCollectionViewRegularSizeClassHeightAnchor?.isActive.toggle()
-    }
-}
-
-extension MarketItemRegisterViewController: UICollectionViewDataSource {
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let imageCount = viewModel?.images.count ?? .zero
-        return imageCount + 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.item {
-        case .zero:
-            let addPhotoCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AddPhotoCollectionViewCell.reuseIdentifier,
-                for: indexPath
-            )
-            return addPhotoCell
-
-        default:
-            guard let photoCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier,
-                    for: indexPath
-            ) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
-
-            photoCell.addDeleteButtonTarget(target: self, action: #selector(removePhoto(_:)), for: .touchUpInside)
-
-            guard let photoImage = viewModel?.images[indexPath.item - 1] else { return UICollectionViewCell() }
-            let photoCellViewModel = PhotoCellViewModel(photoImage: photoImage)
-            photoCell.bind(with: photoCellViewModel)
-            photoCell.fire()
-
-            return photoCell
-        }
-    }
-}
-
-extension MarketItemRegisterViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.height * 0.6
-        return CGSize(width: height, height: height)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Style.PhotoCollectionView.sectionMinimumLineSpacing
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        let vertical = collectionView.frame.height * 0.1
-        return UIEdgeInsets(top: vertical, left: 30, bottom: vertical, right: 30)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.item {
-        case .zero:
-            showImagePicker()
-        default:
-            break
-        }
-    }
-}
-
-extension MarketItemRegisterViewController: ImagePickerDelegate {
-
-    func didSelectImage(_ image: UIImage?, at url: URL?) {
-        guard let image = image,
-              let url = url else { return }
-        viewModel?.appendImage(image, at: url)
+            stockSectionSeparatorView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            stockSectionSeparatorView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            stockSectionSeparatorView.topAnchor.constraint(equalTo: stockInputTextView.bottomAnchor, constant: Style.separatorSpacing)
+        ])
     }
 }

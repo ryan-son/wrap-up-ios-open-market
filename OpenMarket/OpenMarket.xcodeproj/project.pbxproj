@@ -47,6 +47,7 @@
 		AAAD854E26DEA42C00B23520 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854D26DEA42C00B23520 /* SeparatorView.swift */; };
 		AAAD855026DEA70100B23520 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD854F26DEA70100B23520 /* PlaceholderTextView.swift */; };
 		AAAD855226DEB2F400B23520 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD855126DEB2F400B23520 /* CurrencyTextField.swift */; };
+		AAAD855626DF616600B23520 /* MarketItemRegisterViewController+Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD855526DF616600B23520 /* MarketItemRegisterViewController+Delegates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		AAAD854D26DEA42C00B23520 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		AAAD854F26DEA70100B23520 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
 		AAAD855126DEB2F400B23520 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
+		AAAD855526DF616600B23520 /* MarketItemRegisterViewController+Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MarketItemRegisterViewController+Delegates.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */,
+				AAAD855526DF616600B23520 /* MarketItemRegisterViewController+Delegates.swift */,
 				AAAD851E26DAAEC900B23520 /* MarketItemRegisterViewModel */,
 				AAAD853926DDCC8700B23520 /* Components */,
 			);
@@ -570,6 +573,7 @@
 				AAAD84F526D995AD00B23520 /* MarketItemList.swift in Sources */,
 				AAAD84FD26D995AD00B23520 /* MarketItemListCollectionViewCell.swift in Sources */,
 				AAAD84F226D995AD00B23520 /* String+Extensions.swift in Sources */,
+				AAAD855626DF616600B23520 /* MarketItemRegisterViewController+Delegates.swift in Sources */,
 				AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */,
 				AAAD84F926D995AD00B23520 /* MarketItemListUseCase.swift in Sources */,
 				AAAD854826DE801700B23520 /* PhotoCollectionViewCell.swift in Sources */,
