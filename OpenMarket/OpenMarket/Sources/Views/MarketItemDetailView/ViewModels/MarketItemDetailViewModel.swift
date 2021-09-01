@@ -41,7 +41,7 @@ final class MarketItemDetailViewModel {
     private let marketItemID: Int
     private let useCase: MarketItemDetailUseCaseProtocol
     private var listener: ((State) -> Void)?
-    private var marketItem: MarketItem?
+	private var marketItem: MarketItem?
     private(set) var images: [UIImage] = []
     private var state: State = .empty {
         willSet {

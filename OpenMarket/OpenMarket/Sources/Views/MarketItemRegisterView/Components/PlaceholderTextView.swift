@@ -69,6 +69,7 @@ final class PlaceholderTextView: UITextView {
         font = UIFont.preferredFont(forTextStyle: Style.font)
         textColor = text == placeholderText ? Style.placeholderTextColor : Style.textColor
         isScrollEnabled = false
+		autocorrectionType = .no
     }
 
     private func setPlaceholderText() {

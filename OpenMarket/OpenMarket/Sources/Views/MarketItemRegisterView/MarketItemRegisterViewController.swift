@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol MarketItemRegisterViewControllerDelegate: AnyObject {
+
+	func didEndEditing(with marketItem: MarketItem)
+}
+
 final class MarketItemRegisterViewController: UIViewController {
 
     enum Intent {
@@ -21,6 +26,7 @@ final class MarketItemRegisterViewController: UIViewController {
     private var contentScrollViewBottomAnchor: NSLayoutConstraint?
     private var photoCollectionViewCompactSizeClassHeightAnchor: NSLayoutConstraint?
     private var photoCollectionViewRegularSizeClassHeightAnchor: NSLayoutConstraint?
+	weak var delegate: MarketItemRegisterViewControllerDelegate?
 
     // MARK: Initializers
 
@@ -109,18 +115,20 @@ final class MarketItemRegisterViewController: UIViewController {
     func bind(with viewModel: MarketItemRegisterViewModel) {
         self.viewModel = viewModel
 
-        viewModel.bind { [weak self] state in
-            switch state {
-            case .appendImage(let index):
-                let indexPath = IndexPath(item: index + 1, section: .zero)
-                self?.photoCollectionView.insertItems(at: [indexPath])
-            case .deleteImage(let index):
-                let indexPath = IndexPath(item: index + 1, section: .zero)
-                self?.photoCollectionView.deleteItems(at: [indexPath])
-            default:
-                break
-            }
-        }
+		viewModel.bind { [weak self] state in
+			switch state {
+			case .appendImage(let index):
+				let indexPath = IndexPath(item: index + 1, section: .zero)
+				self?.photoCollectionView.insertItems(at: [indexPath])
+			case .deleteImage(let index):
+				let indexPath = IndexPath(item: index + 1, section: .zero)
+				self?.photoCollectionView.deleteItems(at: [indexPath])
+			case .register(let marketItem):
+				self?.presentRegisteredPost(with: marketItem)
+			default:
+				break
+			}
+		}
     }
 
     // MARK: Set attributes of the view controller
@@ -262,8 +270,9 @@ final class MarketItemRegisterViewController: UIViewController {
         photoCollectionViewRegularSizeClassHeightAnchor?.isActive.toggle()
     }
 
-	private func presentRegisteredPost() {
-		<#function body#>
+	private func presentRegisteredPost(with marketItem: MarketItem) {
+		navigationController?.popViewController(animated: false)
+		delegate?.didEndEditing(with: marketItem)
 	}
 }
 

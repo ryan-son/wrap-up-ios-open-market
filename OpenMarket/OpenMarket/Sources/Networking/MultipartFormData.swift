@@ -92,7 +92,18 @@ final class MultipartFormData {
     }
 
     private func appendFiles(withName name: String, from urls: [URL]) {
-        urls.forEach { appendFile(withName: name, from: $0) }
+        urls.forEach {
+			body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
+
+            let fileName = $0.lastPathComponent
+            let mimeType = $0.mimeType()
+            let path = $0.path
+
+            if let file = fileManager.contents(atPath: path) {
+                body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: mimeType))
+                body.append(file)
+            }
+        }
     }
 
     private func append(withName name: String, fileName: String? = nil, mimeType: String? = nil, value: Any) {

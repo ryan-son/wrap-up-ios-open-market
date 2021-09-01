@@ -14,7 +14,7 @@ final class MarketItemRegisterViewModel {
 
     enum State {
         case empty
-        case register
+        case register(MarketItem)
         case edit
         case appendImage(Int)
         case deleteImage(Int)
@@ -49,10 +49,20 @@ final class MarketItemRegisterViewModel {
         }
     }
 
+	private var marketItem: MarketItem? {
+		didSet {
+			if let oldValue = oldValue {
+				// edit
+			} else {
+				guard let marketItem = marketItem else { return }
+				state = .register(marketItem)
+			}
+		}
+	}
+
 	// MARK: Properties
 
 	private let useCase: MarketItemRegisterUseCase
-	private var marketItem: MarketItem?
 	private var title: String?
 	private var imageURLs: [URL] = []
 	private var currency: String?

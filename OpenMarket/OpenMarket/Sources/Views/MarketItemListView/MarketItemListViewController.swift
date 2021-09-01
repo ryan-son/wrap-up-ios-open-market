@@ -133,6 +133,7 @@ final class MarketItemListViewController: UIViewController {
         let registerViewModel = MarketItemRegisterViewModel()
         let registerViewController = MarketItemRegisterViewController(intent: .register)
         registerViewController.bind(with: registerViewModel)
+		registerViewController.delegate = self
         navigationController?.pushViewController(registerViewController, animated: true)
     }
 
@@ -274,6 +275,16 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
         marketItemDetailViewController.bind(with: marketItemDetailViewModel)
         navigationController?.pushViewController(marketItemDetailViewController, animated: true)
     }
+}
+
+extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate {
+
+	func didEndEditing(with marketItem: MarketItem) {
+		let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
+		let marketItemDetailViewController = MarketItemDetailViewController()
+		marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+		navigationController?.pushViewController(marketItemDetailViewController, animated: true)
+	}
 }
 
 // MARK: - Namespaces
