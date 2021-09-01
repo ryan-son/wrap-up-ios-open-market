@@ -33,6 +33,8 @@ protocol MarketItemDetailUseCaseProtocol {
 
 final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
 
+	// MARK: Properties
+
     private let networkManager: NetworkManageable
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -40,9 +42,13 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
         return decoder
     }()
 
+	// MARK: Initializers
+
     init(networkManager: NetworkManageable = NetworkManager()) {
         self.networkManager = networkManager
     }
+
+	// MARK: Use case methods
 
     @discardableResult
     func fetchMarketItemDetail(

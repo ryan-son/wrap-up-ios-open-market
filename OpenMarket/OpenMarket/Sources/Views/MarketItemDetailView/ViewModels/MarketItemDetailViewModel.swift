@@ -10,13 +10,7 @@ import UIKit.UIImage
 
 final class MarketItemDetailViewModel {
 
-    enum State {
-        case empty
-        case fetch(MarketItemDetailViewModel.MetaData)
-        case fetchImage(UIImage, Int)
-        case update
-        case error(MarketItemDetailUseCaseError)
-    }
+	// MARK: View model type
 
     struct MetaData {
         let title: String
@@ -29,38 +23,54 @@ final class MarketItemDetailViewModel {
         let numberOfImages: Int
     }
 
-    private enum Style {
+	// MARK: Binder state
 
-        static let targetImageSize = CGSize(width: 50, height: 50)
-        static let outOfStockText: String = "품절"
-        static let stockLabelPrefix: String = "재고:"
-        static let stockLabelUpperLimit: Int = 999
-        static let stockLabelUpperLimitText: String = "999+"
-    }
+	enum State {
+		case empty
+		case fetch(MarketItemDetailViewModel.MetaData)
+		case fetchImage(UIImage, Int)
+		case update
+		case error(MarketItemDetailUseCaseError)
+	}
+
+	// MARK: Binder and its state
+	
+	private var listener: ((State) -> Void)?
+	private var state: State = .empty {
+		willSet {
+			listenerSemaphore.wait()
+		}
+		didSet {
+			DispatchQueue.main.async {
+				self.listener?(self.state)
+				self.listenerSemaphore.signal()
+			}
+		}
+	}
+	
+	// MARK: Bound properties
+
+	private var marketItem: MarketItem?
+	private(set) var images: [UIImage] = []
+	
+	// MARK: Properties
 
     private let marketItemID: Int
-    private let useCase: MarketItemDetailUseCaseProtocol
-    private var listener: ((State) -> Void)?
-	private var marketItem: MarketItem?
-    private(set) var images: [UIImage] = []
-    private var state: State = .empty {
-        willSet {
-            listenerSemaphore.wait()
-        }
-        didSet {
-            DispatchQueue.main.async {
-                self.listener?(self.state)
-                self.listenerSemaphore.signal()
-            }
-        }
-    }
+	private let useCase: MarketItemDetailUseCaseProtocol
+
+	// MARK: Asynchronous task handlers
+
     private let semaphore = DispatchSemaphore(value: 1)
     private let listenerSemaphore = DispatchSemaphore(value: 1)
+
+	// MARK: Initializers
 
     init(marketItemID: Int, useCase: MarketItemDetailUseCaseProtocol = MarketItemDetailUseCase()) {
         self.marketItemID = marketItemID
         self.useCase = useCase
     }
+
+	// MARK: Binding methods
 
     func bind(_ listener: @escaping (State) -> Void) {
         self.listener = listener
@@ -139,4 +149,18 @@ final class MarketItemDetailViewModel {
                                 numberOfImages: marketItem.images?.count ?? .zero)
         return metaData
     }
+}
+
+// MARK: - Namespaces
+
+extension MarketItemDetailViewModel {
+
+	private enum Style {
+
+		static let targetImageSize = CGSize(width: 50, height: 50)
+		static let outOfStockText: String = "품절"
+		static let stockLabelPrefix: String = "재고:"
+		static let stockLabelUpperLimit: Int = 999
+		static let stockLabelUpperLimitText: String = "999+"
+	}
 }
