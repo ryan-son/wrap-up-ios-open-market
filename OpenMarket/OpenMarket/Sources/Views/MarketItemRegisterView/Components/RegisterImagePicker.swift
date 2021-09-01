@@ -14,11 +14,17 @@ protocol ImagePickerDelegate: AnyObject {
 
 final class ImagePicker: NSObject {
 
+	// MARK: Type properties
+
+	static private let allowedMediaTypes: [String] = ["public.image"]
+
+	// MARK: Properties
+
     private let imagePickerController: UIImagePickerController
     private weak var presentationController: UIViewController?
     private weak var delegate: ImagePickerDelegate?
 
-    static private let allowedMediaTypes: [String] = ["public.image"]
+	// MARK: Initializers
 
     init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
         self.imagePickerController = UIImagePickerController()
@@ -31,6 +37,8 @@ final class ImagePicker: NSObject {
         self.imagePickerController.allowsEditing = true
         self.imagePickerController.mediaTypes = ImagePicker.allowedMediaTypes
     }
+
+	// MARK: Trigger picker view
 
     private func sourceTypeSelectionAlertAction(for sourceType: UIImagePickerController.SourceType,
                                                 title: String) -> UIAlertAction? {
@@ -65,11 +73,15 @@ final class ImagePicker: NSObject {
         presentationController?.present(alertController, animated: true)
     }
 
+	// MARK: Picking finished
+
     private func pickerController(_ controller: UIImagePickerController, didSelect image: UIImage?, at url: URL?) {
         controller.dismiss(animated: true)
         delegate?.didSelectImage(image, at: url)
     }
 }
+
+// MARK: - UIImagePickerControllerDelegate
 
 extension ImagePicker: UIImagePickerControllerDelegate {
 
@@ -88,5 +100,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
         pickerController(picker, didSelect: image, at: url)
     }
 }
+
+// MARK: - UINavigationControllerDelegate
 
 extension ImagePicker: UINavigationControllerDelegate { }

@@ -14,36 +14,6 @@ final class MarketItemListViewController: UIViewController {
         case grid
     }
 
-    // MARK: Namespaces
-
-    private enum Style {
-
-        static let navigationBarTitle: String = "Ryan Market"
-        static let listCellHeight: CGFloat = 160
-        static let portraitGridItemsPerRow: CGFloat = 2
-        static let portraitGridItemsPerColumn: CGFloat = 2.7
-        static let landscapeGridItemsPerRow: CGFloat = 4
-        static let landscapeGridItemsPerColumn: CGFloat = 1.2
-        static let numberOfLastItemsToTriggerFetch: Int = 10
-        static let gridSectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        static let gridSectionMinimumLineSpacing: CGFloat = 20
-        static let navigationBarButtonItemTintColor: UIColor = .label
-
-        enum ChangeCellStyleBarButton {
-            static let listCellButtonImage = UIImage(systemName: "list.dash")
-            static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
-        }
-
-        enum AddNewPostButton {
-            static let size: CGFloat = 80
-            static let cornerRadius: CGFloat = size / 2
-            static let image = UIImage(systemName: "plus.circle.fill")
-            static let backgroundColor: UIColor = .systemBackground
-            static let trailingConstant: CGFloat = -30
-            static let bottomConstant: CGFloat = -70
-        }
-    }
-
     // MARK: Properties
 
     private let viewModel = MarketItemListViewModel()
@@ -304,4 +274,37 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
         marketItemDetailViewController.bind(with: marketItemDetailViewModel)
         navigationController?.pushViewController(marketItemDetailViewController, animated: true)
     }
+}
+
+// MARK: - Namespaces
+
+extension MarketItemListViewController {
+
+	private enum Style {
+
+		static let navigationBarTitle: String = "Ryan Market"
+		static let listCellHeight: CGFloat = 160
+		static let portraitGridItemsPerRow: CGFloat = 2
+		static let portraitGridItemsPerColumn: CGFloat = 2.7
+		static let landscapeGridItemsPerRow: CGFloat = 4
+		static let landscapeGridItemsPerColumn: CGFloat = 1.2
+		static let numberOfLastItemsToTriggerFetch: Int = 10
+		static let gridSectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+		static let gridSectionMinimumLineSpacing: CGFloat = 20
+		static let navigationBarButtonItemTintColor: UIColor = .label
+
+		enum ChangeCellStyleBarButton {
+			static let listCellButtonImage = UIImage(systemName: "list.dash")
+			static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
+		}
+
+		enum AddNewPostButton {
+			static let size: CGFloat = 80
+			static let cornerRadius: CGFloat = size / 2
+			static let image = UIImage(systemName: "plus.circle.fill")
+			static let backgroundColor: UIColor = .systemBackground
+			static let trailingConstant: CGFloat = -30
+			static let bottomConstant: CGFloat = -70
+		}
+	}
 }

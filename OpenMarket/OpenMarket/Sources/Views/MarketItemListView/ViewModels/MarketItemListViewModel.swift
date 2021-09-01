@@ -14,6 +14,8 @@ enum MarketItemListViewModelError: Error {
 
 final class MarketItemListViewModel {
 
+	// MARK: Binder state
+
     enum State {
         case empty
         case fetched(indexPaths: [IndexPath])
@@ -23,8 +25,19 @@ final class MarketItemListViewModel {
         case error(MarketItemListViewModelError)
     }
 
-    private let useCase: MarketItemListUseCaseProtocol
+	// MARK: Binder and its state
+
     private var listener: ((State) -> Void)?
+	private var state: State = .empty {
+		didSet {
+			DispatchQueue.main.async {
+				self.listener?(self.state)
+			}
+		}
+	}
+
+	// MARK: Bound properties
+
     private(set) var marketItems: [MarketItem] = [] {
         didSet {
             switch marketItems.count {
@@ -38,17 +51,18 @@ final class MarketItemListViewModel {
             }
         }
     }
-    private var state: State = .empty {
-        didSet {
-            DispatchQueue.main.async {
-                self.listener?(self.state)
-            }
-        }
-    }
+
+	// MARK: Properties
+
+	private let useCase: MarketItemListUseCaseProtocol
+
+	// MARK: Initializers
 
     init(useCase: MarketItemListUseCaseProtocol = MarketItemListUseCase()) {
         self.useCase = useCase
     }
+
+	// MARK: Data binding methods
 
     func bind(_ listener: @escaping ((State) -> Void)) {
         self.listener = listener

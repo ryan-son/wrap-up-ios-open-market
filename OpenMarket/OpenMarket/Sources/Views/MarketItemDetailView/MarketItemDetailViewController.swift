@@ -9,45 +9,6 @@ import UIKit
 
 final class MarketItemDetailViewController: UIViewController {
 
-    // MARK: Namespaces
-
-    private enum Style {
-
-        static let navigationTitle: String = "Item Detail"
-        static let backgroundColor: UIColor = .systemBackground
-        static let spacing: CGFloat = 20
-
-        enum ImageScrollViewPageControl {
-            static let currentPageIndicatorTintColor: UIColor = .systemOrange
-            static let pageIndicatorTintColor: UIColor = .systemGray.withAlphaComponent(0.8)
-        }
-
-        enum TitleLabel {
-            static let font: UIFont.TextStyle = .title1
-            static let textColor: UIColor = .label
-        }
-
-        enum StockLabel {
-            static let font: UIFont.TextStyle = .body
-            static let textColor: UIColor = .secondaryLabel
-        }
-
-        enum DiscountedPriceLabel {
-            static let font: UIFont.TextStyle = .callout
-            static let textColor: UIColor = .secondaryLabel
-        }
-
-        enum PriceLabel {
-            static let font: UIFont.TextStyle = .headline
-            static let textColor: UIColor = .label
-        }
-
-        enum BodyTextLabel {
-            static let font: UIFont.TextStyle = .title3
-            static let textColor: UIColor = .label
-        }
-    }
-
     // MARK: Properties
 
     private var viewModel: MarketItemDetailViewModel?
@@ -281,4 +242,46 @@ extension MarketItemDetailViewController: UIScrollViewDelegate {
         let destinationPage = Int(round(position))
         setPageControlPage(to: destinationPage)
     }
+}
+
+// MARK: - Namespaces
+
+extension MarketItemDetailViewController {
+
+	private enum Style {
+
+		static let navigationTitle: String = "Item Detail"
+		static let backgroundColor: UIColor = .systemBackground
+		static let spacing: CGFloat = 20
+
+		enum ImageScrollViewPageControl {
+			static let currentPageIndicatorTintColor: UIColor = .systemOrange
+			static let pageIndicatorTintColor: UIColor = .systemGray.withAlphaComponent(0.8)
+		}
+
+		enum TitleLabel {
+			static let font: UIFont.TextStyle = .title1
+			static let textColor: UIColor = .label
+		}
+
+		enum StockLabel {
+			static let font: UIFont.TextStyle = .body
+			static let textColor: UIColor = .secondaryLabel
+		}
+
+		enum DiscountedPriceLabel {
+			static let font: UIFont.TextStyle = .callout
+			static let textColor: UIColor = .secondaryLabel
+		}
+
+		enum PriceLabel {
+			static let font: UIFont.TextStyle = .headline
+			static let textColor: UIColor = .label
+		}
+
+		enum BodyTextLabel {
+			static let font: UIFont.TextStyle = .title3
+			static let textColor: UIColor = .label
+		}
+	}
 }

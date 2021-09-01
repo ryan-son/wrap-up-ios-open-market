@@ -9,24 +9,15 @@ import UIKit
 
 final class PhotoCollectionViewCell: UICollectionViewCell {
 
-    private enum Style {
+	// MARK: Type properties
 
-        static let borderColor: CGColor = UIColor.secondaryLabel.cgColor
-        static let borderWidth: CGFloat = 0.5
-        static let cornerRadius: CGFloat = 10
+	static let reuseIdentifier: String = "PhotoCollectionViewCell"
 
-        enum DeleteButton {
-            static let image = UIImage(systemName: "xmark.circle.fill")
-            static let tintColor: UIColor = .label
-            static let backgroundColor: UIColor = .systemBackground
-            static let borderColor: CGColor = UIColor.systemBackground.cgColor
-            static let borderWidth: CGFloat = 1.5
-            static let size: CGFloat = 25
-        }
-    }
+	// MARK: Properties
 
-    static let reuseIdentifier: String = "PhotoCollectionViewCell"
     private var viewModel: PhotoCellViewModel?
+
+	// MARK: Views
 
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -50,6 +41,8 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
+	// MARK: Initializers
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStyle()
@@ -62,6 +55,8 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
+	// MARK: Data binding
+
     func bind(with viewModel: PhotoCellViewModel) {
         self.viewModel = viewModel
 
@@ -73,6 +68,8 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     func fire() {
         viewModel?.fire()
     }
+
+	// MARK: Set up styles and views
 
     private func setStyle() {
         contentView.layer.borderColor = Style.borderColor
@@ -113,4 +110,25 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     func addDeleteButtonTarget(target: Any?, action: Selector, for event: UIControl.Event) {
         deleteButton.addTarget(target, action: action, for: event)
     }
+}
+
+// MARK: - Namespaces
+
+extension PhotoCollectionViewCell {
+
+	private enum Style {
+
+		static let borderColor: CGColor = UIColor.secondaryLabel.cgColor
+		static let borderWidth: CGFloat = 0.5
+		static let cornerRadius: CGFloat = 10
+
+		enum DeleteButton {
+			static let image = UIImage(systemName: "xmark.circle.fill")
+			static let tintColor: UIColor = .label
+			static let backgroundColor: UIColor = .systemBackground
+			static let borderColor: CGColor = UIColor.systemBackground.cgColor
+			static let borderWidth: CGFloat = 1.5
+			static let size: CGFloat = 25
+		}
+	}
 }

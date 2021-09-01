@@ -9,11 +9,7 @@ import UIKit
 
 final class SeparatorView: UIView {
 
-    private enum Style {
-
-        static let backgroundColor: UIColor = .tertiaryLabel
-        static let height: CGFloat = 0.5
-    }
+	// MARK: Initializers
 
     init() {
         super.init(frame: .zero)
@@ -26,6 +22,8 @@ final class SeparatorView: UIView {
         super.init(coder: coder)
     }
 
+	// MARK: Set up styles and views
+
     private func setStyle() {
         backgroundColor = Style.backgroundColor
     }
@@ -34,4 +32,15 @@ final class SeparatorView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: Style.height).isActive = true
     }
+}
+
+// MARK: - Namespaces
+
+extension SeparatorView {
+
+	private enum Style {
+
+		static let backgroundColor: UIColor = .tertiaryLabel
+		static let height: CGFloat = 0.5
+	}
 }

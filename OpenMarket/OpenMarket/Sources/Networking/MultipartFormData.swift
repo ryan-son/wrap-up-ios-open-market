@@ -14,6 +14,8 @@ enum MultipartFormDataError: Error {
 
 final class MultipartFormData {
 
+	// MARK: Namespaces
+
     enum EncodingCharacter {
         static let crlf = "\r\n"
     }
@@ -44,14 +46,20 @@ final class MultipartFormData {
         }
     }
 
+	// MARK: Properties
+
     private let fileManager: FileManager
     private let boundary: String = BoundaryGenerator.randomBoundary()
     lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
     private var body = Data()
 
+	// MARK: Initializers
+
     init(fileManager: FileManager = .default) {
         self.fileManager = fileManager
     }
+
+	// MARK: Encoding methods
 
     func encode(parameters: [String: Any?]) -> Data {
         for (key, value) in parameters {
@@ -121,6 +129,8 @@ final class MultipartFormData {
         return Data(header.utf8)
     }
 
+	// MARK: Boundary generators
+
     private func initialBoundaryData() -> Data {
         BoundaryGenerator.boundaryData(for: .initial, boundary: boundary)
     }
@@ -131,13 +141,5 @@ final class MultipartFormData {
 
     private func finalBoundaryData() -> Data {
         BoundaryGenerator.boundaryData(for: .final, boundary: boundary)
-    }
-}
-
-extension Data {
-
-    mutating func append(_ string: String) {
-        guard let data = string.data(using: .utf8) else { return }
-        self.append(data)
     }
 }

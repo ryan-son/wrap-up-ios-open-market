@@ -7,55 +7,14 @@
 
 import UIKit
 
-final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRepresentable {
+final class MarketItemGridCollectionViewCell: UICollectionViewCell {
 
-    private enum Style {
-
-        static let borderWidth: CGFloat = 0.5
-        static let cornerRadius: CGFloat = 10
-
-        enum ThumbnailImageView {
-            static let cornerRadius: CGFloat = 10
-        }
-
-        enum TextContentStackView {
-            static let spacing: CGFloat = 8
-        }
-
-        enum TitleLabel {
-            static let font: UIFont.TextStyle = .title3
-            static let textColor: UIColor = .label
-            static let numberOfLines: Int = 2
-        }
-
-        enum StockLabel {
-            static let font: UIFont.TextStyle = .callout
-            static let textColor: UIColor = .secondaryLabel
-            static let outOfStockTextColor: UIColor = .systemOrange
-        }
-
-        enum PriceStackView {
-            static let spacing: CGFloat = .zero
-        }
-
-        enum DiscountedPriceLabel {
-            static let font: UIFont.TextStyle = .body
-            static let textColor: UIColor = .tertiaryLabel
-        }
-
-        enum PriceLabel {
-            static let font: UIFont.TextStyle = .headline
-            static let textColor: UIColor = .label
-        }
-
-        enum Constraint {
-            static let thumbnailSizeAgainstContentView: CGFloat = 0.4
-            static let contentViewPadding: CGFloat = 20
-        }
-    }
+	// MARK: Properties
 
     static let reuseIdentifier = "MarketItemGridCollectionViewCell"
     private var viewModel: MarketItemCellViewModel?
+
+	// MARK: Views
 
     private let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
@@ -118,6 +77,8 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
         return label
     }()
 
+	// MARK: Initializers
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAttributes()
@@ -125,6 +86,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
         setupConstraints()
     }
 
+	@available(iOS, unavailable, message: "Use init(frame:) instead")
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupAttributes()
@@ -132,10 +94,21 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
         setupConstraints()
     }
 
+	// MARK: Set up views
+
     override func prepareForReuse() {
         super.prepareForReuse()
         reset()
     }
+
+	private func reset() {
+		viewModel?.cancelThumbnailRequest()
+		thumbnailImageView.image = nil
+		titleLabel.text = nil
+		stockLabel.text = nil
+		discountedPriceLabel.attributedText = nil
+		priceLabel.text = nil
+	}
 
     private func setupAttributes() {
         layer.borderWidth = Style.borderWidth
@@ -172,41 +145,87 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell, MarketItemRe
                                                          constant: -Style.Constraint.contentViewPadding)
         ])
     }
+}
 
-    func bind(with viewModel: MarketItemCellViewModel) {
-        self.viewModel = viewModel
+extension MarketItemGridCollectionViewCell: MarketItemRepresentable {
 
-        viewModel.bind { [weak self] state in
-            switch state {
-            case .update(let metaData):
-                self?.thumbnailImageView.image = metaData.thumbnail
-                self?.titleLabel.text = metaData.title
-                self?.stockLabel.text = metaData.stock
-                self?.discountedPriceLabel.isHidden = !metaData.hasDiscountedPrice
-                self?.discountedPriceLabel.attributedText = metaData.discountedPrice
-                self?.priceLabel.text = metaData.price
+	// MARK: Data binding
 
-                self?.stockLabel.textColor = metaData.isOutOfStock ?
-                    Style.StockLabel.outOfStockTextColor
-                    : Style.StockLabel.textColor
-            case .error(_):
-                self?.thumbnailImageView.image = nil
-            default:
-                break
-            }
-        }
-    }
+	func bind(with viewModel: MarketItemCellViewModel) {
+		self.viewModel = viewModel
 
-    func fire() {
-        viewModel?.fire()
-    }
+		viewModel.bind { [weak self] state in
+			switch state {
+			case .update(let metaData):
+				self?.thumbnailImageView.image = metaData.thumbnail
+				self?.titleLabel.text = metaData.title
+				self?.stockLabel.text = metaData.stock
+				self?.discountedPriceLabel.isHidden = !metaData.hasDiscountedPrice
+				self?.discountedPriceLabel.attributedText = metaData.discountedPrice
+				self?.priceLabel.text = metaData.price
 
-    private func reset() {
-        viewModel?.cancelThumbnailRequest()
-        thumbnailImageView.image = nil
-        titleLabel.text = nil
-        stockLabel.text = nil
-        discountedPriceLabel.attributedText = nil
-        priceLabel.text = nil
-    }
+				self?.stockLabel.textColor = metaData.isOutOfStock ?
+					Style.StockLabel.outOfStockTextColor
+					: Style.StockLabel.textColor
+			case .error(_):
+				self?.thumbnailImageView.image = nil
+			default:
+				break
+			}
+		}
+	}
+
+	func fire() {
+		viewModel?.fire()
+	}
+}
+
+// MARK: - Namespaces
+
+extension MarketItemGridCollectionViewCell {
+
+	private enum Style {
+
+		static let borderWidth: CGFloat = 0.5
+		static let cornerRadius: CGFloat = 10
+
+		enum ThumbnailImageView {
+			static let cornerRadius: CGFloat = 10
+		}
+
+		enum TextContentStackView {
+			static let spacing: CGFloat = 8
+		}
+
+		enum TitleLabel {
+			static let font: UIFont.TextStyle = .title3
+			static let textColor: UIColor = .label
+			static let numberOfLines: Int = 2
+		}
+
+		enum StockLabel {
+			static let font: UIFont.TextStyle = .callout
+			static let textColor: UIColor = .secondaryLabel
+			static let outOfStockTextColor: UIColor = .systemOrange
+		}
+
+		enum PriceStackView {
+			static let spacing: CGFloat = .zero
+		}
+
+		enum DiscountedPriceLabel {
+			static let font: UIFont.TextStyle = .body
+			static let textColor: UIColor = .tertiaryLabel
+		}
+
+		enum PriceLabel {
+			static let font: UIFont.TextStyle = .headline
+			static let textColor: UIColor = .label
+		}
+
+		enum Constraint {
+			static let thumbnailSizeAgainstContentView: CGFloat = 0.4
+			static let contentViewPadding: CGFloat = 20
+		}
+	}
 }

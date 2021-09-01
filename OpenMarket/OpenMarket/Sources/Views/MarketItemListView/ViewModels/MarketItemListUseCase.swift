@@ -26,6 +26,8 @@ protocol MarketItemListUseCaseProtocol {
 
 final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
 
+	// MARK: Properties
+
     private let networkManager: NetworkManageable
     private var isFetching: Bool = false
     private var isLastPage: Bool = false
@@ -36,9 +38,13 @@ final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
         return decoder
     }()
 
+	// MARK: Initializers
+
     init(networkManager: NetworkManageable = NetworkManager()) {
         self.networkManager = networkManager
     }
+
+	// MARK: Use case methods
 
     @discardableResult
     func fetchItems(

@@ -10,6 +10,8 @@ import UIKit.UIImage
 
 final class MarketItemRegisterViewModel {
 
+	// MARK: Binder state
+
     enum State {
         case empty
         case register
@@ -19,7 +21,19 @@ final class MarketItemRegisterViewModel {
         case error(Error)
     }
 
-    private var marketItem: MarketItem?
+	// MARK: Binder and its state
+
+	private var listener: ((State) -> Void)?
+	private var state: State = .empty {
+		didSet {
+			DispatchQueue.main.async {
+				self.listener?(self.state)
+			}
+		}
+	}
+
+    // MARK: Bound properties
+
     private(set) var images: [UIImage] = [] {
         didSet {
             let difference = images.difference(from: oldValue)
@@ -34,22 +48,23 @@ final class MarketItemRegisterViewModel {
             }
         }
     }
+
+	// MARK: Properties
+
+	private var marketItem: MarketItem?
     private var imageURLs: [URL] = []
     private var password: String?
     private let useCase: MarketItemRegisterUseCase
-    private var listener: ((State) -> Void)?
-    private var state: State = .empty {
-        didSet {
-            DispatchQueue.main.async {
-                self.listener?(self.state)
-            }
-        }
-    }
+
+
+	// MARK: Initializers
 
     init(marketItem: MarketItem? = nil, useCase: MarketItemRegisterUseCase = MarketItemRegisterUseCase()) {
         self.marketItem = marketItem
         self.useCase = useCase
     }
+
+	// MARK: Data binding methods
 
     func bind(_ listener: @escaping ((State) -> Void)) {
         self.listener = listener

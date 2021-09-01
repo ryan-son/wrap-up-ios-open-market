@@ -32,12 +32,18 @@ final class NetworkManager: NetworkManageable {
         case post, patch
     }
 
+	// MARK: Properties
+
     private let session: URLSession
     private let okResponse: Range<Int> = (200 ..< 300)
+
+	// MARK: Initializers
 
     init(session: URLSession = .shared) {
         self.session = session
     }
+
+	// MARK: Networking methods
 
     func fetchData(from urlString: String,
                    completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask? {

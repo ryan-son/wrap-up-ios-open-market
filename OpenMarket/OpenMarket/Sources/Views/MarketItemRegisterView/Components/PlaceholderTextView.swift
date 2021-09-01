@@ -9,13 +9,6 @@ import UIKit
 
 final class PlaceholderTextView: UITextView {
 
-    private enum Style {
-
-        static let font: UIFont.TextStyle = .body
-        static let textColor: UIColor = .label
-        static let placeholderTextColor: UIColor = .tertiaryLabel
-    }
-
     enum TextViewType {
         case title
         case discountedPrice
@@ -25,17 +18,12 @@ final class PlaceholderTextView: UITextView {
         case descriptions
     }
 
-    enum PlaceholderText {
-        static let title: String = "글 제목"
-        static let discountedPrice: String = "할인 가격 (선택사항)"
-        static let price: String = "가격"
-        static let stock: String = "잔여수량"
-        static let password: String = "비밀번호"
-        static let descriptions: String = "올리실 글 내용을 작성해주세요."
-    }
+	// MARK: Properties
 
     private let type: TextViewType
     private var placeholderText: String?
+
+	// MARK: Initializers
 
     init(type: TextViewType) {
         self.type = type
@@ -51,6 +39,8 @@ final class PlaceholderTextView: UITextView {
         self.type = .title
         super.init(coder: coder)
     }
+
+	// MARK: Set up styles and views
 
     private func placeholderText(type: TextViewType) -> String {
         switch type {
@@ -81,6 +71,8 @@ final class PlaceholderTextView: UITextView {
     }
 }
 
+// MARK: - UITextViewDelegate
+
 extension PlaceholderTextView: UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -94,4 +86,25 @@ extension PlaceholderTextView: UITextViewDelegate {
             text = placeholderText(type: type)
         }
     }
+}
+
+// MARK: - Namespaces
+
+extension PlaceholderTextView {
+
+	private enum Style {
+
+		static let font: UIFont.TextStyle = .body
+		static let textColor: UIColor = .label
+		static let placeholderTextColor: UIColor = .tertiaryLabel
+	}
+
+	enum PlaceholderText {
+		static let title: String = "글 제목"
+		static let discountedPrice: String = "할인 가격 (선택사항)"
+		static let price: String = "가격"
+		static let stock: String = "잔여수량"
+		static let password: String = "비밀번호"
+		static let descriptions: String = "올리실 글 내용을 작성해주세요."
+	}
 }

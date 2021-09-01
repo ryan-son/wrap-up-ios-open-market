@@ -9,32 +9,11 @@ import UIKit
 
 final class AddPhotoCollectionViewCell: UICollectionViewCell {
 
-    private enum Style {
-
-        static let borderColor: CGColor = UIColor.secondaryLabel.cgColor
-        static let borderWidth: CGFloat = 0.5
-        static let cornerRadius: CGFloat = 10
-        static let minimumContentInset: CGFloat = 8
-
-        enum ContentStackView {
-            static let spacing: CGFloat = 3
-        }
-
-        enum CameraIconImageView {
-            static let image = UIImage(systemName: "camera.fill")
-            static let tintColor: UIColor = .secondaryLabel
-            static let widthAgainstButton: CGFloat = 0.4
-            static let heightAgainstOwnWidth: CGFloat = 0.8
-        }
-
-        enum ImageCountLabel {
-            static let font: UIFont.TextStyle = .callout
-            static let textColor: UIColor = .secondaryLabel
-            static let initialText: String = "0/5"
-        }
-    }
+	// MARK: Type properties
 
     static let reuseIdentifier: String = "AddPhotoCollectionViewCell"
+
+	// MARK: Views
 
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -63,6 +42,8 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
+	// MARK: Initializers
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStyle()
@@ -74,6 +55,8 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+	// MARK: Set up styles and views
 
     private func setStyle() {
         contentView.layer.borderColor = Style.borderColor
@@ -103,4 +86,34 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
                                                         multiplier: Style.CameraIconImageView.heightAgainstOwnWidth)
         ])
     }
+}
+
+// MARK: - Namespaces
+
+extension AddPhotoCollectionViewCell {
+
+	private enum Style {
+
+		static let borderColor: CGColor = UIColor.secondaryLabel.cgColor
+		static let borderWidth: CGFloat = 0.5
+		static let cornerRadius: CGFloat = 10
+		static let minimumContentInset: CGFloat = 8
+
+		enum ContentStackView {
+			static let spacing: CGFloat = 3
+		}
+
+		enum CameraIconImageView {
+			static let image = UIImage(systemName: "camera.fill")
+			static let tintColor: UIColor = .secondaryLabel
+			static let widthAgainstButton: CGFloat = 0.4
+			static let heightAgainstOwnWidth: CGFloat = 0.8
+		}
+
+		enum ImageCountLabel {
+			static let font: UIFont.TextStyle = .callout
+			static let textColor: UIColor = .secondaryLabel
+			static let initialText: String = "0/5"
+		}
+	}
 }

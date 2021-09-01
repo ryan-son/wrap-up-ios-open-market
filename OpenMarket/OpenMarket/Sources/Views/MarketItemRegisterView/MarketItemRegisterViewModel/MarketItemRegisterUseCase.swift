@@ -17,11 +17,16 @@ enum MarketItemRegisterUseCaseError: Error {
 
 protocol MarketItemRegisterUseCaseProtocol {
 
-    // update (PATCH)
-    // register (POST)
+	func upload(
+		_ marketItem: MultipartUploadable,
+		to path: String, method: NetworkManager.UploadHTTPMethod,
+		completion: @escaping ((Result<MarketItem, MarketItemRegisterUseCaseError>) -> Void)
+	) -> URLSessionDataTask?
 }
 
 final class MarketItemRegisterUseCase {
+
+	// MARK: Properties
 
     private let networkManager: NetworkManageable
     private let decoder: JSONDecoder = {
@@ -30,15 +35,19 @@ final class MarketItemRegisterUseCase {
         return decoder
     }()
 
+	// MARK: Initializers
+
     init(networkManager: NetworkManageable = NetworkManager()) {
         self.networkManager = networkManager
     }
 
+	// MARK: Use case methods
+
     @discardableResult
-    func upload(_ marketItem: MultipartUploadable,
-                to path: String,
-                method: NetworkManager.UploadHTTPMethod,
-                completion: @escaping ((Result<MarketItem, MarketItemRegisterUseCaseError>) -> Void)
+    func upload(
+		_ marketItem: MultipartUploadable,
+		to path: String, method: NetworkManager.UploadHTTPMethod,
+		completion: @escaping ((Result<MarketItem, MarketItemRegisterUseCaseError>) -> Void)
     ) -> URLSessionDataTask? {
         let task = networkManager.multipartUpload(marketItem, to: path, method: method) { [weak self] result in
             switch result {

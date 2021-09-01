@@ -17,23 +17,28 @@ enum ThumbnailUseCaseError: Error {
 
 protocol ThumbnailUseCaseProtocol {
 
-    func fetchThumbnail(from path: String,
-                        completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask?
+    func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask?
 }
 
 final class ThumbnailUseCase: ThumbnailUseCaseProtocol {
 
+	// MARK: Type properties
+
     static var sharedCache = NSCache<NSURL, UIImage>()
+
+	// MARK: Properties
+
     private let networkManager: NetworkManageable
+
+	// MARK: Initializers
 
     init(networkManager: NetworkManageable = NetworkManager()) {
         self.networkManager = networkManager
     }
 
-    func fetchThumbnail(
-        from path: String,
-        completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void
-    ) -> URLSessionDataTask? {
+	// MARK: Use case methods
+
+    func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask? {
         guard let cacheKey = NSURL(string: path) else {
             completion(.failure(.emptyPath))
             return nil

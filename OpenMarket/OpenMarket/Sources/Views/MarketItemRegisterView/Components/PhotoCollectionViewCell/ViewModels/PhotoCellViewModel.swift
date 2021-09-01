@@ -10,6 +10,8 @@ import UIKit.UIImage
 
 final class PhotoCellViewModel {
 
+	// MARK: Bound properties
+
     private var photoImage: UIImage {
         didSet {
             DispatchQueue.main.async {
@@ -17,11 +19,18 @@ final class PhotoCellViewModel {
             }
         }
     }
+
+	// MARK: Binder
+
     private var listener: ((UIImage) -> Void)?
+
+	// MARK: Initializers
 
     init(photoImage: UIImage) {
         self.photoImage = photoImage
     }
+
+	// MARK: Binding methods
 
     func bind(_ listener: @escaping ((UIImage) -> Void)) {
         self.listener = listener

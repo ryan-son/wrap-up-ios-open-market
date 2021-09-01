@@ -9,23 +9,20 @@ import UIKit
 
 final class CurrencyTextField: UITextField {
 
-    private enum Style {
-
-        static let font: UIFont.TextStyle = .body
-        static let textColor: UIColor = .label
-        static let placeholderText: String = "화폐"
-    }
+	// MARK: Properties
 
     private let pickerView = UIPickerView()
     private let currencies: [String] = ["KRW", "USD", "JPY", "CNY", "GBP"]
     private var selectedCurrency: String?
+
+	// MARK: Initializers
 
     init() {
         super.init(frame: .zero)
         setStyle()
         setDelegates()
         inputView = pickerView
-        dismissPickerView()
+        setToolBarButtonToDismissPickerView()
         translatesAutoresizingMaskIntoConstraints = false
     }
 
@@ -33,6 +30,8 @@ final class CurrencyTextField: UITextField {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+	// MARK: Set up styles and views
 
     private func setStyle() {
         font = UIFont.preferredFont(forTextStyle: Style.font)
@@ -46,7 +45,7 @@ final class CurrencyTextField: UITextField {
         pickerView.dataSource = self
     }
 
-    private func dismissPickerView() {
+    private func setToolBarButtonToDismissPickerView() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
 
@@ -59,6 +58,8 @@ final class CurrencyTextField: UITextField {
     @objc private func endEdit() {
         endEditing(true)
     }
+
+	// MARK: Overriden methods to hide cursor
 
     override func caretRect(for position: UITextPosition) -> CGRect {
         return .zero
@@ -73,6 +74,8 @@ final class CurrencyTextField: UITextField {
     }
 }
 
+// MARK: - UIPickerViewDataSource
+
 extension CurrencyTextField: UIPickerViewDataSource {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -84,6 +87,8 @@ extension CurrencyTextField: UIPickerViewDataSource {
     }
 }
 
+// MARK: - UIPickerViewDelegate
+
 extension CurrencyTextField: UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -94,4 +99,16 @@ extension CurrencyTextField: UIPickerViewDelegate {
         selectedCurrency = currencies[row]
         text = selectedCurrency
     }
+}
+
+// MARK: - Namespaces
+
+extension CurrencyTextField {
+
+	private enum Style {
+
+		static let font: UIFont.TextStyle = .body
+		static let textColor: UIColor = .label
+		static let placeholderText: String = "화폐"
+	}
 }

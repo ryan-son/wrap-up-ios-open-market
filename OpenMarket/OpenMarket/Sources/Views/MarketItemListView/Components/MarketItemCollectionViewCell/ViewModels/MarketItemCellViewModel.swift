@@ -16,6 +16,7 @@ enum MarketItemCellViewModelError: Error {
 
 final class MarketItemCellViewModel {
 
+	// MARK: View model type
     struct MetaData {
         let title: String
         var thumbnail: UIImage?
@@ -26,32 +27,30 @@ final class MarketItemCellViewModel {
         let stock: String
     }
 
+	// MARK: Binder state
+
     enum State {
         case empty
         case update(MarketItemCellViewModel.MetaData)
         case error(MarketItemCellViewModelError)
     }
 
-    private enum Style {
-
-        static let targetImageSize = CGSize(width: 50, height: 50)
-        static let outOfStockText: String = "품절"
-        static let stockLabelPrefix: String = "재고:"
-        static let stockLabelUpperLimit: Int = 999
-        static let stockLabelUpperLimitText: String = "999+"
-    }
+	// MARK: Binder and state
+	
+	private var listener: ((State) -> Void)?
+	private var state: State = .empty {
+		didSet {
+			DispatchQueue.main.async {
+				self.listener?(self.state)
+			}
+		}
+	}
 
     private let marketItem: MarketItem
     private let useCase: ThumbnailUseCaseProtocol
     private var thumbnailTask: URLSessionDataTask?
-    private var listener: ((State) -> Void)?
-    private var state: State = .empty {
-        didSet {
-            DispatchQueue.main.async {
-                self.listener?(self.state)
-            }
-        }
-    }
+
+
 
     init(marketItem: MarketItem, thumbnailUseCase: ThumbnailUseCaseProtocol = ThumbnailUseCase()) {
         self.marketItem = marketItem
@@ -117,4 +116,18 @@ final class MarketItemCellViewModel {
                                 stock: stock)
         state = .update(metaData)
     }
+}
+
+// MARK: - Namespaces
+
+extension MarketItemCellViewModel {
+
+	private enum Style {
+
+		static let targetImageSize = CGSize(width: 50, height: 50)
+		static let outOfStockText: String = "품절"
+		static let stockLabelPrefix: String = "재고:"
+		static let stockLabelUpperLimit: Int = 999
+		static let stockLabelUpperLimitText: String = "999+"
+	}
 }
