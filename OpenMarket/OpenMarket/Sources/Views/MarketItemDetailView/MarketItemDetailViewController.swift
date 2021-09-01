@@ -123,7 +123,6 @@ final class MarketItemDetailViewController: UIViewController {
         setupViews()
         setupConstraints()
         setupDelegates()
-        viewModel?.fire()
     }
 
     // MARK: Data binding
@@ -260,6 +259,13 @@ final class MarketItemDetailViewController: UIViewController {
         imageScrollViewPageControl.currentPage = selectedPage
     }
 
+//	private func pushToEditViewController(with marketItem: MarketItem) {
+//		guard let marketItem = viewModel?.marketItem,
+//			  let images = viewModel?.images else { return }
+//		let marketItemRegisterViewModel = MarketItemRegisterViewModel(marketItem: <#T##MarketItem?#>,)
+//		let marketItemRegisterViewController = MarketItemRegisterViewController
+//	}
+
 	private func showPasswordInputAlert() {
 		let passwordInputAlert = UIAlertController(title: "비밀번호를 입력해주세요.", message: nil, preferredStyle: .alert)
 		passwordInputAlert.addTextField { textField in
@@ -316,7 +322,7 @@ extension MarketItemDetailViewController {
 	private enum Style {
 
 		static let navigationTitle: String = "Item Detail"
-		static let moreActionButtonImage = UIImage(systemName: "ellipsis.circle")
+		static let moreActionButtonImage = UIImage(systemName: "ellipsis")
 		static let backgroundColor: UIColor = .systemBackground
 		static let spacing: CGFloat = 20
 

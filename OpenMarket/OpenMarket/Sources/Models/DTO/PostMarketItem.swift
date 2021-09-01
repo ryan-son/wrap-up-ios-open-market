@@ -20,7 +20,7 @@ struct PostMarketItem: MultipartUploadable {
     let currency: String
     let stock: Int
     let discountedPrice: Int?
-    let images: [URL]
+    let images: [Data]
     let password: String
 
     var asDictionary: [String: Any?] {

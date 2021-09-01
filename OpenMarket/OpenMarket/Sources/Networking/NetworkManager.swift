@@ -18,15 +18,15 @@ enum NetworkManagerError: Error {
 
 protocol NetworkManageable {
 
-	func fetch(from urlString: String,
-			   completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask?
+    func fetch(from urlString: String,
+               completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask?
     func multipartUpload(_ marketItem: MultipartUploadable,
                          to urlString: String,
                          method: NetworkManager.UploadHTTPMethod,
                          completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) -> URLSessionDataTask?
-	func delete(_ deleteData: Data,
-				at urlString: String,
-				completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask?
+    func delete(_ deleteData: Data,
+                at urlString: String,
+                completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask?
 }
 
 final class NetworkManager: NetworkManageable {
@@ -114,7 +114,8 @@ final class NetworkManager: NetworkManageable {
                 return
             }
 
-            guard NetworkManager.okStatusCode ~= response.statusCode else {
+            guard NetworkManager.okStatusCode ~= response.statusCode ||
+					response.statusCode == NetworkManager.notFoundStatusCode else {
                 completion(.failure(.gotFailedResponse(statusCode: response.statusCode)))
                 return
             }
@@ -131,9 +132,9 @@ final class NetworkManager: NetworkManageable {
         return task
     }
 
-	func delete(_ deleteData: Data,
-				at urlString: String,
-				completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask? {
+    func delete(_ deleteData: Data,
+                at urlString: String,
+                completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask? {
 		guard let url = URL(string: urlString) else {
 			completion(.failure(.urlCreationFailed))
 			return nil

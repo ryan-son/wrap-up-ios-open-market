@@ -92,6 +92,14 @@ final class MarketItemRegisterViewController: UIViewController {
     private let stockSectionSeparatorView = SeparatorView()
     private let descriptionsInputTextView = PlaceholderTextView(type: .descriptions)
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        return activityIndicator
+    }()
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -125,6 +133,7 @@ final class MarketItemRegisterViewController: UIViewController {
 				self?.photoCollectionView.deleteItems(at: [indexPath])
 			case .register(let marketItem):
 				self?.presentRegisteredPost(with: marketItem)
+                self?.activityIndicator.stopAnimating()
 			default:
 				break
 			}
@@ -182,6 +191,7 @@ final class MarketItemRegisterViewController: UIViewController {
     }
 
 	@objc private func submit() {
+        activityIndicator.startAnimating()
 		guard let marketItem: MultipartUploadable = viewModel?.marketItemToSubmit() else {
 			showContentNotFilledAlert()
 			return
@@ -294,6 +304,7 @@ extension MarketItemRegisterViewController {
         contentScrollView.addSubview(stockSectionSeparatorView)
         contentScrollView.addSubview(descriptionsInputTextView)
         view.addSubview(contentScrollView)
+        view.addSubview(activityIndicator)
     }
 
     private func setupConstraints() {

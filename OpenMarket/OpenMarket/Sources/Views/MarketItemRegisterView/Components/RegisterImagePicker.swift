@@ -9,7 +9,7 @@ import UIKit
 
 protocol ImagePickerDelegate: AnyObject {
 
-    func didSelectImage(_ image: UIImage?, at url: URL?)
+    func didSelectImage(_ image: UIImage?)
 }
 
 final class ImagePicker: NSObject {
@@ -75,9 +75,9 @@ final class ImagePicker: NSObject {
 
 	// MARK: Picking finished
 
-    private func pickerController(_ controller: UIImagePickerController, didSelect image: UIImage?, at url: URL?) {
+    private func pickerController(_ controller: UIImagePickerController, didSelect image: UIImage?) {
         controller.dismiss(animated: true)
-        delegate?.didSelectImage(image, at: url)
+        delegate?.didSelectImage(image)
     }
 }
 
@@ -86,18 +86,17 @@ final class ImagePicker: NSObject {
 extension ImagePicker: UIImagePickerControllerDelegate {
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        pickerController(picker, didSelect: nil, at: nil)
+        pickerController(picker, didSelect: nil)
     }
 
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let image = info[.editedImage] as? UIImage,
-              let url = info[.imageURL] as? URL else {
-            pickerController(picker, didSelect: nil, at: nil)
+        guard let image = info[.editedImage] as? UIImage else {
+            pickerController(picker, didSelect: nil)
             return
         }
 
-        pickerController(picker, didSelect: image, at: url)
+        pickerController(picker, didSelect: image)
     }
 }
 

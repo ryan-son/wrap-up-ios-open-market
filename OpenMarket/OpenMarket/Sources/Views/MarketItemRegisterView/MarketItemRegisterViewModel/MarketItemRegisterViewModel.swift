@@ -64,7 +64,6 @@ final class MarketItemRegisterViewModel {
 
 	private let useCase: MarketItemRegisterUseCase
 	private var title: String?
-	private var imageURLs: [URL] = []
 	private var currency: String?
 	private var price: String?
 	private var discountedPrice: String?
@@ -99,14 +98,12 @@ final class MarketItemRegisterViewModel {
         }
     }
 
-    func appendImage(_ image: UIImage, at url: URL) {
+    func appendImage(_ image: UIImage) {
         images.append(image)
-        imageURLs.append(url)
     }
 
     func removeImage(at index: Int) {
         images.remove(at: index)
-        imageURLs.remove(at: index)
     }
 
 	func setMarketItemInfo(of category: PlaceholderTextView.TextViewType, with text: String) {
@@ -139,6 +136,8 @@ final class MarketItemRegisterViewModel {
 	}
 
 	private func createPostMarketItem() -> PostMarketItem? {
+        let images = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
+
 		guard let password = password,
 			  let title = title,
 			  let descriptions = descriptions,
@@ -154,19 +153,20 @@ final class MarketItemRegisterViewModel {
 							  currency: currency,
 							  stock: stock,
 							  discountedPrice: discountedPrice == nil ? nil : Int(discountedPrice!),
-							  images: imageURLs,
+							  images: images,
 							  password: password)
 	}
 
 	private func createPatchMarketItem() -> PatchMarketItem? {
 		guard let password = password else { return nil }
+        let images = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
 		return PatchMarketItem(title: title,
 							   descriptions: descriptions,
 							   price: price == nil ? nil : Int(price!),
 							   currency: currency,
 							   stock: stock == nil ? nil : Int(stock!),
 							   discountedPrice: discountedPrice == nil ? nil : Int(discountedPrice!),
-							   images: imageURLs,
+							   images: images.isEmpty ? nil : images,
 							   password: password)
 	}
 }

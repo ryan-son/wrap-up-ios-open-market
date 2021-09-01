@@ -52,7 +52,7 @@ final class MarketItemDetailViewModel {
 
 	// MARK: Bound properties
 
-	private var marketItem: MarketItem?
+	private(set) var marketItem: MarketItem?
 	private(set) var images: [UIImage] = []
 
 	// MARK: Properties

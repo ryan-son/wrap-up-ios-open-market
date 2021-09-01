@@ -45,6 +45,15 @@ final class MarketItemListViewController: UIViewController {
         return button
     }()
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -65,10 +74,12 @@ final class MarketItemListViewController: UIViewController {
             switch state {
             case .fetched(let indexPaths):
                 self?.collectionView.insertItems(at: indexPaths)
+                self?.activityIndicator.stopAnimating()
             case .refresh:
                 self?.scrollToTop()
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()
+                self?.activityIndicator.stopAnimating()
             default:
                 break
             }
@@ -98,6 +109,7 @@ final class MarketItemListViewController: UIViewController {
 
     private func setupViews() {
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         collectionView.addSubview(addNewPostButton)
 
         collectionView.refreshControl = UIRefreshControl()
@@ -160,6 +172,7 @@ final class MarketItemListViewController: UIViewController {
     }
 
     @objc private func refreshMarketItems() {
+        activityIndicator.startAnimating()
         viewModel.refresh()
     }
 
@@ -274,6 +287,7 @@ extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
 		marketItemDetailViewController.delegate = self
 
         marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+        marketItemDetailViewModel.fire()
         navigationController?.pushViewController(marketItemDetailViewController, animated: true)
     }
 }
@@ -287,7 +301,10 @@ extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate
 		let marketItemDetailViewController = MarketItemDetailViewController()
 		marketItemDetailViewController.delegate = self
 		marketItemDetailViewController.bind(with: marketItemDetailViewModel)
-		navigationController?.pushViewController(marketItemDetailViewController, animated: false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.navigationController?.pushViewController(marketItemDetailViewController, animated: true)
+            marketItemDetailViewModel.fire()
+        }
 	}
 }
 

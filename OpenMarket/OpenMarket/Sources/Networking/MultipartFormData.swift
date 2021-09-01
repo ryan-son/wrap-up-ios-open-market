@@ -51,6 +51,8 @@ final class MultipartFormData {
     private let fileManager: FileManager
     private let boundary: String = BoundaryGenerator.randomBoundary()
     lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
+	private let jpegMimeType: String = "image/jpeg"
+	private let jpegPathExtension: String = ".jpeg"
     private var body = Data()
 
 	// MARK: Initializers
@@ -65,10 +67,10 @@ final class MultipartFormData {
         for (key, value) in parameters {
             guard let value = value else { continue }
 
-            if let urls = value as? [URL], urls.count == urls.filter({ $0.isFileURL }).count {
-                appendFiles(withName: key, from: urls)
-            } else if let url = value as? URL, url.isFileURL {
-                appendFile(withName: key, from: url)
+            if let images = value as? [Data] {
+                appendImages(withName: key, from: images)
+            } else if let data = value as? Data {
+                appendImage(withName: key, from: data)
             } else {
                 append(withName: key, value: value)
             }
@@ -78,31 +80,23 @@ final class MultipartFormData {
         return body
     }
 
-    private func appendFile(withName name: String, from url: URL) {
+    private func appendImage(withName name: String, from data: Data) {
 		body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
 
-        let fileName = url.lastPathComponent
-        let mimeType = url.mimeType()
-        let path = url.path
+		let fileName = UUID().uuidString + jpegPathExtension
 
-        if let file = fileManager.contents(atPath: path) {
-            body.append(contentHeader(withName: name, fileName: fileName, mimeType: mimeType))
-            body.append(file)
-        }
+		body.append(contentHeader(withName: name, fileName: fileName, mimeType: jpegMimeType))
+		body.append(data)
     }
 
-    private func appendFiles(withName name: String, from urls: [URL]) {
-        urls.forEach {
+    private func appendImages(withName name: String, from datas: [Data]) {
+        datas.forEach {
 			body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
 
-            let fileName = $0.lastPathComponent
-            let mimeType = $0.mimeType()
-            let path = $0.path
+			let fileName = UUID().uuidString + jpegPathExtension
 
-            if let file = fileManager.contents(atPath: path) {
-                body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: mimeType))
-                body.append(file)
-            }
+			body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: jpegMimeType))
+			body.append($0)
         }
     }
 

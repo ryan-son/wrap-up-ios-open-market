@@ -71,10 +71,9 @@ extension MarketItemRegisterViewController: UICollectionViewDelegateFlowLayout {
 
 extension MarketItemRegisterViewController: ImagePickerDelegate {
 
-    func didSelectImage(_ image: UIImage?, at url: URL?) {
-        guard let image = image,
-              let url = url else { return }
-        viewModel?.appendImage(image, at: url)
+    func didSelectImage(_ image: UIImage?) {
+        guard let image = image else { return }
+        viewModel?.appendImage(image)
     }
 }
 
