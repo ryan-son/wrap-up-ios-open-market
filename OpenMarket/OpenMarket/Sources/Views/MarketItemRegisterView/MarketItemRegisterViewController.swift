@@ -13,6 +13,8 @@ final class MarketItemRegisterViewController: UIViewController {
         case register, edit
     }
 
+    // MARK: Namespaces
+
     enum Style {
 
         static let backgroundColor: UIColor = .systemBackground
@@ -36,12 +38,16 @@ final class MarketItemRegisterViewController: UIViewController {
         }
     }
 
+    // MARK: Properties
+
     private let intent: Intent
     private(set) var viewModel: MarketItemRegisterViewModel?
     private lazy var imagePicker = ImagePicker(presentationController: self, delegate: self)
     private var contentScrollViewBottomAnchor: NSLayoutConstraint?
     private var photoCollectionViewCompactSizeClassHeightAnchor: NSLayoutConstraint?
     private var photoCollectionViewRegularSizeClassHeightAnchor: NSLayoutConstraint?
+
+    // MARK: Initializers
 
     init(intent: Intent) {
         self.intent = intent
@@ -53,6 +59,8 @@ final class MarketItemRegisterViewController: UIViewController {
         self.intent = .register
         super.init(coder: coder)
     }
+
+    // MARK: Views
 
     private let contentScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -103,6 +111,8 @@ final class MarketItemRegisterViewController: UIViewController {
     private let stockSectionSeparatorView = SeparatorView()
     private let descriptionsInputTextView = PlaceholderTextView(type: .descriptions)
 
+    // MARK: View Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setAttributes()
@@ -117,6 +127,8 @@ final class MarketItemRegisterViewController: UIViewController {
         super.viewDidDisappear(animated)
         removeKeyboardNotificationObservers()
     }
+
+    // MARK: Data binding
 
     func bind(with viewModel: MarketItemRegisterViewModel) {
         self.viewModel = viewModel
@@ -135,6 +147,8 @@ final class MarketItemRegisterViewController: UIViewController {
         }
     }
 
+    // MARK: Set attributes of the view controller
+
     private func setAttributes() {
         title = intent == .register ? "Item Registration" : "Edit Item"
         view.backgroundColor = Style.backgroundColor
@@ -144,6 +158,8 @@ final class MarketItemRegisterViewController: UIViewController {
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
     }
+
+    // MARK: Actions
 
     @objc func showImagePicker() {
         guard let numberOfImages = viewModel?.images.count else { return }
@@ -168,6 +184,8 @@ final class MarketItemRegisterViewController: UIViewController {
             }
         }
     }
+
+    // MARK: Alerts
 
     private func showCannotExceedMaxImageCountAlert() {
         let alert = UIAlertController(title: "사진은 최대 5장까지 첨부하실 수 있어요.", message: nil, preferredStyle: .alert)
@@ -224,6 +242,8 @@ final class MarketItemRegisterViewController: UIViewController {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
+
+    // MARK: Adjust layout upon view transition
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)

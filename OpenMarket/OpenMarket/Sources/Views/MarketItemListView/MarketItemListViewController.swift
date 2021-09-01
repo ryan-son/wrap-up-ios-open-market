@@ -9,6 +9,13 @@ import UIKit
 
 final class MarketItemListViewController: UIViewController {
 
+    private enum CellStyle {
+        case list
+        case grid
+    }
+
+    // MARK: Namespaces
+
     private enum Style {
 
         static let navigationBarTitle: String = "Ryan Market"
@@ -37,12 +44,12 @@ final class MarketItemListViewController: UIViewController {
         }
     }
 
-    private enum CellStyle {
-        case list
-        case grid
-    }
+    // MARK: Properties
 
     private let viewModel = MarketItemListViewModel()
+
+    // MARK: Views
+
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -68,6 +75,8 @@ final class MarketItemListViewController: UIViewController {
         return button
     }()
 
+    // MARK: View Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAttributes()
@@ -78,6 +87,25 @@ final class MarketItemListViewController: UIViewController {
         bindWithViewModel()
         viewModel.list()
     }
+
+    // MARK: Data binding
+
+    private func bindWithViewModel() {
+        viewModel.bind { [weak self] state in
+            switch state {
+            case .fetched(let indexPaths):
+                self?.collectionView.insertItems(at: indexPaths)
+            case .refresh:
+                self?.scrollToTop()
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
+            default:
+                break
+            }
+        }
+    }
+
+    // MARK: Set attributes of the view controller
 
     private func setupAttributes() {
         view.backgroundColor = .systemBackground
@@ -129,19 +157,13 @@ final class MarketItemListViewController: UIViewController {
         collectionView.delegate = self
     }
 
-    private func bindWithViewModel() {
-        viewModel.bind { [weak self] state in
-            switch state {
-            case .fetched(let indexPaths):
-                self?.collectionView.insertItems(at: indexPaths)
-            case .refresh:
-                self?.scrollToTop()
-                self?.collectionView.reloadData()
-                self?.collectionView.refreshControl?.endRefreshing()
-            default:
-                break
-            }
-        }
+    // MARK: Actions
+
+    @objc private func addNewPostButtonTapped() {
+        let registerViewModel = MarketItemRegisterViewModel()
+        let registerViewController = MarketItemRegisterViewController(intent: .register)
+        registerViewController.bind(with: registerViewModel)
+        navigationController?.pushViewController(registerViewController, animated: true)
     }
 
     @objc private func changeCellStyleButtonTapped() {
@@ -166,13 +188,6 @@ final class MarketItemListViewController: UIViewController {
         }
     }
 
-    @objc private func addNewPostButtonTapped() {
-        let registerViewModel = MarketItemRegisterViewModel()
-        let registerViewController = MarketItemRegisterViewController(intent: .register)
-        registerViewController.bind(with: registerViewModel)
-        navigationController?.pushViewController(registerViewController, animated: true)
-    }
-
     @objc private func refreshMarketItems() {
         viewModel.refresh()
     }
@@ -181,6 +196,8 @@ final class MarketItemListViewController: UIViewController {
         collectionView.scrollToItem(at: IndexPath(item: .zero, section: .zero), at: .top, animated: false)
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension MarketItemListViewController: UICollectionViewDataSource {
 
@@ -218,6 +235,8 @@ extension MarketItemListViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
 

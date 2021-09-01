@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - UICollectionViewDataSource
+
 extension MarketItemRegisterViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -34,6 +36,8 @@ extension MarketItemRegisterViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension MarketItemRegisterViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -59,6 +63,8 @@ extension MarketItemRegisterViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
+
+// MARK: - ImagePickerDelegate
 
 extension MarketItemRegisterViewController: ImagePickerDelegate {
 

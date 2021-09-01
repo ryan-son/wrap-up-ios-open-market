@@ -9,6 +9,8 @@ import UIKit
 
 final class MarketItemDetailViewController: UIViewController {
 
+    // MARK: Namespaces
+
     private enum Style {
 
         static let navigationTitle: String = "Item Detail"
@@ -46,7 +48,11 @@ final class MarketItemDetailViewController: UIViewController {
         }
     }
 
+    // MARK: Properties
+
     private var viewModel: MarketItemDetailViewModel?
+
+    // MARK: Views
 
     private let contentScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -141,6 +147,8 @@ final class MarketItemDetailViewController: UIViewController {
         return label
     }()
 
+    // MARK: View Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setAttributes()
@@ -149,6 +157,34 @@ final class MarketItemDetailViewController: UIViewController {
         setupDelegates()
         viewModel?.fire()
     }
+
+    // MARK: Data binding
+
+    func bind(with viewModel: MarketItemDetailViewModel) {
+        self.viewModel = viewModel
+
+        viewModel.bind { [weak self] state in
+            switch state {
+            case .fetch(let metaData):
+                self?.setPageControlNumberOfPages(to: metaData.numberOfImages)
+                self?.titleLabel.text = metaData.title
+                self?.stockLabel.text = metaData.stock
+                self?.discountedPriceLabel.attributedText = metaData.discountedPrice
+                self?.priceLabel.text = metaData.price
+                self?.bodyTextLabel.text = metaData.descriptions
+            case .fetchImage(let image, let index):
+                self?.addImageViewToImageScrollView(image, at: index)
+            case .error(let error):
+                print(error)
+            case .update:
+                break
+            default:
+                break
+            }
+        }
+    }
+
+    // MARK: Set attributes of the view controller
 
     private func setAttributes() {
         title = Style.navigationTitle
@@ -209,29 +245,7 @@ final class MarketItemDetailViewController: UIViewController {
         imageScrollView.delegate = self
     }
 
-    func bind(with viewModel: MarketItemDetailViewModel) {
-        self.viewModel = viewModel
-
-        viewModel.bind { [weak self] state in
-            switch state {
-            case .fetch(let metaData):
-                self?.setPageControlNumberOfPages(to: metaData.numberOfImages)
-                self?.titleLabel.text = metaData.title
-                self?.stockLabel.text = metaData.stock
-                self?.discountedPriceLabel.attributedText = metaData.discountedPrice
-                self?.priceLabel.text = metaData.price
-                self?.bodyTextLabel.text = metaData.descriptions
-            case .fetchImage(let image, let index):
-                self?.addImageViewToImageScrollView(image, at: index)
-            case .error(let error):
-                print(error)
-            case .update:
-                break
-            default:
-                break
-            }
-        }
-    }
+    // MARK: Event handlers upon data binding
 
     private func setPageControlNumberOfPages(to number: Int) {
         imageScrollViewPageControl.numberOfPages = number
@@ -240,8 +254,7 @@ final class MarketItemDetailViewController: UIViewController {
     private func addImageViewToImageScrollView(_ image: UIImage, at index: Int) {
         let imageView = UIImageView()
         let xPosition: CGFloat = view.frame.width * CGFloat(index)
-        imageView.frame =
-            CGRect(x: xPosition, y: .zero, width: imageScrollView.bounds.width, height: imageScrollView.bounds.height)
+        imageView.frame = CGRect(x: xPosition, y: .zero, width: imageScrollView.bounds.width, height: imageScrollView.bounds.height)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
         imageView.alpha = .zero
@@ -258,6 +271,8 @@ final class MarketItemDetailViewController: UIViewController {
         imageScrollViewPageControl.currentPage = selectedPage
     }
 }
+
+// MARK: - UIScrollViewDelegate
 
 extension MarketItemDetailViewController: UIScrollViewDelegate {
 
