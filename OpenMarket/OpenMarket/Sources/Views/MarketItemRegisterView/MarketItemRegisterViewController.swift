@@ -203,10 +203,10 @@ final class MarketItemRegisterViewController: UIViewController {
 
 	@objc private func submit() {
         activityIndicator.startAnimating()
-		guard let marketItem: MultipartUploadable = viewModel?.marketItemToSubmit() else {
-			showContentNotFilledAlert()
-			return
-		}
+        guard let marketItem: MultipartUploadable = viewModel?.marketItemToSubmit() else {
+            showContentNotFilledAlert()
+            return
+        }
 
 		switch intent {
 		case .register:

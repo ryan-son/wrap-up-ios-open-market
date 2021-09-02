@@ -178,7 +178,7 @@ final class MarketItemDetailViewController: UIViewController {
 		title = Style.navigationTitle
 
         navigationItem.hidesBackButton = true
-        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonDidTapped))
+        let backButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(backButtonDidTapped))
         navigationItem.setLeftBarButton(backButton, animated: false)
 
 		let moreActionsButton = UIBarButtonItem(image: Style.moreActionButtonImage, style: .plain, target: self, action: #selector(moreActionsButtonTapped))
@@ -386,7 +386,7 @@ extension MarketItemDetailViewController: MarketItemRegisterViewControllerDelega
             }
         }
         imageViews.removeAll()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             self.viewModel?.refresh()
             self.activityIndicator.stopAnimating()
         }

@@ -73,6 +73,8 @@ final class MarketItemRegisterViewModel {
     private var password: String?
 	private var descriptions: String?
 
+    private let targetImageSizeInKB: Int = 300
+
 	// MARK: Initializers
 
     init(marketItem: MarketItem? = nil, useCase: MarketItemRegisterUseCase = MarketItemRegisterUseCase()) {
@@ -137,7 +139,7 @@ final class MarketItemRegisterViewModel {
 	}
 
 	private func createPostMarketItem() -> PostMarketItem? {
-        let images = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
+        let images = images.compactMap { $0.compress(to: targetImageSizeInKB) }
 
 		guard let password = password,
 			  let title = title,
@@ -160,7 +162,7 @@ final class MarketItemRegisterViewModel {
 
 	private func createPatchMarketItem() -> PatchMarketItem? {
 		guard let password = password else { return nil }
-        let images = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
+        let images = images.compactMap { $0.compress(to: targetImageSizeInKB) }
 		return PatchMarketItem(title: title,
 							   descriptions: descriptions,
 							   price: price == nil ? nil : Int(price!),

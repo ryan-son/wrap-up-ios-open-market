@@ -90,6 +90,7 @@ final class MarketItemListViewController: UIViewController {
 
     private func setupAttributes() {
         view.backgroundColor = .systemBackground
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
 
     private func setupNavigationBar() {
@@ -225,13 +226,13 @@ extension MarketItemListViewController: UICollectionViewDataSource {
 extension MarketItemListViewController: UICollectionViewDelegateFlowLayout {
 
     private func cellSize(viewWidth: CGFloat, viewHeight: CGFloat) -> CGSize {
-        let itemsPerRow: CGFloat = traitCollection.horizontalSizeClass == .compact
-            ? Style.portraitGridItemsPerRow
-            : Style.landscapeGridItemsPerRow
+        let itemsPerRow: CGFloat = UIWindow.isLandscape
+            ? Style.landscapeGridItemsPerRow
+            : Style.portraitGridItemsPerRow
         let widthPadding = Style.gridSectionInset.left * (itemsPerRow + 1)
-        let itemsPerColumn: CGFloat = traitCollection.horizontalSizeClass == .compact
-            ? Style.portraitGridItemsPerColumn
-            : Style.landscapeGridItemsPerColumn
+        let itemsPerColumn: CGFloat = UIWindow.isLandscape
+            ? Style.landscapeGridItemsPerColumn
+            : Style.portraitGridItemsPerColumn
         let heightPadding = Style.gridSectionInset.top * (itemsPerColumn + 1)
 
         let cellWidth = (viewWidth - widthPadding) / itemsPerRow
@@ -348,4 +349,15 @@ extension MarketItemListViewController {
 			static let bottomConstant: CGFloat = -70
 		}
 	}
+}
+
+extension UIWindow {
+
+    static var isLandscape: Bool {
+        return UIApplication.shared.windows
+            .first?
+            .windowScene?
+            .interfaceOrientation
+            .isLandscape ?? false
+    }
 }
