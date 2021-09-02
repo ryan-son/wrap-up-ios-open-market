@@ -29,7 +29,6 @@ final class MarketItemDetailViewModel {
 		case empty
 		case fetch(MarketItemDetailViewModel.MetaData)
 		case fetchImage(UIImage, Int)
-		case update
         case verify(MarketItem, password: String)
         case failedToStartEdit
 		case delete
@@ -81,7 +80,7 @@ final class MarketItemDetailViewModel {
     }
 
     func fire() {
-        let serialQueue = DispatchQueue(label: "serial")
+        let serialQueue = DispatchQueue(label: Style.serialQueueName)
         serialQueue.async {
             self.fetchMarketItemDetail()
 
@@ -201,6 +200,7 @@ extension MarketItemDetailViewModel {
 
 	private enum Style {
 
+        static let serialQueueName: String = "serial"
 		static let targetImageSize = CGSize(width: 50, height: 50)
 		static let outOfStockText: String = "품절"
 		static let stockLabelPrefix: String = "재고:"

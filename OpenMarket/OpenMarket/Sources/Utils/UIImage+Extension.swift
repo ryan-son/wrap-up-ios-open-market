@@ -21,16 +21,13 @@ extension UIImage {
     func compress(to kb: Int, allowedMargin: CGFloat = 0.2) -> Data {
         let bytes = kb * 1024
         var compression: CGFloat = 1.0
-        let step: CGFloat = 0.05
         var holderImage = self
         var isCompleted = false
         while !isCompleted {
             if let data = holderImage.jpegData(compressionQuality: 1.0) {
-                // 0과 1.0 사이의 어떤 값을 넣으면 kb 이하의 data.count가 나온다
                 if data.count <= bytes {
                     isCompleted = true
-                    return
-                        data
+                    return data
                 } else {
                     compression /= 2
                 }

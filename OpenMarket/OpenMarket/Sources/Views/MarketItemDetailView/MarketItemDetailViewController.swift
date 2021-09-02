@@ -145,6 +145,7 @@ final class MarketItemDetailViewController: UIViewController {
                 self?.setPageControlNumberOfPages(to: metaData.numberOfImages)
                 self?.titleLabel.text = metaData.title
                 self?.stockLabel.text = metaData.stock
+                self?.stockLabel.textColor = metaData.stock == Style.outOfStockString ? Style.outOfStockLabelColor : self?.stockLabel.textColor
                 self?.discountedPriceLabel.attributedText = metaData.discountedPrice
                 self?.priceLabel.text = metaData.price
                 self?.bodyTextLabel.text = metaData.descriptions
@@ -160,8 +161,6 @@ final class MarketItemDetailViewController: UIViewController {
                 self?.presentFailedToDeleteAlert()
             case .error(let error):
                 print(error)
-            case .update:
-                break
             default:
                 break
             }
@@ -176,9 +175,8 @@ final class MarketItemDetailViewController: UIViewController {
 
 	private func setupNavigationBar() {
 		title = Style.navigationTitle
-
         navigationItem.hidesBackButton = true
-        let backButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(backButtonDidTapped))
+        let backButton = UIBarButtonItem(title: Style.backButtonTitle, style: .plain, target: self, action: #selector(backButtonDidTapped))
         navigationItem.setLeftBarButton(backButton, animated: false)
 
 		let moreActionsButton = UIBarButtonItem(image: Style.moreActionButtonImage, style: .plain, target: self, action: #selector(moreActionsButtonTapped))
@@ -186,70 +184,19 @@ final class MarketItemDetailViewController: UIViewController {
 	}
 
 	@objc private func moreActionsButtonTapped() {
-		let actionSheet = UIAlertController(title: "무엇을 해볼까요?", message: nil, preferredStyle: .actionSheet)
-		let editAction = UIAlertAction(title: "상품 수정", style: .default) { _ in
+        let actionSheet = UIAlertController(title: Style.Alert.moreActionTitle, message: nil, preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: Style.Alert.editItemActionTitle, style: .default) { _ in
             self.showEditPasswordInputAlert()
 		}
-		let deleteAction = UIAlertAction(title: "상품 삭제", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: Style.Alert.deleteItemActionTitle, style: .destructive) { _ in
 			self.showDeletePasswordInputAlert()
 		}
-		let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: Style.Alert.cancelActionTitle, style: .cancel)
         actionSheet.addAction(editAction)
 		actionSheet.addAction(deleteAction)
 		actionSheet.addAction(cancelAction)
 		present(actionSheet, animated: true)
 	}
-
-    private func setupViews() {
-        imageScrollView.addSubview(imageScrollViewPageControl)
-
-        textContentUpperStackView.addArrangedSubview(titleLabel)
-        textContentUpperStackView.addArrangedSubview(stockLabel)
-
-        textContentLowerStackView.addArrangedSubview(discountedPriceLabel)
-        textContentLowerStackView.addArrangedSubview(priceLabel)
-
-        textContentStackView.addArrangedSubview(textContentUpperStackView)
-        textContentStackView.addArrangedSubview(textContentLowerStackView)
-
-        contentScrollView.addSubview(imageScrollView)
-        contentScrollView.addSubview(textContentStackView)
-        contentScrollView.addSubview(bodyTextLabel)
-
-        view.addSubview(contentScrollView)
-        view.addSubview(activityIndicator)
-    }
-
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            contentScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentScrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
-            contentScrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
-            contentScrollView.contentLayoutGuide.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
-            contentScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: bodyTextLabel.bottomAnchor,
-                                                                         constant: Style.spacing),
-
-            imageScrollView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
-            imageScrollView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
-            imageScrollView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
-            imageScrollView.heightAnchor.constraint(equalTo: contentScrollView.widthAnchor),
-
-            imageScrollViewPageControl.centerXAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.centerXAnchor),
-            imageScrollViewPageControl.bottomAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.bottomAnchor,
-                                                               constant: -Style.spacing),
-
-            textContentStackView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-            textContentStackView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            textContentStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: Style.spacing),
-
-            bodyTextLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-            bodyTextLabel.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-            bodyTextLabel.topAnchor.constraint(equalTo: textContentStackView.bottomAnchor, constant: Style.spacing)
-        ])
-    }
 
     private func setupDelegates() {
         imageScrollView.delegate = self
@@ -272,7 +219,7 @@ final class MarketItemDetailViewController: UIViewController {
         imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
         imageViews.append(imageView)
 
-        UIView.animate(withDuration: 0.6) {
+        UIView.animate(withDuration: Style.imageDissolveAnimationTime) {
             imageView.alpha = 1
         }
     }
@@ -282,27 +229,27 @@ final class MarketItemDetailViewController: UIViewController {
     }
 
     private func showEditPasswordInputAlert() {
-        let passwordInputAlert = UIAlertController(title: "비밀번호를 입력해주세요.", message: nil, preferredStyle: .alert)
+        let passwordInputAlert = UIAlertController(title: Style.Alert.inputPasswordTitle, message: nil, preferredStyle: .alert)
         passwordInputAlert.addTextField { textField in
-            textField.placeholder = "비밀번호"
+            textField.placeholder = Style.Alert.inputPasswordTextFieldPlaceholderText
             textField.textAlignment = .center
         }
-        let okAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+        let okAction = UIAlertAction(title: Style.Alert.okActionTitle, style: .destructive) { _ in
             guard let password = passwordInputAlert.textFields?.first?.text else { return }
             self.viewModel?.verifyPassword(password)
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: Style.Alert.cancelActionTitle, style: .cancel)
         passwordInputAlert.addAction(okAction)
         passwordInputAlert.addAction(cancelAction)
         present(passwordInputAlert, animated: true)
     }
 
     private func presentFailedToStartEditAlert() {
-        let alert = UIAlertController(title: "비밀번호가 다릅니다.", message: nil, preferredStyle: .alert)
-        let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
+        let alert = UIAlertController(title: Style.Alert.wrongPasswordInputTitle, message: nil, preferredStyle: .alert)
+        let retryAction = UIAlertAction(title: Style.Alert.retryActionTitle, style: .default) { _ in
             self.showEditPasswordInputAlert()
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: Style.Alert.cancelActionTitle, style: .cancel)
         alert.addAction(retryAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
@@ -320,24 +267,24 @@ final class MarketItemDetailViewController: UIViewController {
     }
 
 	private func showDeletePasswordInputAlert() {
-		let passwordInputAlert = UIAlertController(title: "비밀번호를 입력해주세요.", message: nil, preferredStyle: .alert)
+        let passwordInputAlert = UIAlertController(title: Style.Alert.inputPasswordTitle, message: nil, preferredStyle: .alert)
 		passwordInputAlert.addTextField { textField in
-			textField.placeholder = "비밀번호"
+            textField.placeholder = Style.Alert.inputPasswordTextFieldPlaceholderText
 			textField.textAlignment = .center
 		}
-		let okAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+        let okAction = UIAlertAction(title: Style.Alert.okActionTitle, style: .destructive) { _ in
 			guard let text = passwordInputAlert.textFields?.first?.text else { return }
 			self.viewModel?.deleteMarketItem(with: text)
 		}
-		let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: Style.Alert.cancelActionTitle, style: .cancel)
 		passwordInputAlert.addAction(okAction)
 		passwordInputAlert.addAction(cancelAction)
 		present(passwordInputAlert, animated: true)
 	}
 
 	private func presentSuccessfullyDeletedAlert() {
-		let alert = UIAlertController(title: "삭제되었습니다.", message: nil, preferredStyle: .alert)
-		let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+        let alert = UIAlertController(title: Style.Alert.marketItemDeletedTitle, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: Style.Alert.okActionTitle, style: .default) { _ in
 			self.navigationController?.popViewController(animated: true)
 			self.delegate?.didChangeMarketItem()
 		}
@@ -346,11 +293,11 @@ final class MarketItemDetailViewController: UIViewController {
 	}
 
 	private func presentFailedToDeleteAlert() {
-		let alert = UIAlertController(title: "비밀번호가 다릅니다.", message: nil, preferredStyle: .alert)
-		let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
+        let alert = UIAlertController(title: Style.Alert.wrongPasswordInputTitle, message: nil, preferredStyle: .alert)
+        let retryAction = UIAlertAction(title: Style.Alert.retryActionTitle, style: .default) { _ in
 			self.showDeletePasswordInputAlert()
 		}
-		let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: Style.Alert.cancelActionTitle, style: .cancel)
 		alert.addAction(retryAction)
 		alert.addAction(cancelAction)
 		present(alert, animated: true)
@@ -375,6 +322,8 @@ extension MarketItemDetailViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - MarketItemRegisterViewControllerDelegate
+
 extension MarketItemDetailViewController: MarketItemRegisterViewControllerDelegate {
 
     func didEndEditing(with marketItem: MarketItem) {
@@ -386,52 +335,58 @@ extension MarketItemDetailViewController: MarketItemRegisterViewControllerDelega
             }
         }
         imageViews.removeAll()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Style.waitingTimeAfterMarketItemRegistered) {
             self.viewModel?.refresh()
             self.activityIndicator.stopAnimating()
         }
     }
 }
 
-// MARK: - Namespaces
+// MARK: - Set up views and constraints
 
 extension MarketItemDetailViewController {
 
-	private enum Style {
+    private func setupViews() {
+        imageScrollView.addSubview(imageScrollViewPageControl)
+        textContentUpperStackView.addArrangedSubview(titleLabel)
+        textContentUpperStackView.addArrangedSubview(stockLabel)
+        textContentLowerStackView.addArrangedSubview(discountedPriceLabel)
+        textContentLowerStackView.addArrangedSubview(priceLabel)
+        textContentStackView.addArrangedSubview(textContentUpperStackView)
+        textContentStackView.addArrangedSubview(textContentLowerStackView)
+        contentScrollView.addSubview(imageScrollView)
+        contentScrollView.addSubview(textContentStackView)
+        contentScrollView.addSubview(bodyTextLabel)
+        view.addSubview(contentScrollView)
+        view.addSubview(activityIndicator)
+    }
 
-		static let navigationTitle: String = "Item Detail"
-		static let moreActionButtonImage = UIImage(systemName: "ellipsis")
-		static let backgroundColor: UIColor = .systemBackground
-		static let spacing: CGFloat = 20
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            contentScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-		enum ImageScrollViewPageControl {
-			static let currentPageIndicatorTintColor: UIColor = .systemOrange
-			static let pageIndicatorTintColor: UIColor = .systemGray.withAlphaComponent(0.8)
-		}
+            contentScrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
+            contentScrollView.contentLayoutGuide.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
+            contentScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: bodyTextLabel.bottomAnchor, constant: Style.spacing),
 
-		enum TitleLabel {
-			static let font: UIFont.TextStyle = .title1
-			static let textColor: UIColor = .label
-		}
+            imageScrollView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
+            imageScrollView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
+            imageScrollView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
+            imageScrollView.heightAnchor.constraint(equalTo: contentScrollView.widthAnchor),
 
-		enum StockLabel {
-			static let font: UIFont.TextStyle = .body
-			static let textColor: UIColor = .secondaryLabel
-		}
+            imageScrollViewPageControl.centerXAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.centerXAnchor),
+            imageScrollViewPageControl.bottomAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.bottomAnchor, constant: -Style.spacing),
 
-		enum DiscountedPriceLabel {
-			static let font: UIFont.TextStyle = .callout
-			static let textColor: UIColor = .secondaryLabel
-		}
+            textContentStackView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            textContentStackView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            textContentStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: Style.spacing),
 
-		enum PriceLabel {
-			static let font: UIFont.TextStyle = .headline
-			static let textColor: UIColor = .label
-		}
-
-		enum BodyTextLabel {
-			static let font: UIFont.TextStyle = .title3
-			static let textColor: UIColor = .label
-		}
-	}
+            bodyTextLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            bodyTextLabel.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            bodyTextLabel.topAnchor.constraint(equalTo: textContentStackView.bottomAnchor, constant: Style.spacing)
+        ])
+    }
 }

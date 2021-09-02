@@ -81,7 +81,6 @@ final class MarketItemRegisterViewController: UIViewController {
     }()
 
     private let priceSectionSeparatorView = SeparatorView()
-
     private let stockInputTextView: PlaceholderTextView = {
         let textView = PlaceholderTextView(type: .stock)
         textView.keyboardType = .decimalPad
@@ -91,7 +90,6 @@ final class MarketItemRegisterViewController: UIViewController {
     private let passwordInputTextView = PlaceholderTextView(type: .password)
     private let stockSectionSeparatorView = SeparatorView()
     private let descriptionsInputTextView = PlaceholderTextView(type: .descriptions)
-
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
@@ -183,7 +181,6 @@ final class MarketItemRegisterViewController: UIViewController {
             showCannotExceedMaxImageCountAlert()
             return
         }
-
         let addPhotoCellIndex = IndexPath(item: .zero, section: .zero)
         guard let addPhotoCell = photoCollectionView.cellForItem(at: addPhotoCellIndex) else { return }
         imagePicker.present(from: addPhotoCell)
@@ -207,7 +204,6 @@ final class MarketItemRegisterViewController: UIViewController {
             showContentNotFilledAlert()
             return
         }
-
 		switch intent {
 		case .register:
 			viewModel?.upload(marketItem, by: .post)
@@ -298,7 +294,7 @@ final class MarketItemRegisterViewController: UIViewController {
 
     private func popToUpdatedPost(with marketItem: MarketItem) {
         navigationController?.popViewController(animated: false)
-        self.delegate?.didEndEditing(with: marketItem)
+        delegate?.didEndEditing(with: marketItem)
     }
 }
 
