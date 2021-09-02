@@ -138,6 +138,7 @@ final class MarketItemListViewController: UIViewController {
     private func setupDelegates() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
     }
 
     // MARK: Actions
@@ -307,6 +308,21 @@ extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate
             marketItemDetailViewModel.fire()
         }
 	}
+}
+
+// MARK: - UICollectionViewDataSourcePrefetching
+
+extension MarketItemListViewController: UICollectionViewDataSourcePrefetching {
+
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            DispatchQueue.global(qos: .utility).async {
+                let marketItem = self.viewModel.marketItems[indexPath.item]
+                let marketItemCellViewModel = MarketItemCellViewModel(marketItem: marketItem)
+                marketItemCellViewModel.prefetchThumbnail()
+            }
+        }
+    }
 }
 
 // MARK: - MarketItemDetailViewControllerDelegate

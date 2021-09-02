@@ -74,12 +74,17 @@ final class MarketItemCellViewModel {
             switch result {
             case .success(let thumbnail):
                 guard case var .update(metaData) = self?.state else { return }
-                metaData.thumbnail = thumbnail?.resizedImage(targetSize: Style.targetImageSize)
+                metaData.thumbnail = thumbnail
                 self?.state = .update(metaData)
             case .failure(let error):
                 self?.state = .error(.useCaseError(error))
             }
         }
+    }
+
+    func prefetchThumbnail() {
+        guard let path = marketItem.thumbnails.first else { return }
+        thumbnailTask = useCase.fetchThumbnail(from: path) { _ in }
     }
 
     func cancelThumbnailRequest() {
@@ -122,7 +127,6 @@ extension MarketItemCellViewModel {
 
 	private enum Style {
 
-		static let targetImageSize = CGSize(width: 50, height: 50)
 		static let outOfStockText: String = "품절"
 		static let stockLabelPrefix: String = "재고:"
 		static let stockLabelUpperLimit: Int = 999
