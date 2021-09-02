@@ -26,7 +26,7 @@ final class MarketItemRegisterViewController: UIViewController {
     private var contentScrollViewBottomAnchor: NSLayoutConstraint?
     private var photoCollectionViewCompactSizeClassHeightAnchor: NSLayoutConstraint?
     private var photoCollectionViewRegularSizeClassHeightAnchor: NSLayoutConstraint?
-	weak var delegate: MarketItemRegisterViewControllerDelegate?
+    weak var delegate: MarketItemRegisterViewControllerDelegate?
 
     // MARK: Initializers
 
@@ -123,27 +123,38 @@ final class MarketItemRegisterViewController: UIViewController {
     func bind(with viewModel: MarketItemRegisterViewModel) {
         self.viewModel = viewModel
 
-		viewModel.bind { [weak self] state in
-			switch state {
-			case .appendImage(let index):
-				let indexPath = IndexPath(item: index + 1, section: .zero)
-				self?.photoCollectionView.insertItems(at: [indexPath])
-			case .deleteImage(let index):
-				let indexPath = IndexPath(item: index + 1, section: .zero)
-				self?.photoCollectionView.deleteItems(at: [indexPath])
-			case .register(let marketItem):
-				self?.presentRegisteredPost(with: marketItem)
+        viewModel.bind { [weak self] state in
+            switch state {
+            case .appendImage(let index):
+                let indexPath = IndexPath(item: index + 1, section: .zero)
+                self?.photoCollectionView.insertItems(at: [indexPath])
+            case .deleteImage(let index):
+                let indexPath = IndexPath(item: index + 1, section: .zero)
+                self?.photoCollectionView.deleteItems(at: [indexPath])
+            case .register(let marketItem):
+                self?.pushToRegisteredPost(with: marketItem)
                 self?.activityIndicator.stopAnimating()
-			default:
-				break
-			}
-		}
+            case let .startEdit(title, currency, price, discountedPrice, stock, password, descriptions):
+                self?.titleInputTextView.text = title
+                self?.currencyPickerTextField.text = currency
+                self?.priceInputTextView.text = price
+                self?.discountedPriceInputTextView.text = discountedPrice
+                self?.stockInputTextView.text = stock
+                self?.passwordInputTextView.text = password
+                self?.descriptionsInputTextView.text = descriptions
+            case.update(let marketItem):
+                self?.popToUpdatedPost(with: marketItem)
+            default:
+                break
+            }
+        }
     }
 
     // MARK: Set attributes of the view controller
 
     private func setAttributes() {
         view.backgroundColor = Style.backgroundColor
+        passwordInputTextView.isUserInteractionEnabled = intent == .register ? true : false
     }
 
     private func setDelegates() {
@@ -159,7 +170,7 @@ final class MarketItemRegisterViewController: UIViewController {
     }
 
 	private func setupNavigationBar() {
-		title = intent == .register ? Style.registerTitle : Style.registerTitle
+		title = intent == .register ? Style.registerTitle : Style.editTitle
 		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(submit))
 		navigationItem.rightBarButtonItem = doneButton
 	}
@@ -280,10 +291,15 @@ final class MarketItemRegisterViewController: UIViewController {
         photoCollectionViewRegularSizeClassHeightAnchor?.isActive.toggle()
     }
 
-	private func presentRegisteredPost(with marketItem: MarketItem) {
+	private func pushToRegisteredPost(with marketItem: MarketItem) {
 		navigationController?.popViewController(animated: false)
 		delegate?.didEndEditing(with: marketItem)
 	}
+
+    private func popToUpdatedPost(with marketItem: MarketItem) {
+        navigationController?.popViewController(animated: false)
+        self.delegate?.didEndEditing(with: marketItem)
+    }
 }
 
 // MARK: - Set up views and constraints

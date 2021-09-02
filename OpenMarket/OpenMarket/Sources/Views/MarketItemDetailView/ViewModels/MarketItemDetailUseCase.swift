@@ -37,6 +37,13 @@ protocol MarketItemDetailUseCaseProtocol {
 		password: String,
 		completion: @escaping((Result<Int, MarketItemDetailUseCaseError>) -> Void)
 	) -> URLSessionDataTask?
+
+    @discardableResult
+    func verifyPassword(
+        itemID: Int,
+        password: String,
+        completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
+    ) -> URLSessionDataTask?
 }
 
 final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
@@ -137,4 +144,31 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
 			return nil
 		}
 	}
+
+    func verifyPassword(
+        itemID: Int,
+        password: String,
+        completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
+    ) -> URLSessionDataTask? {
+        let path = EndPoint.item(id: itemID).path
+        let marketItem = PatchMarketItem(title: nil, descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: password)
+
+        let task = networkManager.multipartUpload(marketItem, to: path, method: .patch) { [weak self] result in
+            switch result {
+            case .success(let data):
+                do {
+                    guard let marketItem = try self?.decoder.decode(MarketItem.self, from: data) else {
+                        completion(.failure(.selfNotFound))
+                        return
+                    }
+                    completion(.success((marketItem)))
+                } catch {
+                    completion(.failure(.unknown(error)))
+                }
+            case .failure(let error):
+                completion(.failure(.networkError(error)))
+            }
+        }
+        return task
+    }
 }

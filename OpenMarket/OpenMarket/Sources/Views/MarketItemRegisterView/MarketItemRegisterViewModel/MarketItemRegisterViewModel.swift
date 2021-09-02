@@ -14,8 +14,9 @@ final class MarketItemRegisterViewModel {
 
     enum State {
         case empty
+        case startEdit(title: String, currency: String, price: String, discountedPrice: String?, stock: String, password: String, descriptions: String)
         case register(MarketItem)
-        case edit
+        case update(MarketItem)
         case appendImage(Int)
         case deleteImage(Int)
         case error(Error)
@@ -51,11 +52,12 @@ final class MarketItemRegisterViewModel {
 
 	private var marketItem: MarketItem? {
 		didSet {
-			if let oldValue = oldValue {
-				// edit
+			if oldValue == nil {
+                guard let marketItem = marketItem else { return }
+                state = .register(marketItem)
 			} else {
-				guard let marketItem = marketItem else { return }
-				state = .register(marketItem)
+                guard let marketItem = marketItem else { return }
+                state = .update(marketItem)
 			}
 		}
 	}
@@ -91,7 +93,6 @@ final class MarketItemRegisterViewModel {
             switch result {
             case .success(let marketItem):
                 self?.marketItem = marketItem
-                print(marketItem)
             case .failure(let error):
                 self?.state = .error(error)
             }
@@ -169,4 +170,16 @@ final class MarketItemRegisterViewModel {
 							   images: images.isEmpty ? nil : images,
 							   password: password)
 	}
+
+    func startEditing(with password: String) {
+        guard let marketItem = marketItem else { return }
+        self.password = password
+        state = .startEdit(title: marketItem.title,
+                           currency: marketItem.currency,
+                           price: String(marketItem.price),
+                           discountedPrice: marketItem.discountedPrice == nil ? nil : String(marketItem.discountedPrice!),
+                           stock: String(marketItem.stock),
+                           password: password,
+                           descriptions: marketItem.descriptions ?? "")
+    }
 }

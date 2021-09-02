@@ -9,7 +9,7 @@ import UIKit
 
 protocol MarketItemDetailViewControllerDelegate: AnyObject {
 
-	func didDeleteMarketItem()
+	func didChangeMarketItem()
 }
 
 final class MarketItemDetailViewController: UIViewController {
@@ -18,6 +18,7 @@ final class MarketItemDetailViewController: UIViewController {
 
     private var viewModel: MarketItemDetailViewModel?
 	weak var delegate: MarketItemDetailViewControllerDelegate?
+    private var isUpdated: Bool = false
 
     // MARK: Views
 
@@ -114,6 +115,14 @@ final class MarketItemDetailViewController: UIViewController {
         return label
     }()
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        return activityIndicator
+    }()
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -130,29 +139,33 @@ final class MarketItemDetailViewController: UIViewController {
     func bind(with viewModel: MarketItemDetailViewModel) {
         self.viewModel = viewModel
 
-		viewModel.bind { [weak self] state in
-			switch state {
-			case .fetch(let metaData):
-				self?.setPageControlNumberOfPages(to: metaData.numberOfImages)
-				self?.titleLabel.text = metaData.title
-				self?.stockLabel.text = metaData.stock
-				self?.discountedPriceLabel.attributedText = metaData.discountedPrice
-				self?.priceLabel.text = metaData.price
-				self?.bodyTextLabel.text = metaData.descriptions
-			case .fetchImage(let image, let index):
-				self?.addImageViewToImageScrollView(image, at: index)
-			case .delete:
-				self?.presentSuccessfullyDeletedAlert()
-			case .deleteFailed:
-				self?.presentFailedToDeleteAlert()
-			case .error(let error):
-				print(error)
-			case .update:
-				break
-			default:
-				break
-			}
-		}
+        viewModel.bind { [weak self] state in
+            switch state {
+            case .fetch(let metaData):
+                self?.setPageControlNumberOfPages(to: metaData.numberOfImages)
+                self?.titleLabel.text = metaData.title
+                self?.stockLabel.text = metaData.stock
+                self?.discountedPriceLabel.attributedText = metaData.discountedPrice
+                self?.priceLabel.text = metaData.price
+                self?.bodyTextLabel.text = metaData.descriptions
+            case .fetchImage(let image, let index):
+                self?.addImageViewToImageScrollView(image, at: index)
+            case .verify(let marketItem, let password):
+                self?.pushToEditViewController(with: marketItem, password: password)
+            case .failedToStartEdit:
+                self?.presentFailedToStartEditAlert()
+            case .delete:
+                self?.presentSuccessfullyDeletedAlert()
+            case .deleteFailed:
+                self?.presentFailedToDeleteAlert()
+            case .error(let error):
+                print(error)
+            case .update:
+                break
+            default:
+                break
+            }
+        }
     }
 
     // MARK: Set attributes of the view controller
@@ -164,16 +177,24 @@ final class MarketItemDetailViewController: UIViewController {
 	private func setupNavigationBar() {
 		title = Style.navigationTitle
 
+        navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonDidTapped))
+        navigationItem.setLeftBarButton(backButton, animated: false)
+
 		let moreActionsButton = UIBarButtonItem(image: Style.moreActionButtonImage, style: .plain, target: self, action: #selector(moreActionsButtonTapped))
-		navigationItem.setRightBarButton(moreActionsButton, animated: true)
+		navigationItem.setRightBarButton(moreActionsButton, animated: false)
 	}
 
 	@objc private func moreActionsButtonTapped() {
 		let actionSheet = UIAlertController(title: "무엇을 해볼까요?", message: nil, preferredStyle: .actionSheet)
+		let editAction = UIAlertAction(title: "상품 수정", style: .default) { _ in
+            self.showEditPasswordInputAlert()
+		}
 		let deleteAction = UIAlertAction(title: "상품 삭제", style: .destructive) { _ in
-			self.showPasswordInputAlert()
+			self.showDeletePasswordInputAlert()
 		}
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        actionSheet.addAction(editAction)
 		actionSheet.addAction(deleteAction)
 		actionSheet.addAction(cancelAction)
 		present(actionSheet, animated: true)
@@ -196,6 +217,7 @@ final class MarketItemDetailViewController: UIViewController {
         contentScrollView.addSubview(bodyTextLabel)
 
         view.addSubview(contentScrollView)
+        view.addSubview(activityIndicator)
     }
 
     private func setupConstraints() {
@@ -259,14 +281,45 @@ final class MarketItemDetailViewController: UIViewController {
         imageScrollViewPageControl.currentPage = selectedPage
     }
 
-//	private func pushToEditViewController(with marketItem: MarketItem) {
-//		guard let marketItem = viewModel?.marketItem,
-//			  let images = viewModel?.images else { return }
-//		let marketItemRegisterViewModel = MarketItemRegisterViewModel(marketItem: <#T##MarketItem?#>,)
-//		let marketItemRegisterViewController = MarketItemRegisterViewController
-//	}
+    private func showEditPasswordInputAlert() {
+        let passwordInputAlert = UIAlertController(title: "비밀번호를 입력해주세요.", message: nil, preferredStyle: .alert)
+        passwordInputAlert.addTextField { textField in
+            textField.placeholder = "비밀번호"
+            textField.textAlignment = .center
+        }
+        let okAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+            guard let password = passwordInputAlert.textFields?.first?.text else { return }
+            self.viewModel?.verifyPassword(password)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        passwordInputAlert.addAction(okAction)
+        passwordInputAlert.addAction(cancelAction)
+        present(passwordInputAlert, animated: true)
+    }
 
-	private func showPasswordInputAlert() {
+    private func presentFailedToStartEditAlert() {
+        let alert = UIAlertController(title: "비밀번호가 다릅니다.", message: nil, preferredStyle: .alert)
+        let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
+            self.showEditPasswordInputAlert()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(retryAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+
+    private func pushToEditViewController(with marketItem: MarketItem, password: String) {
+        guard let marketItem = viewModel?.marketItem else { return }
+        let marketItemRegisterViewModel = MarketItemRegisterViewModel(marketItem: marketItem)
+        let marketItemRegisterViewController = MarketItemRegisterViewController(intent: .edit)
+        marketItemRegisterViewController.delegate = self
+        marketItemRegisterViewController.bind(with: marketItemRegisterViewModel)
+        viewModel?.images.forEach { marketItemRegisterViewModel.appendImage($0) }
+        marketItemRegisterViewModel.startEditing(with: password)
+        navigationController?.pushViewController(marketItemRegisterViewController, animated: true)
+    }
+
+	private func showDeletePasswordInputAlert() {
 		let passwordInputAlert = UIAlertController(title: "비밀번호를 입력해주세요.", message: nil, preferredStyle: .alert)
 		passwordInputAlert.addTextField { textField in
 			textField.placeholder = "비밀번호"
@@ -286,7 +339,7 @@ final class MarketItemDetailViewController: UIViewController {
 		let alert = UIAlertController(title: "삭제되었습니다.", message: nil, preferredStyle: .alert)
 		let okAction = UIAlertAction(title: "확인", style: .default) { _ in
 			self.navigationController?.popViewController(animated: true)
-			self.delegate?.didDeleteMarketItem()
+			self.delegate?.didChangeMarketItem()
 		}
 		alert.addAction(okAction)
 		present(alert, animated: true)
@@ -295,13 +348,20 @@ final class MarketItemDetailViewController: UIViewController {
 	private func presentFailedToDeleteAlert() {
 		let alert = UIAlertController(title: "비밀번호가 다릅니다.", message: nil, preferredStyle: .alert)
 		let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
-			self.showPasswordInputAlert()
+			self.showDeletePasswordInputAlert()
 		}
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel)
 		alert.addAction(retryAction)
 		alert.addAction(cancelAction)
 		present(alert, animated: true)
 	}
+
+    @objc private func backButtonDidTapped() {
+        if isUpdated {
+            delegate?.didChangeMarketItem()
+        }
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -312,6 +372,24 @@ extension MarketItemDetailViewController: UIScrollViewDelegate {
         let position = scrollView.contentOffset.x / scrollView.frame.size.width
         let destinationPage = Int(round(position))
         setPageControlPage(to: destinationPage)
+    }
+}
+
+extension MarketItemDetailViewController: MarketItemRegisterViewControllerDelegate {
+
+    func didEndEditing(with marketItem: MarketItem) {
+        activityIndicator.startAnimating()
+        isUpdated = true
+        imageScrollView.subviews.forEach {
+            if let imageView = $0 as? UIImageView {
+                imageView.removeFromSuperview()
+            }
+        }
+        imageViews.removeAll()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.viewModel?.refresh()
+            self.activityIndicator.stopAnimating()
+        }
     }
 }
 

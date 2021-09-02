@@ -312,7 +312,7 @@ extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate
 
 extension MarketItemListViewController: MarketItemDetailViewControllerDelegate {
 
-	func didDeleteMarketItem() {
+	func didChangeMarketItem() {
 		refreshMarketItems()
 	}
 }

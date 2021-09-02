@@ -30,6 +30,8 @@ final class MarketItemDetailViewModel {
 		case fetch(MarketItemDetailViewModel.MetaData)
 		case fetchImage(UIImage, Int)
 		case update
+        case verify(MarketItem, password: String)
+        case failedToStartEdit
 		case delete
 		case deleteFailed
 		case error(MarketItemDetailUseCaseError)
@@ -152,6 +154,25 @@ final class MarketItemDetailViewModel {
         return metaData
     }
 
+    func verifyPassword(_ password: String) {
+        useCase.verifyPassword(itemID: marketItemID, password: password) { [weak self] result in
+            switch result {
+            case .success(let marketItem):
+                self?.marketItem = marketItem
+                self?.state = .verify(marketItem, password: password)
+            case .failure(let error):
+                if case let .networkError(someError) = error,
+                   let anyError = someError as? NetworkManagerError,
+                   case let .gotFailedResponse(statusCode) = anyError,
+                   statusCode == NetworkManager.notFoundStatusCode {
+                    self?.state = .failedToStartEdit
+                } else {
+                    self?.state = .error(error)
+                }
+            }
+        }
+    }
+
 	func deleteMarketItem(with password: String) {
 		useCase.deleteMarketItem(itemID: marketItemID, password: password) { [weak self] result in
 			switch result {
@@ -166,6 +187,12 @@ final class MarketItemDetailViewModel {
 			}
 		}
 	}
+
+    func refresh() {
+        marketItem = nil
+        images.removeAll()
+        fire()
+    }
 }
 
 // MARK: - Namespaces
