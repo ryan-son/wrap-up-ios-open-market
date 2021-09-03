@@ -27,7 +27,7 @@ final class MultipartFormData {
         }
 
         static func randomBoundary() -> String {
-            return "ryanmarket.boundary-\(UUID().uuidString)"
+            return "ryan-market.boundary-\(UUID().uuidString)"
         }
 
         static func boundaryData(for boundaryType: BoundaryType, boundary: String) -> Data {
@@ -49,7 +49,7 @@ final class MultipartFormData {
 	// MARK: Properties
 
     private let fileManager: FileManager
-    private let boundary: String = BoundaryGenerator.randomBoundary()
+    let boundary: String
     lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
 	private let jpegMimeType: String = "image/jpeg"
 	private let jpegPathExtension: String = ".jpeg"
@@ -57,8 +57,9 @@ final class MultipartFormData {
 
 	// MARK: Initializers
 
-    init(fileManager: FileManager = .default) {
+    init(fileManager: FileManager = .default, boundary: String? = nil) {
         self.fileManager = fileManager
+        self.boundary = boundary ?? BoundaryGenerator.randomBoundary()
     }
 
 	// MARK: Encoding methods

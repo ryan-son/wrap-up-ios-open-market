@@ -41,7 +41,6 @@
 		AAAD852B26DB70A900B23520 /* MarketItemRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */; };
 		AAAD852D26DBA60400B23520 /* MarketItemRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD852C26DBA60400B23520 /* MarketItemRegisterViewModel.swift */; };
 		AAAD852F26DBECBF00B23520 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD852E26DBECBF00B23520 /* MultipartFormData.swift */; };
-		AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853026DC880800B23520 /* URL+Extensions.swift */; };
 		AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */; };
 		AAAD853626DC9C1F00B23520 /* PatchMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */; };
 		AAAD853826DC9CFA00B23520 /* DeleteMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */; };
@@ -121,7 +120,6 @@
 		AAAD852A26DB70A900B23520 /* MarketItemRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterViewController.swift; sourceTree = "<group>"; };
 		AAAD852C26DBA60400B23520 /* MarketItemRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterViewModel.swift; sourceTree = "<group>"; };
 		AAAD852E26DBECBF00B23520 /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
-		AAAD853026DC880800B23520 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		AAAD853326DC9C0D00B23520 /* PostMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarketItem.swift; sourceTree = "<group>"; };
 		AAAD853526DC9C1F00B23520 /* PatchMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchMarketItem.swift; sourceTree = "<group>"; };
 		AAAD853726DC9CFA00B23520 /* DeleteMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMarketItem.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 				AAAD84D826D995AD00B23520 /* SharedStyle.swift */,
 				AAAD84D626D995AD00B23520 /* String+Extensions.swift */,
 				AAAD84D726D995AD00B23520 /* UIImage+Extension.swift */,
-				AAAD853026DC880800B23520 /* URL+Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -742,7 +739,6 @@
 				AAAD855026DEA70100B23520 /* PlaceholderTextView.swift in Sources */,
 				AAAD853426DC9C0D00B23520 /* PostMarketItem.swift in Sources */,
 				AAAD851A26DAAEC000B23520 /* MarketItemDetailViewModel.swift in Sources */,
-				AAAD853126DC880800B23520 /* URL+Extensions.swift in Sources */,
 				AAAD84FA26D995AD00B23520 /* ThumbnailUseCase.swift in Sources */,
 				AAAD852F26DBECBF00B23520 /* MultipartFormData.swift in Sources */,
 				AAAD84EE26D995AD00B23520 /* SceneDelegate.swift in Sources */,
