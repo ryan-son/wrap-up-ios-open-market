@@ -12,7 +12,14 @@ enum MultipartFormDataError: Error {
     case fileNotExists
 }
 
-final class MultipartFormData {
+protocol MultipartFormDataEncodable {
+
+    var boundary: String { get }
+    var contentType: String { get }
+    func encode(parameters: [String: Any?]) -> Data
+}
+
+final class MultipartFormData: MultipartFormDataEncodable {
 
 	// MARK: Namespaces
 
@@ -48,7 +55,6 @@ final class MultipartFormData {
 
 	// MARK: Properties
 
-    private let fileManager: FileManager
     let boundary: String
     lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
 	private let jpegMimeType: String = "image/jpeg"
@@ -57,8 +63,7 @@ final class MultipartFormData {
 
 	// MARK: Initializers
 
-    init(fileManager: FileManager = .default, boundary: String? = nil) {
-        self.fileManager = fileManager
+    init(boundary: String? = nil) {
         self.boundary = boundary ?? BoundaryGenerator.randomBoundary()
     }
 

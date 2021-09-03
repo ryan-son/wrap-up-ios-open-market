@@ -12,6 +12,11 @@
 		AAA5FD6F26DF971000F6A2D2 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5FD6E26DF971000F6A2D2 /* Data+Extensions.swift */; };
 		AAA5FD7126DF989500F6A2D2 /* MarketItemRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5FD7026DF989500F6A2D2 /* MarketItemRepresentable.swift */; };
 		AAA5FD7326DFC70800F6A2D2 /* MarketItemRegisterViewController+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5FD7226DFC70800F6A2D2 /* MarketItemRegisterViewController+Style.swift */; };
+		AAA75DB226E1E953005F01C7 /* DTOSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DB126E1E953005F01C7 /* DTOSpec.swift */; };
+		AAA75DB426E1ED31005F01C7 /* TestAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DB326E1ED31005F01C7 /* TestAssets.swift */; };
+		AAA75DB726E1FDD2005F01C7 /* UtilSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DB626E1FDD2005F01C7 /* UtilSpec.swift */; };
+		AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DB926E21088005F01C7 /* EndPointSpec.swift */; };
+		AAA75DBC26E218FE005F01C7 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */; };
 		AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84B426D9952500B23520 /* OpenMarketTests.swift */; };
 		AAAD84C026D9952500B23520 /* OpenMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */; };
 		AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84CF26D995AD00B23520 /* AppDelegate.swift */; };
@@ -85,6 +90,11 @@
 		AAA5FD6E26DF971000F6A2D2 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		AAA5FD7026DF989500F6A2D2 /* MarketItemRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRepresentable.swift; sourceTree = "<group>"; };
 		AAA5FD7226DFC70800F6A2D2 /* MarketItemRegisterViewController+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MarketItemRegisterViewController+Style.swift"; sourceTree = "<group>"; };
+		AAA75DB126E1E953005F01C7 /* DTOSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOSpec.swift; sourceTree = "<group>"; };
+		AAA75DB326E1ED31005F01C7 /* TestAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAssets.swift; sourceTree = "<group>"; };
+		AAA75DB626E1FDD2005F01C7 /* UtilSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilSpec.swift; sourceTree = "<group>"; };
+		AAA75DB926E21088005F01C7 /* EndPointSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointSpec.swift; sourceTree = "<group>"; };
+		AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		AAAD849A26D9952400B23520 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAD84AB26D9952500B23520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAD84B026D9952500B23520 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +196,46 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AAA75DAE26E1E7E3005F01C7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AAA75DB126E1E953005F01C7 /* DTOSpec.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AAA75DAF26E1E805005F01C7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD84B626D9952500B23520 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AAA75DB026E1E821005F01C7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AAAD84C126D9952500B23520 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AAA75DB526E1FBC0005F01C7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				AAA75DB626E1FDD2005F01C7 /* UtilSpec.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		AAA75DB826E21070005F01C7 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				AAA75DB926E21088005F01C7 /* EndPointSpec.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		AAAD849126D9952400B23520 = {
 			isa = PBXGroup;
 			children = (
@@ -223,7 +273,11 @@
 			isa = PBXGroup;
 			children = (
 				AAAD84B426D9952500B23520 /* OpenMarketTests.swift */,
-				AAAD84B626D9952500B23520 /* Info.plist */,
+				AAA75DB326E1ED31005F01C7 /* TestAssets.swift */,
+				AAA75DAE26E1E7E3005F01C7 /* Models */,
+				AAA75DB826E21070005F01C7 /* Networking */,
+				AAA75DB526E1FBC0005F01C7 /* Utils */,
+				AAA75DAF26E1E805005F01C7 /* Supporting Files */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -232,7 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */,
-				AAAD84C126D9952500B23520 /* Info.plist */,
+				AAA75DB026E1E821005F01C7 /* Supporting Files */,
 			);
 			path = OpenMarketUITests;
 			sourceTree = "<group>";
@@ -276,6 +330,7 @@
 				AAAD84D826D995AD00B23520 /* SharedStyle.swift */,
 				AAAD84D626D995AD00B23520 /* String+Extensions.swift */,
 				AAAD84D726D995AD00B23520 /* UIImage+Extension.swift */,
+				AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -721,6 +776,7 @@
 				AAAD854126DDDC6B00B23520 /* RegisterImagePicker.swift in Sources */,
 				AAAD854626DE7FFA00B23520 /* PhotoCellViewModel.swift in Sources */,
 				AAAD84EF26D995AD00B23520 /* NetworkManager.swift in Sources */,
+				AAA75DBC26E218FE005F01C7 /* URLRequest+Extensions.swift in Sources */,
 				AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */,
 				AAAD855226DEB2F400B23520 /* CurrencyTextField.swift in Sources */,
 				AAAD84F426D995AD00B23520 /* SharedStyle.swift in Sources */,
@@ -755,6 +811,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */,
+				AAA75DB426E1ED31005F01C7 /* TestAssets.swift in Sources */,
+				AAA75DB226E1E953005F01C7 /* DTOSpec.swift in Sources */,
+				AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */,
+				AAA75DB726E1FDD2005F01C7 /* UtilSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,7 +1019,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W62BWL527B;
-				INFOPLIST_FILE = OpenMarketTests/Info.plist;
+				INFOPLIST_FILE = "OpenMarketTests/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -982,7 +1042,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W62BWL527B;
-				INFOPLIST_FILE = OpenMarketTests/Info.plist;
+				INFOPLIST_FILE = "OpenMarketTests/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1004,7 +1064,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W62BWL527B;
-				INFOPLIST_FILE = OpenMarketUITests/Info.plist;
+				INFOPLIST_FILE = "OpenMarketUITests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1025,7 +1085,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W62BWL527B;
-				INFOPLIST_FILE = OpenMarketUITests/Info.plist;
+				INFOPLIST_FILE = "OpenMarketUITests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
