@@ -34,7 +34,7 @@ protocol NetworkManageable {
 final class NetworkManager: NetworkManageable {
 
     enum UploadHTTPMethod: String {
-        case post, patch
+        case post, patch, delete
     }
 
 	// MARK: Properties
@@ -98,14 +98,7 @@ final class NetworkManager: NetworkManageable {
 
         let multipartFormData = MultipartFormData()
         let encoded: Data = multipartFormData.encode(parameters: marketItem.asDictionary)
-
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue.uppercased()
-        request.setValue(
-            multipartFormData.contentType,
-            forHTTPHeaderField: "Content-Type"
-        )
-        request.httpBody = encoded
+        let request = URLRequest(url: url, method: method, contentType: .multipart, httpBody: encoded)
 
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -143,10 +136,7 @@ final class NetworkManager: NetworkManageable {
 			return nil
 		}
 
-		var request = URLRequest(url: url)
-		request.httpMethod = "DELETE"
-		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.httpBody = deleteData
+        let request = URLRequest(url: url, method: .delete, contentType: .json, httpBody: deleteData)
 
 		let task = session.dataTask(with: request) { _, response, error in
 			if let error = error {
