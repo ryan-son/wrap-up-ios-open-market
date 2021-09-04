@@ -69,7 +69,7 @@ final class MultipartFormDataSpec: QuickSpec {
                             "Content-Disposition: form-data; name=\"images[]\"; filename=\"image0.jpeg\"\(crlf)" +
                                 "Content-Type: image/jpeg\(crlf)\(crlf)"
                         )
-                        expected.append(TestAssets.Expected.PatchMarketItem.images[.zero])
+                        expected.append(TestAssets.Dummies.patchMarketItemThatOnlyHasOneImage.images![.zero])
                         expected.append(encapsulatingBoundary)
                         expected.append(
                             "Content-Disposition: form-data; name=\"password\"\(crlf)\(crlf)\(TestAssets.sharedPassword)"
@@ -96,43 +96,43 @@ final class MultipartFormDataSpec: QuickSpec {
 
                         expected.append(initialBoundary)
                         expected.append(
-                            "Content-Disposition: form-data; name=\"currency\"\(crlf)\(crlf)\(TestAssets.Expected.PostMarketItem.currency)"
+                            "Content-Disposition: form-data; name=\"currency\"\(crlf)\(crlf)\(TestAssets.Dummies.postMarketItem.currency)"
                         )
                         expected.append(encapsulatingBoundary)
                         expected.append(
-                            "Content-Disposition: form-data; name=\"descriptions\"\(crlf)\(crlf)\(TestAssets.Expected.PostMarketItem.descriptions)"
+                            "Content-Disposition: form-data; name=\"descriptions\"\(crlf)\(crlf)\(TestAssets.Dummies.postMarketItem.descriptions)"
                         )
                         expected.append(encapsulatingBoundary)
                         expected.append(
-                            "Content-Disposition: form-data; name=\"discounted_price\"\(crlf)\(crlf)\(TestAssets.Expected.PostMarketItem.discountedPrice)"
+                            "Content-Disposition: form-data; name=\"discounted_price\"\(crlf)\(crlf)\(TestAssets.Dummies.postMarketItem.discountedPrice!)"
                         )
                         expected.append(encapsulatingBoundary)
                         expected.append(
                             "Content-Disposition: form-data; name=\"images[]\"; filename=\"image0.jpeg\"\(crlf)" +
                                 "Content-Type: image/jpeg\(crlf)\(crlf)"
                         )
-                        expected.append(TestAssets.Expected.PostMarketItem.images[.zero])
+                        expected.append(TestAssets.Dummies.postMarketItem.images[.zero])
                         expected.append(encapsulatingBoundary)
                         expected.append(
                             "Content-Disposition: form-data; name=\"images[]\"; filename=\"image1.jpeg\"\(crlf)" +
                                 "Content-Type: image/jpeg\(crlf)\(crlf)"
                         )
-                        expected.append(TestAssets.Expected.PostMarketItem.images[1])
+                        expected.append(TestAssets.Dummies.postMarketItem.images[1])
                         expected.append(encapsulatingBoundary)
                         expected.append(
                             "Content-Disposition: form-data; name=\"password\"\(crlf)\(crlf)\(TestAssets.sharedPassword)"
                         )
                         expected.append(encapsulatingBoundary)
                         expected.append(
-                            "Content-Disposition: form-data; name=\"price\"\(crlf)\(crlf)\(TestAssets.Expected.PostMarketItem.price)"
+                            "Content-Disposition: form-data; name=\"price\"\(crlf)\(crlf)\(TestAssets.Dummies.postMarketItem.price)"
                         )
                         expected.append(encapsulatingBoundary)
                         expected.append(
-                            "Content-Disposition: form-data; name=\"stock\"\(crlf)\(crlf)\(TestAssets.Expected.PostMarketItem.stock)"
+                            "Content-Disposition: form-data; name=\"stock\"\(crlf)\(crlf)\(TestAssets.Dummies.postMarketItem.stock)"
                         )
                         expected.append(encapsulatingBoundary)
                         expected.append(
-                            "Content-Disposition: form-data; name=\"title\"\(crlf)\(crlf)\(TestAssets.Expected.PostMarketItem.title)"
+                            "Content-Disposition: form-data; name=\"title\"\(crlf)\(crlf)\(TestAssets.Dummies.postMarketItem.title)"
                         )
                         expected.append(finalBoundary)
 

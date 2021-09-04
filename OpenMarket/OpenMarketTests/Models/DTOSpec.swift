@@ -27,13 +27,13 @@ final class DTOSpec: QuickSpec {
                     }
 
                     it("Dictionary 형태로 반환된 값은 기존의 값과 같다") {
-                        expect(postMarketItem.asDictionary["title"] as? String).to(equal(TestAssets.Expected.PostMarketItem.title))
-                        expect(postMarketItem.asDictionary["descriptions"] as? String).to(equal(TestAssets.Expected.PostMarketItem.descriptions))
-                        expect(postMarketItem.asDictionary["price"] as? Int).to(equal(TestAssets.Expected.PostMarketItem.price))
-                        expect(postMarketItem.asDictionary["currency"] as? String).to(equal(TestAssets.Expected.PostMarketItem.currency))
-                        expect(postMarketItem.asDictionary["stock"] as? Int).to(equal(TestAssets.Expected.PostMarketItem.stock))
-                        expect(postMarketItem.asDictionary["discounted_price"] as? Int).to(equal(TestAssets.Expected.PostMarketItem.discountedPrice))
-                        expect(postMarketItem.asDictionary["images"] as? [Data]).to(equal(TestAssets.Expected.PostMarketItem.images))
+                        expect(postMarketItem.asDictionary["title"] as? String).to(equal(TestAssets.Dummies.postMarketItem.title))
+                        expect(postMarketItem.asDictionary["descriptions"] as? String).to(equal(TestAssets.Dummies.postMarketItem.descriptions))
+                        expect(postMarketItem.asDictionary["price"] as? Int).to(equal(TestAssets.Dummies.postMarketItem.price))
+                        expect(postMarketItem.asDictionary["currency"] as? String).to(equal(TestAssets.Dummies.postMarketItem.currency))
+                        expect(postMarketItem.asDictionary["stock"] as? Int).to(equal(TestAssets.Dummies.postMarketItem.stock))
+                        expect(postMarketItem.asDictionary["discounted_price"] as? Int).to(equal(TestAssets.Dummies.postMarketItem.discountedPrice))
+                        expect(postMarketItem.asDictionary["images"] as? [Data]).to(equal(TestAssets.Dummies.postMarketItem.images))
                         expect(postMarketItem.asDictionary["password"] as? String).to(equal(TestAssets.sharedPassword))
                     }
                 }
@@ -52,13 +52,8 @@ final class DTOSpec: QuickSpec {
                     }
 
                     it("Dictionary 형태로 반환된 값은 기존의 값과 같다") {
-                        expect(patchMarketItem.asDictionary["title"] as? String).to(equal(TestAssets.Expected.PatchMarketItem.title))
-                        expect(patchMarketItem.asDictionary["descriptions"] as? String).to(equal(TestAssets.Expected.PatchMarketItem.descriptions))
-                        expect(patchMarketItem.asDictionary["price"] as? Int).to(equal(TestAssets.Expected.PatchMarketItem.price))
-                        expect(patchMarketItem.asDictionary["currency"] as? String).to(equal(TestAssets.Expected.PatchMarketItem.currency))
-                        expect(patchMarketItem.asDictionary["stock"] as? Int).to(equal(TestAssets.Expected.PatchMarketItem.stock))
-                        expect(patchMarketItem.asDictionary["discounted_price"] as? Int).to(equal(TestAssets.Expected.PatchMarketItem.discountedPrice))
-                        expect(patchMarketItem.asDictionary["images"] as? [Data]).to(equal(TestAssets.Expected.PatchMarketItem.images))
+                        expect(patchMarketItem.asDictionary["title"] as? String).to(equal(TestAssets.Dummies.patchMarketItem.title))
+                        expect(patchMarketItem.asDictionary["images"] as? [Data]).to(equal(TestAssets.Dummies.patchMarketItem.images))
                         expect(patchMarketItem.asDictionary["password"] as? String).to(equal(TestAssets.sharedPassword))
                     }
                 }

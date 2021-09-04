@@ -18,14 +18,17 @@ enum NetworkManagerError: Error {
 
 protocol NetworkManageable {
 
+    @discardableResult
     func fetch(from urlString: String,
                completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask?
+    @discardableResult
     func multipartUpload(
         _ marketItem: MultipartUploadable,
         to urlString: String,
         method: NetworkManager.UploadHTTPMethod,
         completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)
     ) -> URLSessionDataTask?
+    @discardableResult
     func delete(_ deleteData: Data,
                 at urlString: String,
                 completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask?
@@ -40,17 +43,20 @@ final class NetworkManager: NetworkManageable {
 	// MARK: Properties
 
     private let session: URLSession
+    private let multipartFormData: MultipartFormDataEncodable
     static let okStatusCode: Range<Int> = (200 ..< 300)
 	static let notFoundStatusCode: Int = 404
 
 	// MARK: Initializers
 
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, multipartFormData: MultipartFormDataEncodable = MultipartFormData()) {
         self.session = session
+        self.multipartFormData = multipartFormData
     }
 
 	// MARK: Networking methods
 
+    @discardableResult
 	func fetch(from urlString: String, completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask? {
         guard let url = URL(string: urlString) else {
             completion(.failure(.urlCreationFailed))
@@ -85,6 +91,7 @@ final class NetworkManager: NetworkManageable {
         return task
     }
 
+    @discardableResult
     func multipartUpload(
         _ marketItem: MultipartUploadable,
         to urlString: String,
@@ -96,7 +103,6 @@ final class NetworkManager: NetworkManageable {
             return nil
         }
 
-        let multipartFormData = MultipartFormData()
         let encoded: Data = multipartFormData.encode(parameters: marketItem.asDictionary)
         let request = URLRequest(url: url, method: method, contentType: .multipart, httpBody: encoded)
 
@@ -128,6 +134,7 @@ final class NetworkManager: NetworkManageable {
         return task
     }
 
+    @discardableResult
     func delete(_ deleteData: Data,
                 at urlString: String,
                 completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask? {
