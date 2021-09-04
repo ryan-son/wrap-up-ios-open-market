@@ -32,6 +32,22 @@ enum TestAssets {
                                                      discountedPrice: TestAssets.Expected.PatchMarketItem.discountedPrice,
                                                      images: TestAssets.Expected.PatchMarketItem.images,
                                                      password: TestAssets.sharedPassword)
+        static let patchMarketItemThatOnlyHasPassword = PatchMarketItem(title: nil,
+                                                                        descriptions: nil,
+                                                                        price: nil,
+                                                                        currency: nil,
+                                                                        stock: nil,
+                                                                        discountedPrice: nil,
+                                                                        images: nil,
+                                                                        password: TestAssets.sharedPassword)
+        static let patchMarketItemThatOnlyHasOneImage = PatchMarketItem(title: nil,
+                                                                        descriptions: nil,
+                                                                        price: nil,
+                                                                        currency: nil,
+                                                                        stock: nil,
+                                                                        discountedPrice: nil,
+                                                                        images: TestAssets.Expected.PatchMarketItem.images,
+                                                                        password: TestAssets.sharedPassword)
         static let deleteMarketItem = DeleteMarketItem(password: TestAssets.sharedPassword)
     }
 
@@ -44,7 +60,7 @@ enum TestAssets {
             static let currency: String = "KRW"
             static let stock: Int = 1000
             static let discountedPrice: Int = 34900
-            static let images: [Data] = [TestAssets.Dummies.bookImageData]
+            static let images: [Data] = [TestAssets.Dummies.hammerImageData, TestAssets.Dummies.hammerFillImageData]
         }
 
         enum PatchMarketItem {
@@ -54,7 +70,7 @@ enum TestAssets {
             static let currency: String = "USD"
             static let stock: Int = 10
             static let discountedPrice: Int = 30
-            static let images: [Data] = [TestAssets.Dummies.hammerImageData, TestAssets.Dummies.hammerFillImageData]
+            static let images: [Data] = [TestAssets.Dummies.bookImageData]
         }
 
         

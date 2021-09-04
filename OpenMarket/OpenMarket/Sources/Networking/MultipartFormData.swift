@@ -56,7 +56,7 @@ final class MultipartFormData: MultipartFormDataEncodable {
 	// MARK: Properties
 
     let boundary: String
-    lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
+    private(set) lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
 	private let jpegMimeType: String = "image/jpeg"
 	private let jpegPathExtension: String = ".jpeg"
     private var body = Data()
@@ -70,15 +70,15 @@ final class MultipartFormData: MultipartFormDataEncodable {
 	// MARK: Encoding methods
 
     func encode(parameters: [String: Any?]) -> Data {
-        for (key, value) in parameters {
-            guard let value = value else { continue }
+        let sorted = parameters.sorted { $0.key < $1.key }
 
-            if let images = value as? [Data] {
-                appendImages(withName: key, from: images)
-            } else if let data = value as? Data {
-                appendImage(withName: key, from: data)
+        for element in sorted {
+            guard let value = element.value else { continue }
+
+            if let images = element.value as? [Data] {
+                appendImages(withName: element.key, from: images)
             } else {
-                append(withName: key, value: value)
+                append(withName: element.key, value: value)
             }
         }
 
@@ -86,23 +86,14 @@ final class MultipartFormData: MultipartFormDataEncodable {
         return body
     }
 
-    private func appendImage(withName name: String, from data: Data) {
-		body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
-
-		let fileName = UUID().uuidString + jpegPathExtension
-
-		body.append(contentHeader(withName: name, fileName: fileName, mimeType: jpegMimeType))
-		body.append(data)
-    }
-
     private func appendImages(withName name: String, from datas: [Data]) {
-        datas.forEach {
-			body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
+        for index in datas.indices {
+            body.isEmpty ? body.append(initialBoundaryData()) : body.append(encapsulatedBoundaryData())
 
-			let fileName = UUID().uuidString + jpegPathExtension
+            let fileName = "image\(index)\(jpegPathExtension)"
 
-			body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: jpegMimeType))
-			body.append($0)
+            body.append(contentHeader(withName: name + "[]", fileName: fileName, mimeType: jpegMimeType))
+            body.append(datas[index])
         }
     }
 
