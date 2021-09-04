@@ -18,9 +18,11 @@
 		AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DB926E21088005F01C7 /* EndPointSpec.swift */; };
 		AAA75DBC26E218FE005F01C7 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */; };
 		AAA75DBE26E2705C005F01C7 /* MultipartFormDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DBD26E2705C005F01C7 /* MultipartFormDataSpec.swift */; };
-		AAA75DC226E2FC1C005F01C7 /* MockMultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC126E2FC1C005F01C7 /* MockMultipartFormData.swift */; };
+		AAA75DC226E2FC1C005F01C7 /* DummyMultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC126E2FC1C005F01C7 /* DummyMultipartFormData.swift */; };
 		AAA75DC426E2FD40005F01C7 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */; };
 		AAA75DC626E2FDB4005F01C7 /* NetworkManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC526E2FDB4005F01C7 /* NetworkManagerSpec.swift */; };
+		AAA75DCC26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DCB26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift */; };
+		AAA75DCF26E3E18B005F01C7 /* StubNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DCE26E3E18B005F01C7 /* StubNetworkManager.swift */; };
 		AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84B426D9952500B23520 /* OpenMarketTests.swift */; };
 		AAAD84C026D9952500B23520 /* OpenMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */; };
 		AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84CF26D995AD00B23520 /* AppDelegate.swift */; };
@@ -100,9 +102,11 @@
 		AAA75DB926E21088005F01C7 /* EndPointSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointSpec.swift; sourceTree = "<group>"; };
 		AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		AAA75DBD26E2705C005F01C7 /* MultipartFormDataSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormDataSpec.swift; sourceTree = "<group>"; };
-		AAA75DC126E2FC1C005F01C7 /* MockMultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMultipartFormData.swift; sourceTree = "<group>"; };
+		AAA75DC126E2FC1C005F01C7 /* DummyMultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyMultipartFormData.swift; sourceTree = "<group>"; };
 		AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		AAA75DC526E2FDB4005F01C7 /* NetworkManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerSpec.swift; sourceTree = "<group>"; };
+		AAA75DCB26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemListUseCaseSpec.swift; sourceTree = "<group>"; };
+		AAA75DCE26E3E18B005F01C7 /* StubNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNetworkManager.swift; sourceTree = "<group>"; };
 		AAAD849A26D9952400B23520 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAD84AB26D9952500B23520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAD84B026D9952500B23520 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,18 +253,51 @@
 		AAA75DBF26E2FBFE005F01C7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				AAA75DC026E2FC06005F01C7 /* Mocks */,
+				AAA75DD026E3E1CD005F01C7 /* TestDoubles */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		AAA75DC026E2FC06005F01C7 /* Mocks */ = {
+		AAA75DC726E3DFA8005F01C7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				AAA75DC126E2FC1C005F01C7 /* MockMultipartFormData.swift */,
-				AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */,
+				AAA75DC826E3DFE6005F01C7 /* MarketItemDetailView */,
+				AAA75DCA26E3E006005F01C7 /* MarketItemListView */,
+				AAA75DC926E3DFF5005F01C7 /* MarketItemRegisterView */,
 			);
-			path = Mocks;
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AAA75DC826E3DFE6005F01C7 /* MarketItemDetailView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MarketItemDetailView;
+			sourceTree = "<group>";
+		};
+		AAA75DC926E3DFF5005F01C7 /* MarketItemRegisterView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MarketItemRegisterView;
+			sourceTree = "<group>";
+		};
+		AAA75DCA26E3E006005F01C7 /* MarketItemListView */ = {
+			isa = PBXGroup;
+			children = (
+				AAA75DCB26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift */,
+			);
+			path = MarketItemListView;
+			sourceTree = "<group>";
+		};
+		AAA75DD026E3E1CD005F01C7 /* TestDoubles */ = {
+			isa = PBXGroup;
+			children = (
+				AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */,
+				AAA75DC126E2FC1C005F01C7 /* DummyMultipartFormData.swift */,
+				AAA75DCE26E3E18B005F01C7 /* StubNetworkManager.swift */,
+			);
+			path = TestDoubles;
 			sourceTree = "<group>";
 		};
 		AAAD849126D9952400B23520 = {
@@ -299,13 +336,14 @@
 		AAAD84B326D9952500B23520 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
-				AAA75DBF26E2FBFE005F01C7 /* Helpers */,
 				AAAD84B426D9952500B23520 /* OpenMarketTests.swift */,
 				AAA75DB326E1ED31005F01C7 /* TestAssets.swift */,
+				AAA75DBF26E2FBFE005F01C7 /* Helpers */,
 				AAA75DAE26E1E7E3005F01C7 /* Models */,
 				AAA75DB826E21070005F01C7 /* Networking */,
-				AAA75DB526E1FBC0005F01C7 /* Utils */,
 				AAA75DAF26E1E805005F01C7 /* Supporting Files */,
+				AAA75DC726E3DFA8005F01C7 /* ViewModels */,
+				AAA75DB526E1FBC0005F01C7 /* Utils */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -841,11 +879,13 @@
 				AAA75DC626E2FDB4005F01C7 /* NetworkManagerSpec.swift in Sources */,
 				AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */,
 				AAA75DB426E1ED31005F01C7 /* TestAssets.swift in Sources */,
+				AAA75DCC26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift in Sources */,
 				AAA75DB226E1E953005F01C7 /* DTOSpec.swift in Sources */,
-				AAA75DC226E2FC1C005F01C7 /* MockMultipartFormData.swift in Sources */,
+				AAA75DC226E2FC1C005F01C7 /* DummyMultipartFormData.swift in Sources */,
 				AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */,
 				AAA75DB726E1FDD2005F01C7 /* UtilSpec.swift in Sources */,
 				AAA75DBE26E2705C005F01C7 /* MultipartFormDataSpec.swift in Sources */,
+				AAA75DCF26E3E18B005F01C7 /* StubNetworkManager.swift in Sources */,
 				AAA75DC426E2FD40005F01C7 /* MockURLProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

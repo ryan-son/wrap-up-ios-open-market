@@ -1,5 +1,5 @@
 //
-//  MockMultipartFormData.swift
+//  DummyMultipartFormData.swift
 //  OpenMarketTests
 //
 //  Created by Ryan-Son on 2021/09/04.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import OpenMarket
 
-final class MockMultipartFormData: MultipartFormDataEncodable {
+final class DummyMultipartFormData: MultipartFormDataEncodable {
 
     let boundary: String = ""
     let contentType: String = ""

@@ -58,12 +58,12 @@ enum TestAssets {
 
     enum Expected {
 
-        static let fetchMarketItemList: Data = """
+        static let fetchMarketItemListData: Data = """
             {
                 "page": \(TestAssets.Expected.FetchList.pageNumber),
                 "items": [
                     {
-                      "registration_date": \(TestAssets.Expected.FetchList.fetchMarketItemForList1.title),
+                      "registration_date": \(TestAssets.Expected.FetchList.fetchMarketItemForList1.registrationDate),
                       "price": \(TestAssets.Expected.FetchList.fetchMarketItemForList1.price),
                       "id": \(TestAssets.Expected.FetchList.fetchMarketItemForList1.id),
                       "currency": "\(TestAssets.Expected.FetchList.fetchMarketItemForList1.currency)",
@@ -83,8 +83,8 @@ enum TestAssets {
                     }
                 ]
             }
-        """.data(using: .utf8)!
-        static let fetchMarketItemDetail = """
+            """.data(using: .utf8)!
+        static let fetchMarketItemDetailData = """
             {
               "stock": \(TestAssets.Expected.FetchDetail.stock),
               "images": \(TestAssets.Expected.FetchDetail.images),
@@ -97,7 +97,7 @@ enum TestAssets {
               "descriptions": \(TestAssets.Expected.FetchDetail.descriptions)
             }
             """.data(using: .utf8)!
-        static let postMarketItem = """
+        static let postMarketItemData = """
             {
               "registration_date": \(TestAssets.Expected.Post.registrationDate),
               "currency": \(TestAssets.Expected.Post.currency),
@@ -110,7 +110,7 @@ enum TestAssets {
               "descriptions": \(TestAssets.Expected.Post.descriptions)
             }
             """.data(using: .utf8)!
-        static let patchMarketItem = """
+        static let patchMarketItemData = """
             {
               "registration_date": \(TestAssets.Expected.Post.registrationDate),
               "currency": \(TestAssets.Expected.Post.currency),
@@ -123,6 +123,10 @@ enum TestAssets {
               "descriptions": \(TestAssets.Expected.Post.descriptions)
             }
             """.data(using: .utf8)!
+        static let fetchedMarketItems: [MarketItem] = [
+            TestAssets.Expected.FetchList.fetchMarketItemForList1,
+            TestAssets.Expected.FetchList.fetchMarketItemForList2
+        ]
 
         enum FetchDetail {
             static let stock: Int = 90

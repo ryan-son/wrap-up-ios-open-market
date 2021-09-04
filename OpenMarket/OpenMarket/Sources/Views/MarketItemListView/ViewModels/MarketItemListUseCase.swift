@@ -17,6 +17,10 @@ enum MarketItemListUseCaseError: Error {
 
 protocol MarketItemListUseCaseProtocol {
 
+    var isFetching: Bool { get }
+    var isLastPage: Bool { get }
+    var page: Int { get }
+
     @discardableResult
     func fetchItems(
         completion: @escaping (Result<[MarketItem], MarketItemListUseCaseError>) -> Void
@@ -29,9 +33,9 @@ final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
 	// MARK: Properties
 
     private let networkManager: NetworkManageable
-    private var isFetching: Bool = false
-    private var isLastPage: Bool = false
-    private var page: Int = 1
+    private(set) var isFetching: Bool = false
+    private(set) var isLastPage: Bool = false
+    private(set) var page: Int = 1
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase

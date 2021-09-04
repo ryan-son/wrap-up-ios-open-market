@@ -14,19 +14,19 @@ final class NetworkManagerSpec: QuickSpec {
     override func spec() {
         describe("NetworkManager") {
             var session: URLSession!
-            var mockMultipartFormData: MockMultipartFormData!
+            var dummyMultipartFormData: DummyMultipartFormData!
             var sut: NetworkManageable!
 
             beforeEach {
                 let configuration: URLSessionConfiguration = .ephemeral
                 configuration.protocolClasses = [MockURLProtocol.self]
                 session = URLSession(configuration: configuration)
-                mockMultipartFormData = MockMultipartFormData()
-                sut = NetworkManager(session: session, multipartFormData: mockMultipartFormData)
+                dummyMultipartFormData = DummyMultipartFormData()
+                sut = NetworkManager(session: session, multipartFormData: dummyMultipartFormData)
             }
             afterEach {
                 sut = nil
-                mockMultipartFormData = nil
+                dummyMultipartFormData = nil
                 session = nil
             }
 
@@ -35,7 +35,7 @@ final class NetworkManagerSpec: QuickSpec {
                     let path = EndPoint.items(page: TestAssets.Expected.FetchList.pageNumber).path
 
                     it("지정된 pageNumber의 MarketItem들이 MarketItemList json 형태로 반환된다") {
-                        let expectedFetchedMarketItemListJSON: Data = TestAssets.Expected.fetchMarketItemList
+                        let expectedFetchedMarketItemListJSON: Data = TestAssets.Expected.fetchMarketItemListData
                         self.setLoadingHandler(shouldSuccessNetwork: true, expectedFetchedMarketItemListJSON)
                         sut.fetch(from: path) { result in
                             switch result {
@@ -48,7 +48,7 @@ final class NetworkManagerSpec: QuickSpec {
                     }
 
                     it("통신에 실패하면 Result 타입으로 래핑된 NetworkManagerError를 반환한다") {
-                        let failedInput: Data = TestAssets.Expected.fetchMarketItemList
+                        let failedInput: Data = TestAssets.Expected.fetchMarketItemListData
                         let expected: NetworkManagerError = TestAssets.Expected.FetchList.error
                         self.setLoadingHandler(shouldSuccessNetwork: false, failedInput)
                         sut.fetch(from: path) { result in
@@ -68,7 +68,7 @@ final class NetworkManagerSpec: QuickSpec {
                     let path = EndPoint.item(id: TestAssets.Expected.Post.id).path
 
                     it("지정된 id를 가진 MarketItem이 json 형태로 반환된다") {
-                        let expectedFetchedMarketItemDetail: Data = TestAssets.Expected.fetchMarketItemDetail
+                        let expectedFetchedMarketItemDetail: Data = TestAssets.Expected.fetchMarketItemDetailData
                         self.setLoadingHandler(shouldSuccessNetwork: true, expectedFetchedMarketItemDetail)
                         sut.fetch(from: path) { result in
                             switch result {
@@ -81,7 +81,7 @@ final class NetworkManagerSpec: QuickSpec {
                     }
 
                     it("통신에 실패하면 Result 타입으로 래핑된 NetworkManagerError를 반환한다") {
-                        let failedInput: Data = TestAssets.Expected.fetchMarketItemDetail
+                        let failedInput: Data = TestAssets.Expected.fetchMarketItemDetailData
                         let expected: NetworkManagerError = TestAssets.Expected.FetchDetail.error
                         self.setLoadingHandler(shouldSuccessNetwork: false, failedInput)
                         sut.fetch(from: path) { result in
@@ -103,7 +103,7 @@ final class NetworkManagerSpec: QuickSpec {
                     let path = EndPoint.uploadItem.path
 
                     it("등록된 상품이 MarketItem json 형태로 반환된다") {
-                        let expected: Data = TestAssets.Expected.postMarketItem
+                        let expected: Data = TestAssets.Expected.postMarketItemData
                         self.setLoadingHandler(shouldSuccessNetwork: true, expected)
 
                         sut.multipartUpload(postMarketItem, to: path, method: .post) { result in
@@ -117,7 +117,7 @@ final class NetworkManagerSpec: QuickSpec {
                     }
 
                     it("통신에 실패하면 Result 타입으로 래핑된 NetworkManagerError를 반환한다") {
-                        let failedInput = TestAssets.Expected.postMarketItem
+                        let failedInput = TestAssets.Expected.postMarketItemData
                         self.setLoadingHandler(shouldSuccessNetwork: false, failedInput)
                         let expected: NetworkManagerError = TestAssets.Expected.Post.error
 
@@ -140,7 +140,7 @@ final class NetworkManagerSpec: QuickSpec {
                     let path = EndPoint.item(id: TestAssets.Expected.Patch.id).path
 
                     it("수정된 상품이 MarketItem json 형태로 반환된다") {
-                        let expected: Data = TestAssets.Expected.patchMarketItem
+                        let expected: Data = TestAssets.Expected.patchMarketItemData
                         self.setLoadingHandler(shouldSuccessNetwork: true, expected)
 
                         sut.multipartUpload(patchMarketItem, to: path, method: .patch) { result in

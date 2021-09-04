@@ -56,7 +56,6 @@ final class NetworkManager: NetworkManageable {
 
 	// MARK: Networking methods
 
-    @discardableResult
 	func fetch(from urlString: String, completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask? {
         guard let url = URL(string: urlString) else {
             completion(.failure(.urlCreationFailed))
@@ -91,7 +90,6 @@ final class NetworkManager: NetworkManageable {
         return task
     }
 
-    @discardableResult
     func multipartUpload(
         _ marketItem: MultipartUploadable,
         to urlString: String,
