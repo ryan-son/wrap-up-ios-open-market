@@ -175,14 +175,17 @@ final class MarketItemDetailViewModel {
 	func deleteMarketItem(with password: String) {
 		useCase.deleteMarketItem(itemID: marketItemID, password: password) { [weak self] result in
 			switch result {
-			case .success(let statusCode):
-				if NetworkManager.okStatusCode ~= statusCode {
-					self?.state = .delete
-				} else {
-					self?.state = .deleteFailed
-				}
+			case .success:
+                self?.state = .delete
 			case .failure(let error):
-				self?.state = .error(error)
+                if case let .networkError(someError) = error,
+                   let anyError = someError as? NetworkManagerError,
+                   case let .gotFailedResponse(statusCode) = anyError,
+                   statusCode == NetworkManager.notFoundStatusCode {
+                    self?.state = .deleteFailed
+                } else {
+                    self?.state = .error(error)
+                }
 			}
 		}
 	}

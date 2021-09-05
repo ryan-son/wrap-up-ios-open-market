@@ -19,31 +19,18 @@ enum MarketItemDetailUseCaseError: Error {
 
 protocol MarketItemDetailUseCaseProtocol {
 
-    @discardableResult
-    func fetchMarketItemDetail(
-        itemID: Int,
-        completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
-    ) -> URLSessionDataTask?
-
-    @discardableResult
-    func fetchImage(
-        from path: String,
-        completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void
-    ) -> URLSessionDataTask?
-
-	@discardableResult
+    func fetchMarketItemDetail(itemID: Int, completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void))
+    func fetchImage(from path: String, completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void)
 	func deleteMarketItem(
 		itemID: Int,
 		password: String,
-		completion: @escaping((Result<Int, MarketItemDetailUseCaseError>) -> Void)
-	) -> URLSessionDataTask?
-
-    @discardableResult
+		completion: @escaping((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
+	)
     func verifyPassword(
         itemID: Int,
         password: String,
         completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
-    ) -> URLSessionDataTask?
+    )
 }
 
 final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
@@ -70,14 +57,10 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
 
 	// MARK: Use case methods
 
-    @discardableResult
-    func fetchMarketItemDetail(
-        itemID: Int,
-        completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
-    ) -> URLSessionDataTask? {
+    func fetchMarketItemDetail(itemID: Int, completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)) {
         let path = EndPoint.item(id: itemID).path
 
-        let task = networkManager.fetch(from: path) { [weak self] result in
+        networkManager.fetch(from: path) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
@@ -93,16 +76,10 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
                 completion(.failure(.networkError(error)))
             }
         }
-        task?.resume()
-        return task
     }
 
-    @discardableResult
-    func fetchImage(
-        from path: String,
-        completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void
-    ) -> URLSessionDataTask? {
-        let task = networkManager.fetch(from: path) { result in
+    func fetchImage(from path: String, completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void) {
+        networkManager.fetch(from: path) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else {
@@ -114,34 +91,37 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
                 completion(.failure(.networkError(error)))
             }
         }
-        task?.resume()
-        return task
     }
 
-	@discardableResult
 	func deleteMarketItem(
 		itemID: Int,
 		password: String,
-		completion: @escaping((Result<Int, MarketItemDetailUseCaseError>) -> Void)
-	) -> URLSessionDataTask? {
+		completion: @escaping((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
+	) {
 		let path = EndPoint.item(id: itemID).path
 		let deleteMarketItem = DeleteMarketItem(password: password)
 		do {
 			let deleteData = try encoder.encode(deleteMarketItem)
 
-			let task = networkManager.delete(deleteData, at: path) { result in
+			networkManager.delete(deleteData, at: path) { [weak self] result in
 				switch result {
-				case .success(let statusCode):
-					completion(.success(statusCode))
+				case .success(let data):
+                    do {
+                        guard let marketItem = try self?.decoder.decode(MarketItem.self, from: data) else {
+                            completion(.failure(.selfNotFound))
+                            return
+                        }
+                        completion(.success(marketItem))
+                    } catch {
+                        completion(.failure(.unknown(error)))
+                    }
 				case .failure(let error):
 					completion(.failure(.networkError(error)))
 				}
 			}
-			task?.resume()
-			return task
 		} catch {
 			completion(.failure(.encodingError(error)))
-			return nil
+			return
 		}
 	}
 
@@ -149,11 +129,11 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
         itemID: Int,
         password: String,
         completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
-    ) -> URLSessionDataTask? {
+    ) {
         let path = EndPoint.item(id: itemID).path
         let marketItem = PatchMarketItem(title: nil, descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: password)
 
-        let task = networkManager.multipartUpload(marketItem, to: path, method: .patch) { [weak self] result in
+        networkManager.multipartUpload(marketItem, to: path, method: .patch) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
@@ -169,6 +149,5 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
                 completion(.failure(.networkError(error)))
             }
         }
-        return task
     }
 }

@@ -17,12 +17,11 @@ enum MarketItemRegisterUseCaseError: Error {
 
 protocol MarketItemRegisterUseCaseProtocol {
 
-    @discardableResult
     func upload(
         _ marketItem: MultipartUploadable,
         to path: String, method: NetworkManager.UploadHTTPMethod,
         completion: @escaping ((Result<MarketItem, MarketItemRegisterUseCaseError>) -> Void)
-    ) -> URLSessionDataTask?
+    )
 }
 
 final class MarketItemRegisterUseCase {
@@ -44,13 +43,12 @@ final class MarketItemRegisterUseCase {
 
 	// MARK: Use case methods
 
-    @discardableResult
     func upload(
         _ marketItem: MultipartUploadable,
         to path: String, method: NetworkManager.UploadHTTPMethod,
         completion: @escaping ((Result<MarketItem, MarketItemRegisterUseCaseError>) -> Void)
-    ) -> URLSessionDataTask? {
-        let task = networkManager.multipartUpload(marketItem, to: path, method: method) { [weak self] result in
+    ) {
+        networkManager.multipartUpload(marketItem, to: path, method: method) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
@@ -66,6 +64,5 @@ final class MarketItemRegisterUseCase {
                 completion(.failure(.networkError(error)))
             }
         }
-        return task
     }
 }
