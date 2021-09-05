@@ -201,10 +201,12 @@ enum TestAssets {
         enum FetchDetail {
             static let stock: Int = 90
             static let images: [String] = [
-                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/A842F79B-299E-4E28-838D-2C17C89FF942.png"
+                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/A842F79B-299E-4E28-838D-2C17C89FF942.png",
+                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/B5EAF567-5296-4F91-9294-718E24CB96B2.png"
             ]
             static let thumbnails: [String] = [
-                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/A842F79B-299E-4E28-838D-2C17C89FF942.png"
+                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/A842F79B-299E-4E28-838D-2C17C89FF942.png",
+                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/B5EAF567-5296-4F91-9294-718E24CB96B2.png"
             ]
             static let title: String = "Mac mini"
             static let currency: String = "KRW"

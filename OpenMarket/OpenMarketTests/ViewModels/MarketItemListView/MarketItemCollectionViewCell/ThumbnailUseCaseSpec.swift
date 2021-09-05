@@ -21,6 +21,7 @@ final class ThumbnailUseCaseSpec: QuickSpec {
                 sut = ThumbnailUseCase(networkManager: stubNetworkManager)
             }
             afterEach {
+                ThumbnailUseCase.sharedCache.removeAllObjects()
                 sut = nil
                 stubNetworkManager = nil
             }
@@ -40,6 +41,7 @@ final class ThumbnailUseCaseSpec: QuickSpec {
                                 XCTFail("동작이 예상과 다릅니다. Error: \(error)")
                             }
                         }
+                        expect(stubNetworkManager.fetchCallCount).to(equal(1))
                         
                         let url = NSURL(string: path)!
                         let cached: Data = ThumbnailUseCase.sharedCache.object(forKey: url)!.pngData()!
@@ -64,6 +66,7 @@ final class ThumbnailUseCaseSpec: QuickSpec {
                             }
                         }
 
+                        expect(stubNetworkManager.fetchCallCount).to(equal(1))
                         expect(thumbnailTask).to(beNil())
                     }
                 }

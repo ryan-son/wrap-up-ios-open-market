@@ -11,6 +11,9 @@ import Foundation
 final class StubNetworkManager: NetworkManageable {
 
     let session: URLSession
+    private(set) var fetchCallCount: Int = .zero
+    private(set) var multipartUploadCallCount: Int = .zero
+    private(set) var deleteCallCount: Int = .zero
 
     init() {
         let configuration: URLSessionConfiguration = .ephemeral
@@ -24,6 +27,8 @@ final class StubNetworkManager: NetworkManageable {
     }
     
     func fetch(from urlString: String, completion: @escaping (Result<Data, NetworkManagerError>) -> Void) -> URLSessionDataTask? {
+        fetchCallCount += 1
+
         if urlString.contains("/items") {
             completion(.success(TestAssets.Expected.fetchMarketItemListData))
         } else if urlString.contains("/item") {
@@ -37,6 +42,8 @@ final class StubNetworkManager: NetworkManageable {
     }
     
     func multipartUpload(_ marketItem: MultipartUploadable, to urlString: String, method: NetworkManager.UploadHTTPMethod, completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) {
+        multipartUploadCallCount += 1
+
         if urlString.contains("/item") {
             completion(.success(TestAssets.Expected.fetchMarketItemDetailData))
         } else {
@@ -45,6 +52,8 @@ final class StubNetworkManager: NetworkManageable {
     }
     
     func delete(_ deleteData: Data, at urlString: String, completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) {
+        deleteCallCount += 1
+
         if urlString.contains("/item") {
             completion(.success(TestAssets.Expected.fetchMarketItemDetailData))
         } else {

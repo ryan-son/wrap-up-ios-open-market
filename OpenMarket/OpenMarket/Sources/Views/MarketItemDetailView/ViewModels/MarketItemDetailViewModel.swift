@@ -94,7 +94,7 @@ final class MarketItemDetailViewModel {
         }
     }
 
-    func fetchMarketItemDetail() {
+    private func fetchMarketItemDetail() {
         semaphore.wait()
         useCase.fetchMarketItemDetail(itemID: marketItemID) { [weak self] result in
             self?.semaphore.signal()
@@ -109,7 +109,7 @@ final class MarketItemDetailViewModel {
         }
     }
 
-    func fetchImage(for index: Int, from path: String) {
+    private func fetchImage(for index: Int, from path: String) {
         semaphore.wait()
         useCase.fetchImage(from: path) { [weak self] result in
             self?.semaphore.signal()

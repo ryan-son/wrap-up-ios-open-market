@@ -36,6 +36,7 @@ final class MarketItemListUseCaseSpec: QuickSpec {
                             XCTFail("동작이 예상과 다릅니다. Error: \(error)")
                         }
                     }
+                    expect(stubNetworkManager.fetchCallCount).to(equal(1))
                 }
             }
 
@@ -43,6 +44,7 @@ final class MarketItemListUseCaseSpec: QuickSpec {
                 it("실행 시 순차적인 페이지 로드를 위해 사용되었던 프로퍼티들이 초기화된다") {
                     sut.fetchItems { _ in }
                     sut.refresh()
+                    expect(stubNetworkManager.fetchCallCount).to(equal(1))
                     expect(sut.isFetching).to(beFalse())
                     expect(sut.isLastPage).to(beFalse())
                     expect(sut.page).to(equal(1))

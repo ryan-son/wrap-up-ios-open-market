@@ -39,6 +39,7 @@ final class MarketItemDetailUseCaseSpec: QuickSpec {
                                 XCTFail("동작이 예상과 다릅니다. Error: \(error)")
                             }
                         }
+                        expect(stubNetworkManager.fetchCallCount).to(equal(1))
                     }
                 }
             }
@@ -57,6 +58,7 @@ final class MarketItemDetailUseCaseSpec: QuickSpec {
                                 XCTFail("동작이 예상과 다릅니다. Error: \(error)")
                             }
                         }
+                        expect(stubNetworkManager.fetchCallCount).to(equal(1))
                     }
                 }
 
@@ -72,6 +74,7 @@ final class MarketItemDetailUseCaseSpec: QuickSpec {
                                 expect(error).to(equal(expected))
                             }
                         }
+                        expect(stubNetworkManager.fetchCallCount).to(equal(1))
                     }
                 }
             }
@@ -91,6 +94,7 @@ final class MarketItemDetailUseCaseSpec: QuickSpec {
                                 XCTFail("동작이 예상과 다릅니다. \(error)")
                             }
                         }
+                        expect(stubNetworkManager.deleteCallCount).to(equal(1))
                     }
                 }
             }
@@ -110,6 +114,7 @@ final class MarketItemDetailUseCaseSpec: QuickSpec {
                                 XCTFail("동작이 예상과 다릅니다. Error: \(error)")
                             }
                         }
+                        expect(stubNetworkManager.multipartUploadCallCount).to(equal(1))
                     }
                 }
             }
