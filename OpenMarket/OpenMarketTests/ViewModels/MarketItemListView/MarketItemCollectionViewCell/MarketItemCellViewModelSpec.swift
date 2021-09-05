@@ -40,6 +40,7 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                             }
                         }
                         sut.fire()
+                        expect(stubThumbnailUseCase.fetchThumbnailCallCount).to(equal(1))
                     }
                 }
                 
@@ -59,6 +60,7 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                             }
                         }
                         sut.fire()
+                        expect(stubThumbnailUseCase.fetchThumbnailCallCount).to(equal(1))
                     }
                 }
 
@@ -76,6 +78,7 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                             }
                         }
                         sut.fire()
+                        expect(stubThumbnailUseCase.fetchThumbnailCallCount).to(equal(1))
                     }
                 }
 
@@ -93,6 +96,7 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                             }
                         }
                         sut.fire()
+                        expect(stubThumbnailUseCase.fetchThumbnailCallCount).to(equal(1))
                     }
                 }
             }
@@ -106,6 +110,7 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                     sut.fire()
                     sut.cancelThumbnailRequest()
                     expect(sut.thumbnailTask?.state).to(equal(expectedTaskState))
+                    expect(stubThumbnailUseCase.fetchThumbnailCallCount).to(equal(1))
                 }
             }
 
@@ -119,6 +124,7 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                     let url = NSURL(string: path)!
                     let expected: UIImage? = ThumbnailUseCase.sharedCache.object(forKey: url)
                     expect(expected).toNot(beNil())
+                    expect(stubThumbnailUseCase.fetchThumbnailCallCount).to(equal(1))
                 }
             }
         }

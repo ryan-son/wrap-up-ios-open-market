@@ -46,6 +46,7 @@ final class MarketItemListViewModelSpec: QuickSpec {
                         }
 
                         sut.list()
+                        expect(stubMarketItemListUseCase.fetchItemsCallCount).to(equal(1))
                     }
                 }
 
@@ -61,6 +62,7 @@ final class MarketItemListViewModelSpec: QuickSpec {
                         }
 
                         sut.refresh()
+                        expect(stubMarketItemListUseCase.refreshCallCount).to(equal(1))
                     }
                 }
             }
@@ -70,21 +72,25 @@ final class MarketItemListViewModelSpec: QuickSpec {
                     let expected: [MarketItem] = TestAssets.Expected.fetchedMarketItems
                     sut.list()
                     expect(sut.marketItems).to(equal(expected))
+                    expect(stubMarketItemListUseCase.fetchItemsCallCount).to(equal(1))
                 }
             }
 
             describe("refresh") {
                 it("실행 시 useCase의 프로퍼티, marketItems를 모두 제거하고 다시 marketItem들을 로드한다") {
-                    let expectedPage: Int = 1
+                    let expectedPage: Int = 2
                     let expectedMarketItems: [MarketItem] = TestAssets.Expected.fetchedMarketItems
+                    sut.list()
                     sut.list()
 
                     sut.refresh()
-                    expect(stubMarketItemListUseCase.isFetching).to(beFalse())
-                    expect(stubMarketItemListUseCase.isLastPage).to(beFalse())
+                    expect(stubMarketItemListUseCase.isFetching).to(beTrue())
+                    expect(stubMarketItemListUseCase.isLastPage).to(beTrue())
                     expect(stubMarketItemListUseCase.page).to(equal(expectedPage))
                     expect(sut.marketItems).to(equal(expectedMarketItems))
                     expect(sut.marketItems.count).to(equal(expectedMarketItems.count))
+                    expect(stubMarketItemListUseCase.fetchItemsCallCount).to(equal(3))
+                    expect(stubMarketItemListUseCase.refreshCallCount).to(equal(1))
                 }
             }
         }

@@ -11,6 +11,7 @@ import UIKit.UIImage
 final class StubThumbnailUseCase: ThumbnailUseCaseProtocol {
 
     let session: URLSession
+    private(set) var fetchThumbnailCallCount: Int = .zero
 
     init() {
         let configuration: URLSessionConfiguration = .ephemeral
@@ -24,6 +25,8 @@ final class StubThumbnailUseCase: ThumbnailUseCaseProtocol {
     }
 
     func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask? {
+        fetchThumbnailCallCount += 1
+
         let url = NSURL(string: TestAssets.Expected.thumbnailURLString)!
         ThumbnailUseCase.sharedCache.setObject(TestAssets.Expected.image, forKey: url)
         completion(.success(TestAssets.Expected.image))

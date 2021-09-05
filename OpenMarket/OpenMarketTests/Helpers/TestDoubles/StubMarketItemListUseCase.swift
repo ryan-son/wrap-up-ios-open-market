@@ -12,13 +12,21 @@ final class StubMarketItemListUseCase: MarketItemListUseCaseProtocol {
     private(set) var isFetching: Bool = false
     private(set) var isLastPage: Bool = false
     private(set) var page: Int = 1
+    private(set) var fetchItemsCallCount: Int = .zero
     private(set) var refreshCallCount: Int = .zero
     
     func fetchItems(completion: @escaping (Result<[MarketItem], MarketItemListUseCaseError>) -> Void) {
+        fetchItemsCallCount += 1
+        page += 1
+        isFetching = true
+        isLastPage = true
         completion(.success(TestAssets.Expected.fetchedMarketItems))
     }
     
     func refresh() {
         refreshCallCount += 1
+        page = 1
+        isFetching = false
+        isLastPage = false
     }
 }

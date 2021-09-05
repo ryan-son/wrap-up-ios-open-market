@@ -74,6 +74,7 @@ final class NetworkManager: NetworkManageable {
             }
             completion(.success((data)))
         }
+        task.resume()
         return task
     }
 
@@ -83,9 +84,7 @@ final class NetworkManager: NetworkManageable {
             return nil
         }
         let request = URLRequest(url: url)
-        let task = dataTask(with: request, completion: completion)
-        task.resume()
-        return task
+        return dataTask(with: request, completion: completion)
     }
 
     func multipartUpload(
@@ -101,7 +100,7 @@ final class NetworkManager: NetworkManageable {
 
         let encoded: Data = multipartFormData.encode(parameters: marketItem.asDictionary)
         let request = URLRequest(url: url, method: method, contentType: multipartFormData.contentType, httpBody: encoded)
-        dataTask(with: request, completion: completion).resume()
+        _ = dataTask(with: request, completion: completion)
         multipartFormData.refresh()
     }
 
@@ -113,6 +112,6 @@ final class NetworkManager: NetworkManageable {
 			return
 		}
         let request = URLRequest(url: url, method: .delete, contentType: "application/json", httpBody: deleteData)
-        dataTask(with: request, completion: completion).resume()
+        _ = dataTask(with: request, completion: completion)
 	}
 }
