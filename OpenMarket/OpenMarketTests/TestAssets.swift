@@ -14,6 +14,7 @@ enum TestAssets {
 
     enum Dummies {
 
+        static let thumbnailImageData = TestAssets.Expected.thumbnailImage.pngData()!
         static let bookImageData = UIImage(systemName: "book")!.jpegData(compressionQuality: 1.0)!
         static let hammerImageData = UIImage(systemName: "hammer")!.jpegData(compressionQuality: 1.0)!
         static let hammerFillImageData = UIImage(systemName: "hammer.fill")!.jpegData(compressionQuality: 1.0)!
@@ -58,6 +59,8 @@ enum TestAssets {
 
     enum Expected {
 
+        static let thumbnailURLString: String = "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png"
+        static let thumbnailImage = UIImage(named: "test")!
         static let fetchMarketItemListData: Data = """
             {
                 "page": \(TestAssets.Expected.FetchList.pageNumber),

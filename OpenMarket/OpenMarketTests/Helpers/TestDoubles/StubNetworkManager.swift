@@ -28,6 +28,8 @@ final class StubNetworkManager: NetworkManageable {
             completion(.success(TestAssets.Expected.fetchMarketItemListData))
         } else if urlString.contains("/item") {
             completion(.success(TestAssets.Expected.fetchMarketItemDetailData))
+        } else if urlString.contains("/thumbnails") {
+            completion(.success(TestAssets.Dummies.thumbnailImageData))
         } else {
             completion(.failure(.urlCreationFailed))
         }
