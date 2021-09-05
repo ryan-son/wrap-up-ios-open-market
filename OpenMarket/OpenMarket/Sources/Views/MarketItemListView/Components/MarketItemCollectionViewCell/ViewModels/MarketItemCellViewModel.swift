@@ -48,7 +48,7 @@ final class MarketItemCellViewModel {
 
     private let marketItem: MarketItem
     private let useCase: ThumbnailUseCaseProtocol
-    private var thumbnailTask: URLSessionDataTask?
+    private(set) var thumbnailTask: URLSessionDataTask?
 
     init(marketItem: MarketItem, thumbnailUseCase: ThumbnailUseCaseProtocol = ThumbnailUseCase()) {
         self.marketItem = marketItem

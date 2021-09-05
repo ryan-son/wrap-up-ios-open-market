@@ -54,7 +54,58 @@ enum TestAssets {
                                                                         images: [hammerImageData],
                                                                         password: TestAssets.sharedPassword)
         static let deleteMarketItem = DeleteMarketItem(password: TestAssets.sharedPassword)
-
+        static let marketItem = MarketItem(id: 43,
+                                           title: "Apple Pencil",
+                                           descriptions: nil,
+                                           price: 165,
+                                           currency: "USD",
+                                           stock: 10,
+                                           discountedPrice: nil,
+                                           thumbnails: [
+                                            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
+                                            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
+                                           ],
+                                           images: nil,
+                                           registrationDate: 1620633040.6505718)
+        static let marketItemWithDiscountedPrice = MarketItem(id: 43,
+                                                              title: "Apple Pencil",
+                                                              descriptions: nil,
+                                                              price: 165,
+                                                              currency: "USD",
+                                                              stock: 10,
+                                                              discountedPrice: 160,
+                                                              thumbnails: [
+                                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
+                                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
+                                                              ],
+                                                              images: nil,
+                                                              registrationDate: 1620633040.6505718)
+        static let marketItemWithOutOfStock = MarketItem(id: 43,
+                                                     title: "Apple Pencil",
+                                                     descriptions: nil,
+                                                     price: 165,
+                                                     currency: "USD",
+                                                     stock: .zero,
+                                                     discountedPrice: nil,
+                                                     thumbnails: [
+                                                        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
+                                                        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
+                                                     ],
+                                                     images: nil,
+                                                     registrationDate: 1620633040.6505718)
+        static let marketItemThatExceedLimitStock = MarketItem(id: 43,
+                                                     title: "Apple Pencil",
+                                                     descriptions: nil,
+                                                     price: 165,
+                                                     currency: "USD",
+                                                     stock: 1000,
+                                                     discountedPrice: nil,
+                                                     thumbnails: [
+                                                        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
+                                                        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
+                                                     ],
+                                                     images: nil,
+                                                     registrationDate: 1620633040.6505718)
     }
 
     enum Expected {
