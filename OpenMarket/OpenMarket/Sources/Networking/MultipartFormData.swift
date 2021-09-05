@@ -16,7 +16,9 @@ protocol MultipartFormDataEncodable {
 
     var boundary: String { get }
     var contentType: String { get }
+    var body: Data { get }
     func encode(parameters: [String: Any?]) -> Data
+    func refresh()
 }
 
 final class MultipartFormData: MultipartFormDataEncodable {
@@ -59,7 +61,7 @@ final class MultipartFormData: MultipartFormDataEncodable {
     private(set) lazy var contentType: String = "multipart/form-data; boundary=\(boundary)"
 	private let jpegMimeType: String = "image/jpeg"
 	private let jpegPathExtension: String = ".jpeg"
-    private var body = Data()
+    private(set) var body = Data()
 
 	// MARK: Initializers
 
@@ -122,6 +124,10 @@ final class MultipartFormData: MultipartFormDataEncodable {
             header.append("Content-Type: \(mimeType)" + EncodingCharacter.crlf + EncodingCharacter.crlf)
         }
         return Data(header.utf8)
+    }
+
+    func refresh() {
+        body.removeAll()
     }
 
 	// MARK: Boundary generators

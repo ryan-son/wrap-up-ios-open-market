@@ -102,7 +102,7 @@ final class NetworkManager: NetworkManageable {
         }
 
         let encoded: Data = multipartFormData.encode(parameters: marketItem.asDictionary)
-        let request = URLRequest(url: url, method: method, contentType: .multipart, httpBody: encoded)
+        let request = URLRequest(url: url, method: method, contentType: multipartFormData.contentType, httpBody: encoded)
 
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -129,6 +129,7 @@ final class NetworkManager: NetworkManageable {
         }
 
         task.resume()
+        multipartFormData.refresh()
         return task
     }
 
@@ -141,7 +142,7 @@ final class NetworkManager: NetworkManageable {
 			return nil
 		}
 
-        let request = URLRequest(url: url, method: .delete, contentType: .json, httpBody: deleteData)
+        let request = URLRequest(url: url, method: .delete, contentType: "application/json", httpBody: deleteData)
 
 		let task = session.dataTask(with: request) { _, response, error in
 			if let error = error {
