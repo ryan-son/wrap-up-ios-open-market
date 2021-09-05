@@ -140,6 +140,17 @@ final class MultipartFormDataSpec: QuickSpec {
                     }
                 }
             }
+
+            describe("refresh") {
+                it("실행 시 현재까지 작성된 body 인스턴스 프로퍼티의 내용이 삭제된다") {
+                    let postMarketItem: PostMarketItem = TestAssets.Dummies.postMarketItem
+                    let _ = sut.encode(parameters: postMarketItem.asDictionary)
+                    expect(sut.body).notTo(beEmpty())
+
+                    sut.refresh()
+                    expect(sut.body).to(beEmpty())
+                }
+            }
         }
     }
 }
