@@ -21,10 +21,9 @@ protocol MarketItemListUseCaseProtocol {
     var isLastPage: Bool { get }
     var page: Int { get }
 
-    @discardableResult
     func fetchItems(
         completion: @escaping (Result<[MarketItem], MarketItemListUseCaseError>) -> Void
-    ) -> URLSessionDataTask?
+    )
     func refresh()
 }
 
@@ -50,11 +49,10 @@ final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
 
 	// MARK: Use case methods
 
-    @discardableResult
     func fetchItems(
         completion: @escaping (Result<[MarketItem], MarketItemListUseCaseError>) -> Void
-    ) -> URLSessionDataTask? {
-        if isFetching || isLastPage { return nil }
+    ) {
+        if isFetching || isLastPage { return }
         isFetching = true
 
         let path = EndPoint.items(page: page).path
@@ -83,7 +81,6 @@ final class MarketItemListUseCase: MarketItemListUseCaseProtocol {
         }
 
         task?.resume()
-        return task
     }
 
     func refresh() {

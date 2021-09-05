@@ -18,11 +18,13 @@
 		AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DB926E21088005F01C7 /* EndPointSpec.swift */; };
 		AAA75DBC26E218FE005F01C7 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */; };
 		AAA75DBE26E2705C005F01C7 /* MultipartFormDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DBD26E2705C005F01C7 /* MultipartFormDataSpec.swift */; };
-		AAA75DC226E2FC1C005F01C7 /* DummyMultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC126E2FC1C005F01C7 /* DummyMultipartFormData.swift */; };
+		AAA75DC226E2FC1C005F01C7 /* SpyMultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC126E2FC1C005F01C7 /* SpyMultipartFormData.swift */; };
 		AAA75DC426E2FD40005F01C7 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */; };
 		AAA75DC626E2FDB4005F01C7 /* NetworkManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DC526E2FDB4005F01C7 /* NetworkManagerSpec.swift */; };
 		AAA75DCC26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DCB26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift */; };
 		AAA75DCF26E3E18B005F01C7 /* StubNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DCE26E3E18B005F01C7 /* StubNetworkManager.swift */; };
+		AAA75DD226E3F016005F01C7 /* MarketItemListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DD126E3F016005F01C7 /* MarketItemListViewModelSpec.swift */; };
+		AAA75DD426E3F0F1005F01C7 /* StubMarketItemListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DD326E3F0F1005F01C7 /* StubMarketItemListUseCase.swift */; };
 		AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84B426D9952500B23520 /* OpenMarketTests.swift */; };
 		AAAD84C026D9952500B23520 /* OpenMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */; };
 		AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84CF26D995AD00B23520 /* AppDelegate.swift */; };
@@ -102,11 +104,13 @@
 		AAA75DB926E21088005F01C7 /* EndPointSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointSpec.swift; sourceTree = "<group>"; };
 		AAA75DBB26E218FE005F01C7 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		AAA75DBD26E2705C005F01C7 /* MultipartFormDataSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormDataSpec.swift; sourceTree = "<group>"; };
-		AAA75DC126E2FC1C005F01C7 /* DummyMultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyMultipartFormData.swift; sourceTree = "<group>"; };
+		AAA75DC126E2FC1C005F01C7 /* SpyMultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyMultipartFormData.swift; sourceTree = "<group>"; };
 		AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		AAA75DC526E2FDB4005F01C7 /* NetworkManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerSpec.swift; sourceTree = "<group>"; };
 		AAA75DCB26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemListUseCaseSpec.swift; sourceTree = "<group>"; };
 		AAA75DCE26E3E18B005F01C7 /* StubNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNetworkManager.swift; sourceTree = "<group>"; };
+		AAA75DD126E3F016005F01C7 /* MarketItemListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemListViewModelSpec.swift; sourceTree = "<group>"; };
+		AAA75DD326E3F0F1005F01C7 /* StubMarketItemListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMarketItemListUseCase.swift; sourceTree = "<group>"; };
 		AAAD849A26D9952400B23520 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAD84AB26D9952500B23520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAD84B026D9952500B23520 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				AAA75DCB26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift */,
+				AAA75DD126E3F016005F01C7 /* MarketItemListViewModelSpec.swift */,
 			);
 			path = MarketItemListView;
 			sourceTree = "<group>";
@@ -294,8 +299,9 @@
 			isa = PBXGroup;
 			children = (
 				AAA75DC326E2FD40005F01C7 /* MockURLProtocol.swift */,
-				AAA75DC126E2FC1C005F01C7 /* DummyMultipartFormData.swift */,
+				AAA75DC126E2FC1C005F01C7 /* SpyMultipartFormData.swift */,
 				AAA75DCE26E3E18B005F01C7 /* StubNetworkManager.swift */,
+				AAA75DD326E3F0F1005F01C7 /* StubMarketItemListUseCase.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -881,9 +887,11 @@
 				AAA75DB426E1ED31005F01C7 /* TestAssets.swift in Sources */,
 				AAA75DCC26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift in Sources */,
 				AAA75DB226E1E953005F01C7 /* DTOSpec.swift in Sources */,
-				AAA75DC226E2FC1C005F01C7 /* DummyMultipartFormData.swift in Sources */,
+				AAA75DC226E2FC1C005F01C7 /* SpyMultipartFormData.swift in Sources */,
+				AAA75DD226E3F016005F01C7 /* MarketItemListViewModelSpec.swift in Sources */,
 				AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */,
 				AAA75DB726E1FDD2005F01C7 /* UtilSpec.swift in Sources */,
+				AAA75DD426E3F0F1005F01C7 /* StubMarketItemListUseCase.swift in Sources */,
 				AAA75DBE26E2705C005F01C7 /* MultipartFormDataSpec.swift in Sources */,
 				AAA75DCF26E3E18B005F01C7 /* StubNetworkManager.swift in Sources */,
 				AAA75DC426E2FD40005F01C7 /* MockURLProtocol.swift in Sources */,

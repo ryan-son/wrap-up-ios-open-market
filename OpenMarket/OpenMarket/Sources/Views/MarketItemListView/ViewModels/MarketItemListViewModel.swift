@@ -19,9 +19,7 @@ final class MarketItemListViewModel {
     enum State {
         case empty
         case fetched(indexPaths: [IndexPath])
-        case insert
-        case delete
-        case refresh
+        case refreshed
         case error(MarketItemListViewModelError)
     }
 
@@ -42,7 +40,7 @@ final class MarketItemListViewModel {
         didSet {
             switch marketItems.count {
             case .zero:
-                state = .refresh
+                state = .refreshed
             case oldValue.count...:
                 let indexPaths = (oldValue.count ..< marketItems.count).map { IndexPath(item: $0, section: .zero) }
                 state = .fetched(indexPaths: indexPaths)

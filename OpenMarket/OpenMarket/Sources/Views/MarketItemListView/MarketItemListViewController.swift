@@ -75,7 +75,7 @@ final class MarketItemListViewController: UIViewController {
             case .fetched(let indexPaths):
                 self?.collectionView.insertItems(at: indexPaths)
                 self?.activityIndicator.stopAnimating()
-            case .refresh:
+            case .refreshed:
                 self?.scrollToTop()
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()

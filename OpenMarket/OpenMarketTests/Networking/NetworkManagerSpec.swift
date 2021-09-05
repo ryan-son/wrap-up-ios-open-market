@@ -14,19 +14,19 @@ final class NetworkManagerSpec: QuickSpec {
     override func spec() {
         describe("NetworkManager") {
             var session: URLSession!
-            var dummyMultipartFormData: DummyMultipartFormData!
+            var spyMultipartFormData: SpyMultipartFormData!
             var sut: NetworkManageable!
 
             beforeEach {
                 let configuration: URLSessionConfiguration = .ephemeral
                 configuration.protocolClasses = [MockURLProtocol.self]
                 session = URLSession(configuration: configuration)
-                dummyMultipartFormData = DummyMultipartFormData()
-                sut = NetworkManager(session: session, multipartFormData: dummyMultipartFormData)
+                spyMultipartFormData = SpyMultipartFormData()
+                sut = NetworkManager(session: session, multipartFormData: spyMultipartFormData)
             }
             afterEach {
                 sut = nil
-                dummyMultipartFormData = nil
+                spyMultipartFormData = nil
                 session = nil
             }
 
@@ -104,6 +104,7 @@ final class NetworkManagerSpec: QuickSpec {
 
                     it("등록된 상품이 MarketItem json 형태로 반환된다") {
                         let expected: Data = TestAssets.Expected.postMarketItemData
+                        let expectedEncodeCallCount: Int = 1
                         self.setLoadingHandler(shouldSuccessNetwork: true, expected)
 
                         sut.multipartUpload(postMarketItem, to: path, method: .post) { result in
@@ -114,6 +115,7 @@ final class NetworkManagerSpec: QuickSpec {
                                 XCTFail("응답이 예상과 다릅니다. Error: \(error)")
                             }
                         }
+                        expect(spyMultipartFormData.encodeCallCount).to(equal(expectedEncodeCallCount))
                     }
 
                     it("통신에 실패하면 Result 타입으로 래핑된 NetworkManagerError를 반환한다") {
@@ -141,6 +143,7 @@ final class NetworkManagerSpec: QuickSpec {
 
                     it("수정된 상품이 MarketItem json 형태로 반환된다") {
                         let expected: Data = TestAssets.Expected.patchMarketItemData
+                        let expectedEncodeCallCount: Int = 1
                         self.setLoadingHandler(shouldSuccessNetwork: true, expected)
 
                         sut.multipartUpload(patchMarketItem, to: path, method: .patch) { result in
@@ -151,6 +154,7 @@ final class NetworkManagerSpec: QuickSpec {
                                 XCTFail("응답이 예상과 다릅니다. Error: \(error)")
                             }
                         }
+                        expect(spyMultipartFormData.encodeCallCount).to(equal(expectedEncodeCallCount))
                     }
                 }
             }
