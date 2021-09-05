@@ -116,6 +116,7 @@ final class NetworkManagerSpec: QuickSpec {
                             }
                         }
                         expect(spyMultipartFormData.encodeCallCount).to(equal(expectedEncodeCallCount))
+                        expect(spyMultipartFormData.body).to(beEmpty())
                     }
 
                     it("통신에 실패하면 Result 타입으로 래핑된 NetworkManagerError를 반환한다") {
@@ -131,6 +132,7 @@ final class NetworkManagerSpec: QuickSpec {
                                 expect(error).to(equal(expected))
                             }
                         }
+                        expect(spyMultipartFormData.body).to(beEmpty())
                     }
                 }
             }
@@ -155,6 +157,7 @@ final class NetworkManagerSpec: QuickSpec {
                             }
                         }
                         expect(spyMultipartFormData.encodeCallCount).to(equal(expectedEncodeCallCount))
+                        expect(spyMultipartFormData.body).to(beEmpty())
                     }
                 }
             }
@@ -167,15 +170,14 @@ final class NetworkManagerSpec: QuickSpec {
                 context("지정된 path에 itemID를 DeleteMarketItem 인스턴스를 JSON 형태로 인코딩하여 전달하면") {
                     let path = EndPoint.item(id: .zero).path
 
-                    it("성공 시 Result 타입으로 래핑된 HTTP Status Code 200을 반환한다") {
+                    it("성공 시 삭제한 아이템을 반환한다") {
                         let encoded = try! encoder.encode(deleteMarketItem)
                         self.setLoadingHandler(shouldSuccessNetwork: true, encoded)
-                        let expected: Int = TestAssets.Expected.Delete.successStatusCode
 
                         sut.delete(encoded, at: path) { result in
                             switch result {
-                            case .success(let statusCode):
-                                expect(statusCode).to(equal(expected))
+                            case .success(let data):
+                                expect(data).to(equal(encoded))
                             case .failure(let error):
                                 XCTFail("응답이 예상과 다릅니다. Error: \(error)")
                             }

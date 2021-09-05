@@ -28,29 +28,27 @@ final class StubNetworkManager: NetworkManageable {
             completion(.success(TestAssets.Expected.fetchMarketItemListData))
         } else if urlString.contains("/item") {
             completion(.success(TestAssets.Expected.fetchMarketItemDetailData))
-        } else if urlString.contains("/thumbnails") {
-            completion(.success(TestAssets.Dummies.thumbnailImageData))
+        } else if urlString.contains("/thumbnails") || urlString.contains("/images") {
+            completion(.success(TestAssets.Dummies.imageData))
         } else {
             completion(.failure(.urlCreationFailed))
         }
         return session.dataTask(with: URL(string: "https://test.com")!)
     }
     
-    func multipartUpload(_ marketItem: MultipartUploadable, to urlString: String, method: NetworkManager.UploadHTTPMethod, completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) -> URLSessionDataTask? {
+    func multipartUpload(_ marketItem: MultipartUploadable, to urlString: String, method: NetworkManager.UploadHTTPMethod, completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) {
         if urlString.contains("/item") {
-            completion(.success(TestAssets.Expected.postMarketItemData))
+            completion(.success(TestAssets.Expected.fetchMarketItemDetailData))
         } else {
             completion(.failure(.urlCreationFailed))
         }
-        return session.dataTask(with: URL(string: "https://test.com")!)
     }
     
-    func delete(_ deleteData: Data, at urlString: String, completion: @escaping ((Result<Int, NetworkManagerError>) -> Void)) -> URLSessionDataTask? {
+    func delete(_ deleteData: Data, at urlString: String, completion: @escaping ((Result<Data, NetworkManagerError>) -> Void)) {
         if urlString.contains("/item") {
-            completion(.success(TestAssets.Expected.Delete.successStatusCode))
+            completion(.success(TestAssets.Expected.fetchMarketItemDetailData))
         } else {
             completion(.failure(.urlCreationFailed))
         }
-        return session.dataTask(with: URL(string: "https://test.com")!)
     }
 }

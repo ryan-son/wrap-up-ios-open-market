@@ -30,7 +30,7 @@ final class ThumbnailUseCaseSpec: QuickSpec {
                     let path: String = TestAssets.Expected.thumbnailURLString
 
                     it("UIImage 형태로 반환하고 fetch한 thumbnail은 sharedCache 타입 프로퍼티에 NSURL 타입의 키값을 가지고 저장된다") {
-                        let expected: Data = TestAssets.Expected.thumbnailImage.pngData()!
+                        let expected: Data = TestAssets.Expected.image.pngData()!
                         let _ = sut.fetchThumbnail(from: path) { result in
                             switch result {
                             case .success(let thumbnail):

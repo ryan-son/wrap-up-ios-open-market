@@ -14,7 +14,7 @@ enum TestAssets {
 
     enum Dummies {
 
-        static let thumbnailImageData = TestAssets.Expected.thumbnailImage.pngData()!
+        static let imageData: Data = TestAssets.Expected.image.pngData()!
         static let bookImageData = UIImage(systemName: "book")!.jpegData(compressionQuality: 1.0)!
         static let hammerImageData = UIImage(systemName: "hammer")!.jpegData(compressionQuality: 1.0)!
         static let hammerFillImageData = UIImage(systemName: "hammer.fill")!.jpegData(compressionQuality: 1.0)!
@@ -111,7 +111,7 @@ enum TestAssets {
     enum Expected {
 
         static let thumbnailURLString: String = "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png"
-        static let thumbnailImage = UIImage(named: "test")!
+        static let image = UIImage(named: "test")!
         static let fetchMarketItemListData: Data = """
             {
                 "page": \(TestAssets.Expected.FetchList.pageNumber),
@@ -140,17 +140,28 @@ enum TestAssets {
             """.data(using: .utf8)!
         static let fetchMarketItemDetailData = """
             {
-              "stock": \(TestAssets.Expected.FetchDetail.stock),
-              "images": \(TestAssets.Expected.FetchDetail.images),
-              "title": \(TestAssets.Expected.FetchDetail.title),
-              "currency": \(TestAssets.Expected.FetchDetail.currency),
               "id": \(TestAssets.Expected.FetchDetail.id),
               "discounted_price": \(TestAssets.Expected.FetchDetail.discountedPrice),
-              "price": \(TestAssets.Expected.FetchDetail.price),
+              "descriptions": "\(TestAssets.Expected.FetchDetail.descriptions)",
+              "currency": "\(TestAssets.Expected.FetchDetail.currency)",
+              "images": \(TestAssets.Expected.FetchDetail.images),
+              "thumbnails": \(TestAssets.Expected.FetchDetail.thumbnails),
+              "stock": \(TestAssets.Expected.FetchDetail.stock),
+              "title": "\(TestAssets.Expected.FetchDetail.title)",
               "registration_date": \(TestAssets.Expected.FetchDetail.registrationDate),
-              "descriptions": \(TestAssets.Expected.FetchDetail.descriptions)
+              "price": \(TestAssets.Expected.FetchDetail.price)
             }
             """.data(using: .utf8)!
+        static let detailMarketItem = MarketItem(id: TestAssets.Expected.FetchDetail.id,
+                                                 title: TestAssets.Expected.FetchDetail.title,
+                                                 descriptions: TestAssets.Expected.FetchDetail.descriptions,
+                                                 price: TestAssets.Expected.FetchDetail.price,
+                                                 currency: TestAssets.Expected.FetchDetail.currency,
+                                                 stock: TestAssets.Expected.FetchDetail.stock,
+                                                 discountedPrice: TestAssets.Expected.FetchDetail.discountedPrice,
+                                                 thumbnails: TestAssets.Expected.FetchDetail.thumbnails,
+                                                 images: TestAssets.Expected.FetchDetail.images,
+                                                 registrationDate: TestAssets.Expected.FetchDetail.registrationDate)
         static let postMarketItemData = """
             {
               "registration_date": \(TestAssets.Expected.Post.registrationDate),
@@ -181,10 +192,18 @@ enum TestAssets {
             TestAssets.Expected.FetchList.fetchMarketItemForList1,
             TestAssets.Expected.FetchList.fetchMarketItemForList2
         ]
+        static let deleteMarketItemData = """
+            {
+                "password": \(TestAssets.sharedPassword)
+            }
+            """.data(using: .utf8)!
 
         enum FetchDetail {
             static let stock: Int = 90
             static let images: [String] = [
+                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/A842F79B-299E-4E28-838D-2C17C89FF942.png"
+            ]
+            static let thumbnails: [String] = [
                 "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/A842F79B-299E-4E28-838D-2C17C89FF942.png"
             ]
             static let title: String = "Mac mini"
@@ -193,7 +212,7 @@ enum TestAssets {
             static let discountedPrice: Int = 89000
             static let price: Int = 890000
             static let registrationDate: TimeInterval = 1620633229.6858091
-            static let descriptions: String = "Apple M1 칩이 우리의 가장 다재다능한 데스크탑의 능력을 완전히 새로운 차원으로 끌어올려줍니다.\n최대 3배 더 빨라진 CPU 성능. 최대 6배 더 빨라진 그래픽. 여기에 지금까지 가장 앞선 Neural Engine 덕분에 최대 15배 더 빨라진 머신 러닝까지.\n이제 Mac mini로 여태껏 상상해보지 못한 속도와 파워로 일하고, 즐기고, 창조해보세요."
+            static let descriptions: String = "Apple M1 칩이 우리의 가장 다재다능한 데스크탑의 능력을 완전히 새로운 차원으로 끌어올려줍니다."
             static let error: NetworkManagerError = .gotFailedResponse(statusCode: 400)
         }
         
@@ -230,31 +249,31 @@ enum TestAssets {
         enum FetchList {
             static let pageNumber: Int = 1
             static let fetchMarketItemForList1 = MarketItem(id: 43,
-                                               title: "Apple Pencil",
-                                               descriptions: nil,
-                                               price: 165,
-                                               currency: "USD",
-                                               stock: 5000000,
-                                               discountedPrice: 160,
-                                               thumbnails: [
-                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
-                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
-                                               ],
-                                               images: nil,
-                                               registrationDate: 1620633040.6505718)
+                                                            title: "Apple Pencil",
+                                                            descriptions: nil,
+                                                            price: 165,
+                                                            currency: "USD",
+                                                            stock: 5000000,
+                                                            discountedPrice: 160,
+                                                            thumbnails: [
+                                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
+                                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
+                                                            ],
+                                                            images: nil,
+                                                            registrationDate: 1620633040.6505718)
             static let fetchMarketItemForList2 = MarketItem(id: 40,
-                                               title: "MacBook Pro",
-                                               descriptions: nil,
-                                               price: 1690,
-                                               currency: "USD",
-                                               stock: 0,
-                                               discountedPrice: nil,
-                                               thumbnails: [
-                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/DE1506F3-2289-4AB2-892C-4AD0C72C02EF.png",
-                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1F8FD761-CE80-4B5A-B438-777230508FD9.png"
-                                               ],
-                                               images: nil,
-                                               registrationDate: 1620633347.3906322)
+                                                            title: "MacBook Pro",
+                                                            descriptions: nil,
+                                                            price: 1690,
+                                                            currency: "USD",
+                                                            stock: 0,
+                                                            discountedPrice: nil,
+                                                            thumbnails: [
+                                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/DE1506F3-2289-4AB2-892C-4AD0C72C02EF.png",
+                                                                "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1F8FD761-CE80-4B5A-B438-777230508FD9.png"
+                                                            ],
+                                                            images: nil,
+                                                            registrationDate: 1620633347.3906322)
             static let error: NetworkManagerError = .gotFailedResponse(statusCode: 400)
         }
     }

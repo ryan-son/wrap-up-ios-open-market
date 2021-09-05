@@ -25,8 +25,8 @@ final class StubThumbnailUseCase: ThumbnailUseCaseProtocol {
 
     func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask? {
         let url = NSURL(string: TestAssets.Expected.thumbnailURLString)!
-        ThumbnailUseCase.sharedCache.setObject(TestAssets.Expected.thumbnailImage, forKey: url)
-        completion(.success(TestAssets.Expected.thumbnailImage))
+        ThumbnailUseCase.sharedCache.setObject(TestAssets.Expected.image, forKey: url)
+        completion(.success(TestAssets.Expected.image))
         return session.dataTask(with: URL(string: "https://test.com")!)
     }
 }

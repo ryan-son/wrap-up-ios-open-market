@@ -28,6 +28,7 @@
 		AAA75DD726E48418005F01C7 /* ThumbnailUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DD626E48418005F01C7 /* ThumbnailUseCaseSpec.swift */; };
 		AAA75DDB26E49640005F01C7 /* MarketItemCellViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DDA26E49640005F01C7 /* MarketItemCellViewModelSpec.swift */; };
 		AAA75DDD26E49701005F01C7 /* StubThumbnailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DDC26E49701005F01C7 /* StubThumbnailUseCase.swift */; };
+		AAA75DDF26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DDE26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift */; };
 		AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84B426D9952500B23520 /* OpenMarketTests.swift */; };
 		AAAD84C026D9952500B23520 /* OpenMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */; };
 		AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84CF26D995AD00B23520 /* AppDelegate.swift */; };
@@ -117,6 +118,7 @@
 		AAA75DD626E48418005F01C7 /* ThumbnailUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailUseCaseSpec.swift; sourceTree = "<group>"; };
 		AAA75DDA26E49640005F01C7 /* MarketItemCellViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemCellViewModelSpec.swift; sourceTree = "<group>"; };
 		AAA75DDC26E49701005F01C7 /* StubThumbnailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubThumbnailUseCase.swift; sourceTree = "<group>"; };
+		AAA75DDE26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDetailUseCaseSpec.swift; sourceTree = "<group>"; };
 		AAAD849A26D9952400B23520 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAD84AB26D9952500B23520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAD84B026D9952500B23520 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +283,7 @@
 		AAA75DC826E3DFE6005F01C7 /* MarketItemDetailView */ = {
 			isa = PBXGroup;
 			children = (
+				AAA75DDE26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift */,
 			);
 			path = MarketItemDetailView;
 			sourceTree = "<group>";
@@ -906,6 +909,7 @@
 				AAA75DDB26E49640005F01C7 /* MarketItemCellViewModelSpec.swift in Sources */,
 				AAA75DCC26E3E027005F01C7 /* MarketItemListUseCaseSpec.swift in Sources */,
 				AAA75DB226E1E953005F01C7 /* DTOSpec.swift in Sources */,
+				AAA75DDF26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift in Sources */,
 				AAA75DC226E2FC1C005F01C7 /* SpyMultipartFormData.swift in Sources */,
 				AAA75DD226E3F016005F01C7 /* MarketItemListViewModelSpec.swift in Sources */,
 				AAA75DBA26E21088005F01C7 /* EndPointSpec.swift in Sources */,

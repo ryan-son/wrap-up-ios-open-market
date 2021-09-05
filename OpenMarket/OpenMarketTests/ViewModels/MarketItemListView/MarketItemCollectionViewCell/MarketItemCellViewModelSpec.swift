@@ -21,24 +21,21 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                     let sut = MarketItemCellViewModel(marketItem: dummyMarketItem, thumbnailUseCase: stubThumbnailUseCase)
                     it("update block이 실행되어 metaData를 통해 View를 업데이트할 기회를 제공한다") {
                         var isUpdateCalled: Bool = false
-                        let expectedIsUpdateCalled: Bool = true
                         let expectedTitle = dummyMarketItem.title
-                        let expectedThumbnailData = TestAssets.Expected.thumbnailImage.pngData()!
-                        let expectedHasDiscountedPrice = false
+                        let expectedThumbnailData = TestAssets.Expected.image.pngData()!
                         let expectedPrice = "\(dummyMarketItem.currency) \(dummyMarketItem.price.priceFormatted())"
-                        let expectedIsOutOfStock = false
                         let expectedStock = "재고: \(dummyMarketItem.stock)"
 
                         sut.bind { state in
                             if case .update(let metaData) = state {
                                 isUpdateCalled = true
-                                expect(isUpdateCalled).to(equal(expectedIsUpdateCalled))
+                                expect(isUpdateCalled).to(beTrue())
                                 expect(metaData.title).to(equal(expectedTitle))
                                 expect(metaData.thumbnail!.pngData()!).to(equal(expectedThumbnailData))
-                                expect(metaData.hasDiscountedPrice).to(equal(expectedHasDiscountedPrice))
+                                expect(metaData.hasDiscountedPrice).to(beFalse())
                                 expect(metaData.discountedPrice.string.isEmpty).to(beTrue())
                                 expect(metaData.price).to(equal(expectedPrice))
-                                expect(metaData.isOutOfStock).to(equal(expectedIsOutOfStock))
+                                expect(metaData.isOutOfStock).to(beFalse())
                                 expect(metaData.stock).to(equal(expectedStock))
                             }
                         }
@@ -51,13 +48,12 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                     let dummyMarketItem = TestAssets.Dummies.marketItemWithDiscountedPrice
                     let sut = MarketItemCellViewModel(marketItem: dummyMarketItem, thumbnailUseCase: stubThumbnailUseCase)
                     it("할인 가격은 기존 가격에 취소선이 적용되고 가격은 할인 가격으로 표시된다") {
-                        let expectedHasDiscountedPrice = true
                         let expectedDiscountedPrice: NSAttributedString = "\(dummyMarketItem.currency) \(dummyMarketItem.price.priceFormatted())".strikeThrough()
                         let expectedPrice = "\(dummyMarketItem.currency) \(dummyMarketItem.discountedPrice!.priceFormatted())"
 
                         sut.bind { state in
                             if case .update(let metaData) = state {
-                                expect(metaData.hasDiscountedPrice).to(equal(expectedHasDiscountedPrice))
+                                expect(metaData.hasDiscountedPrice).to(beTrue())
                                 expect(metaData.discountedPrice).to(equal(expectedDiscountedPrice))
                                 expect(metaData.price).to(equal(expectedPrice))
                             }
@@ -71,12 +67,11 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                     let dummyMarketItem = TestAssets.Dummies.marketItemWithOutOfStock
                     let sut = MarketItemCellViewModel(marketItem: dummyMarketItem, thumbnailUseCase: stubThumbnailUseCase)
                     it("재고가 품절으로 표시된다") {
-                        let expectedIsOutOfStock = true
                         let expectedStock = "품절"
 
                         sut.bind { state in
                             if case .update(let metaData) = state {
-                                expect(metaData.isOutOfStock).to(equal(expectedIsOutOfStock))
+                                expect(metaData.isOutOfStock).to(beTrue())
                                 expect(metaData.stock).to(equal(expectedStock))
                             }
                         }
@@ -89,12 +84,11 @@ final class MarketItemCellViewModelSpec: QuickSpec {
                     let dummyMarketItem = TestAssets.Dummies.marketItemThatExceedLimitStock
                     let sut = MarketItemCellViewModel(marketItem: dummyMarketItem, thumbnailUseCase: stubThumbnailUseCase)
                     it("재고가 999+로 표시된다") {
-                        let expectedIsOutOfStock = false
                         let expectedStock = "재고: 999+"
 
                         sut.bind { state in
                             if case .update(let metaData) = state {
-                                expect(metaData.isOutOfStock).to(equal(expectedIsOutOfStock))
+                                expect(metaData.isOutOfStock).to(beFalse())
                                 expect(metaData.stock).to(equal(expectedStock))
                             }
                         }
