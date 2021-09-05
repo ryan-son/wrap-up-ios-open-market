@@ -19,7 +19,11 @@ final class StubMarketItemListUseCase: MarketItemListUseCaseProtocol {
         fetchItemsCallCount += 1
         page += 1
         isFetching = true
-        isLastPage = true
+
+        if page == 3 {
+            isLastPage = true
+        }
+
         completion(.success(TestAssets.Expected.fetchedMarketItems))
     }
     

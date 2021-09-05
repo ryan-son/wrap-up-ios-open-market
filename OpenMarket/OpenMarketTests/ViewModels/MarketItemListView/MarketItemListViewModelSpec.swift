@@ -85,7 +85,7 @@ final class MarketItemListViewModelSpec: QuickSpec {
 
                     sut.refresh()
                     expect(stubMarketItemListUseCase.isFetching).to(beTrue())
-                    expect(stubMarketItemListUseCase.isLastPage).to(beTrue())
+                    expect(stubMarketItemListUseCase.isLastPage).to(beFalse())
                     expect(stubMarketItemListUseCase.page).to(equal(expectedPage))
                     expect(sut.marketItems).to(equal(expectedMarketItems))
                     expect(sut.marketItems.count).to(equal(expectedMarketItems.count))
