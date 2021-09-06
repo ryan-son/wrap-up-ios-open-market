@@ -17,6 +17,7 @@ final class MarketItemListViewController: UIViewController {
     // MARK: Properties
 
     private let viewModel = MarketItemListViewModel()
+    private var cellStyle: CellStyle = .list
 
     // MARK: Views
 
@@ -29,9 +30,9 @@ final class MarketItemListViewController: UIViewController {
         collectionView.register(MarketItemGridCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MarketItemGridCollectionViewCell.reuseIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.accessibilityIdentifier = Style.collectionViewAccessibilityIdentifier
         return collectionView
     }()
-    private var cellStyle: CellStyle = .list
 
     private let addNewPostButton: UIButton = {
         let button = UIButton()
@@ -42,6 +43,7 @@ final class MarketItemListViewController: UIViewController {
         button.layer.cornerRadius = Style.AddNewPostButton.cornerRadius
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = Style.AddNewPostButton.accessibilityIdentifier
         return button
     }()
 
@@ -51,6 +53,7 @@ final class MarketItemListViewController: UIViewController {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
         activityIndicator.startAnimating()
+        activityIndicator.accessibilityIdentifier = Style.activityIndicatorAccessibilityIdentifier
         return activityIndicator
     }()
 
@@ -100,9 +103,13 @@ final class MarketItemListViewController: UIViewController {
         let changeCellStyleBarButton = UIBarButtonItem(image: Style.ChangeCellStyleBarButton.gridCellButtonImage,
                                                        style: .plain, target: self,
                                                        action: #selector(changeCellStyleButtonTapped))
+        changeCellStyleBarButton.accessibilityIdentifier = Style.ChangeCellStyleBarButton.accessibilityIdentifier
+
         let refreshBarButton = UIBarButtonItem(barButtonSystemItem: .refresh,
                                                target: self,
                                                action: #selector(refreshMarketItems))
+        refreshBarButton.accessibilityIdentifier = Style.refreshMarketItemsBarButtonAccessibilityIdentifier
+
         let rightBarButtonItems = [refreshBarButton, changeCellStyleBarButton]
         rightBarButtonItems.forEach { $0.tintColor = Style.navigationBarButtonItemTintColor }
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: true)
@@ -350,10 +357,14 @@ extension MarketItemListViewController {
 		static let gridSectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
 		static let gridSectionMinimumLineSpacing: CGFloat = 20
 		static let navigationBarButtonItemTintColor: UIColor = .label
+        static let collectionViewAccessibilityIdentifier: String = "marketItemList"
+        static let activityIndicatorAccessibilityIdentifier: String = "loadingSpinner"
+        static let refreshMarketItemsBarButtonAccessibilityIdentifier: String = "refreshMarketItems"
 
 		enum ChangeCellStyleBarButton {
 			static let listCellButtonImage = UIImage(systemName: "list.dash")
 			static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
+            static let accessibilityIdentifier: String = "ChangeCellStyle"
 		}
 
 		enum AddNewPostButton {
@@ -363,6 +374,7 @@ extension MarketItemListViewController {
 			static let backgroundColor: UIColor = .systemBackground
 			static let trailingConstant: CGFloat = -30
 			static let bottomConstant: CGFloat = -70
+            static let accessibilityIdentifier: String = "addNewPost"
 		}
 	}
 }

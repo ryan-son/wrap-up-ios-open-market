@@ -21,6 +21,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = Style.ThumbnailImageView.cornerRadius
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.accessibilityIdentifier = Style.ThumbnailImageView.accessibilityIdentifier
         return imageView
     }()
 
@@ -41,6 +42,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         label.numberOfLines = Style.TitleLabel.numberOfLines
+        label.accessibilityIdentifier = Style.TitleLabel.accessibilityIdentifier
         return label
     }()
 
@@ -50,6 +52,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         label.textColor = Style.StockLabel.textColor
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .horizontal)
+        label.accessibilityIdentifier = Style.StockLabel.accessibilityIdentifier
         return label
     }()
 
@@ -67,6 +70,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: Style.DiscountedPriceLabel.font)
         label.textColor = Style.DiscountedPriceLabel.textColor
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.accessibilityIdentifier = Style.DiscountedPriceLabel.accessibilityIdentifier
         return label
     }()
 
@@ -74,6 +78,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.PriceLabel.font)
         label.textColor = Style.PriceLabel.textColor
+        label.accessibilityIdentifier = Style.PriceLabel.accessibilityIdentifier
         return label
     }()
 
@@ -113,6 +118,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
     private func setupAttributes() {
         layer.borderWidth = Style.borderWidth
         layer.cornerRadius = Style.cornerRadius
+        accessibilityIdentifier = Style.cellAccessibilityIdentifier
     }
 
     private func setupViews() {
@@ -188,9 +194,11 @@ extension MarketItemGridCollectionViewCell {
 
 		static let borderWidth: CGFloat = 0.5
 		static let cornerRadius: CGFloat = 10
+        static let cellAccessibilityIdentifier: String = "marketItem"
 
 		enum ThumbnailImageView {
 			static let cornerRadius: CGFloat = 10
+            static let accessibilityIdentifier: String = "Thumbnail"
 		}
 
 		enum TextContentStackView {
@@ -201,12 +209,14 @@ extension MarketItemGridCollectionViewCell {
 			static let font: UIFont.TextStyle = .title3
 			static let textColor: UIColor = .label
 			static let numberOfLines: Int = 2
+            static let accessibilityIdentifier: String = "marketItemTitle"
 		}
 
 		enum StockLabel {
 			static let font: UIFont.TextStyle = .callout
 			static let textColor: UIColor = .secondaryLabel
 			static let outOfStockTextColor: UIColor = .systemOrange
+            static let accessibilityIdentifier: String = "stock"
 		}
 
 		enum PriceStackView {
@@ -216,11 +226,13 @@ extension MarketItemGridCollectionViewCell {
 		enum DiscountedPriceLabel {
 			static let font: UIFont.TextStyle = .body
 			static let textColor: UIColor = .tertiaryLabel
+            static let accessibilityIdentifier: String = "discountedPrice"
 		}
 
 		enum PriceLabel {
 			static let font: UIFont.TextStyle = .headline
 			static let textColor: UIColor = .label
+            static let accessibilityIdentifier: String = "price"
 		}
 
 		enum Constraint {
