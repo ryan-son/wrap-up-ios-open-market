@@ -31,6 +31,9 @@
 		AAA75DDF26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DDE26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift */; };
 		AAA75DE126E53879005F01C7 /* MarketItemDetailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DE026E53879005F01C7 /* MarketItemDetailViewModelSpec.swift */; };
 		AAA75DE326E538F6005F01C7 /* StubMarketItemDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DE226E538F6005F01C7 /* StubMarketItemDetailUseCase.swift */; };
+		AAA75DE726E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DE626E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift */; };
+		AAA75DE926E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DE826E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift */; };
+		AAA75DEB26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DEA26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift */; };
 		AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84B426D9952500B23520 /* OpenMarketTests.swift */; };
 		AAAD84C026D9952500B23520 /* OpenMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */; };
 		AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84CF26D995AD00B23520 /* AppDelegate.swift */; };
@@ -123,6 +126,9 @@
 		AAA75DDE26E4B09B005F01C7 /* MarketItemDetailUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDetailUseCaseSpec.swift; sourceTree = "<group>"; };
 		AAA75DE026E53879005F01C7 /* MarketItemDetailViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDetailViewModelSpec.swift; sourceTree = "<group>"; };
 		AAA75DE226E538F6005F01C7 /* StubMarketItemDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMarketItemDetailUseCase.swift; sourceTree = "<group>"; };
+		AAA75DE626E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterUseCaseSpec.swift; sourceTree = "<group>"; };
+		AAA75DE826E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterViewModelSpec.swift; sourceTree = "<group>"; };
+		AAA75DEA26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMarketItemRegisterUseCase.swift; sourceTree = "<group>"; };
 		AAAD849A26D9952400B23520 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAD84AB26D9952500B23520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAD84B026D9952500B23520 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,6 +302,8 @@
 		AAA75DC926E3DFF5005F01C7 /* MarketItemRegisterView */ = {
 			isa = PBXGroup;
 			children = (
+				AAA75DE626E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift */,
+				AAA75DE826E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift */,
 			);
 			path = MarketItemRegisterView;
 			sourceTree = "<group>";
@@ -319,6 +327,7 @@
 				AAA75DD326E3F0F1005F01C7 /* StubMarketItemListUseCase.swift */,
 				AAA75DDC26E49701005F01C7 /* StubThumbnailUseCase.swift */,
 				AAA75DE226E538F6005F01C7 /* StubMarketItemDetailUseCase.swift */,
+				AAA75DEA26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -910,6 +919,7 @@
 			files = (
 				AAA75DDD26E49701005F01C7 /* StubThumbnailUseCase.swift in Sources */,
 				AAA75DC626E2FDB4005F01C7 /* NetworkManagerSpec.swift in Sources */,
+				AAA75DE726E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift in Sources */,
 				AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */,
 				AAA75DE126E53879005F01C7 /* MarketItemDetailViewModelSpec.swift in Sources */,
 				AAA75DB426E1ED31005F01C7 /* TestAssets.swift in Sources */,
@@ -924,8 +934,10 @@
 				AAA75DB726E1FDD2005F01C7 /* UtilSpec.swift in Sources */,
 				AAA75DD426E3F0F1005F01C7 /* StubMarketItemListUseCase.swift in Sources */,
 				AAA75DBE26E2705C005F01C7 /* MultipartFormDataSpec.swift in Sources */,
+				AAA75DEB26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift in Sources */,
 				AAA75DCF26E3E18B005F01C7 /* StubNetworkManager.swift in Sources */,
 				AAA75DC426E2FD40005F01C7 /* MockURLProtocol.swift in Sources */,
+				AAA75DE926E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift in Sources */,
 				AAA75DD726E48418005F01C7 /* ThumbnailUseCaseSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

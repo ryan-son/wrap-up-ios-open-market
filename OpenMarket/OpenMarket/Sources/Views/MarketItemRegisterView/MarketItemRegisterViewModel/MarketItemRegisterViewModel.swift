@@ -5,7 +5,6 @@
 //  Created by Ryan-Son on 2021/08/29.
 //
 
-import Foundation
 import UIKit.UIImage
 
 final class MarketItemRegisterViewModel {
@@ -64,20 +63,20 @@ final class MarketItemRegisterViewModel {
 
 	// MARK: Properties
 
-	private let useCase: MarketItemRegisterUseCase
-	private var title: String?
-	private var currency: String?
-	private var price: String?
-	private var discountedPrice: String?
-	private var stock: String?
-    private var password: String?
-	private var descriptions: String?
+	private let useCase: MarketItemRegisterUseCaseProtocol
+	private(set) var title: String?
+	private(set) var currency: String?
+	private(set) var price: String?
+	private(set) var discountedPrice: String?
+	private(set) var stock: String?
+    private(set) var password: String?
+	private(set) var descriptions: String?
 
-    private let targetImageSizeInKB: Int = 300
+    let targetImageSizeInKB: Int = 300
 
 	// MARK: Initializers
 
-    init(marketItem: MarketItem? = nil, useCase: MarketItemRegisterUseCase = MarketItemRegisterUseCase()) {
+    init(marketItem: MarketItem? = nil, useCase: MarketItemRegisterUseCaseProtocol = MarketItemRegisterUseCase()) {
         self.marketItem = marketItem
         self.useCase = useCase
     }

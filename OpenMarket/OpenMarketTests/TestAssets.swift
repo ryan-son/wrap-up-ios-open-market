@@ -15,9 +15,11 @@ enum TestAssets {
     enum Dummies {
 
         static let imageData: Data = TestAssets.Expected.image.pngData()!
-        static let bookImageData = UIImage(systemName: "book")!.jpegData(compressionQuality: 1.0)!
-        static let hammerImageData = UIImage(systemName: "hammer")!.jpegData(compressionQuality: 1.0)!
-        static let hammerFillImageData = UIImage(systemName: "hammer.fill")!.jpegData(compressionQuality: 1.0)!
+        static let bookImageData = UIImage(systemName: "book")!.pngData()!
+        static let hammerImage = UIImage(systemName: "hammer")!
+        static let hammerFillImage = UIImage(systemName: "hammer.fill")!
+        static let hammerImageData = UIImage(systemName: "hammer")!.pngData()!
+        static let hammerFillImageData = UIImage(systemName: "hammer.fill")!.pngData()!
         static let postMarketItem = PostMarketItem(title: TestAssets.Expected.Post.title,
                                                    descriptions: TestAssets.Expected.Post.descriptions,
                                                    price: TestAssets.Expected.Post.price,
@@ -227,8 +229,7 @@ enum TestAssets {
             static let stock: Int = 129
             static let title: String = "에어태그"
             static let images: [String] = [
-              "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/A84BC431-A4F6-4ED8-997F-A128929FB512.png",
-              "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/B5EAF567-5296-4F91-9294-718E24CB96B2.png"
+              "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/A84BC431-A4F6-4ED8-997F-A128929FB512.png"
             ]
             static let descriptions: String = "극강의 가성비"
             static let error: NetworkManagerError = .gotFailedResponse(statusCode: 400)

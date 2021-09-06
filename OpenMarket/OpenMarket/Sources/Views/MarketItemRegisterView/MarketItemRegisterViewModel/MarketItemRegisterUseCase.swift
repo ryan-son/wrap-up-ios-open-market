@@ -24,7 +24,7 @@ protocol MarketItemRegisterUseCaseProtocol {
     )
 }
 
-final class MarketItemRegisterUseCase {
+final class MarketItemRegisterUseCase: MarketItemRegisterUseCaseProtocol {
 
 	// MARK: Properties
 
