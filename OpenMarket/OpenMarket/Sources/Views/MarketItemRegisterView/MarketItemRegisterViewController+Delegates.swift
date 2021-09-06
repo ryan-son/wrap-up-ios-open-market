@@ -28,9 +28,9 @@ extension MarketItemRegisterViewController: UICollectionViewDataSource {
             photoCell.addDeleteButtonTarget(target: self, action: #selector(removePhoto(_:)), for: .touchUpInside)
 
             guard let photoImage = viewModel?.images[indexPath.item - 1] else { return UICollectionViewCell() }
-            let photoCellViewModel = PhotoCellViewModel(photoImage: photoImage)
+            let photoCellViewModel = PhotoCellViewModel()
             photoCell.bind(with: photoCellViewModel)
-            photoCell.fire()
+            photoCell.setImage(photoImage)
             return photoCell
         }
     }

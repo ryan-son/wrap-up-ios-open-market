@@ -34,6 +34,7 @@
 		AAA75DE726E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DE626E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift */; };
 		AAA75DE926E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DE826E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift */; };
 		AAA75DEB26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DEA26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift */; };
+		AAA75DED26E592EC005F01C7 /* PhotoCellViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA75DEC26E592EC005F01C7 /* PhotoCellViewModelSpec.swift */; };
 		AAAD84B526D9952500B23520 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84B426D9952500B23520 /* OpenMarketTests.swift */; };
 		AAAD84C026D9952500B23520 /* OpenMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84BF26D9952500B23520 /* OpenMarketUITests.swift */; };
 		AAAD84ED26D995AD00B23520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD84CF26D995AD00B23520 /* AppDelegate.swift */; };
@@ -129,6 +130,7 @@
 		AAA75DE626E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterUseCaseSpec.swift; sourceTree = "<group>"; };
 		AAA75DE826E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegisterViewModelSpec.swift; sourceTree = "<group>"; };
 		AAA75DEA26E567BB005F01C7 /* StubMarketItemRegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMarketItemRegisterUseCase.swift; sourceTree = "<group>"; };
+		AAA75DEC26E592EC005F01C7 /* PhotoCellViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellViewModelSpec.swift; sourceTree = "<group>"; };
 		AAAD849A26D9952400B23520 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAD84AB26D9952500B23520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAD84B026D9952500B23520 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,6 +306,7 @@
 			children = (
 				AAA75DE626E56321005F01C7 /* MarketItemRegisterUseCaseSpec.swift */,
 				AAA75DE826E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift */,
+				AAA75DEC26E592EC005F01C7 /* PhotoCellViewModelSpec.swift */,
 			);
 			path = MarketItemRegisterView;
 			sourceTree = "<group>";
@@ -938,6 +941,7 @@
 				AAA75DCF26E3E18B005F01C7 /* StubNetworkManager.swift in Sources */,
 				AAA75DC426E2FD40005F01C7 /* MockURLProtocol.swift in Sources */,
 				AAA75DE926E56778005F01C7 /* MarketItemRegisterViewModelSpec.swift in Sources */,
+				AAA75DED26E592EC005F01C7 /* PhotoCellViewModelSpec.swift in Sources */,
 				AAA75DD726E48418005F01C7 /* ThumbnailUseCaseSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

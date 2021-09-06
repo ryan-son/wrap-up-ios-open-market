@@ -65,8 +65,8 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    func fire() {
-        viewModel?.fire()
+    func setImage(_ image: UIImage) {
+        viewModel?.setImage(image)
     }
 
 	// MARK: Set up styles and views

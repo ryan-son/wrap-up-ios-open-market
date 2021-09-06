@@ -12,10 +12,11 @@ final class PhotoCellViewModel {
 
 	// MARK: Bound properties
 
-    private var photoImage: UIImage {
+    private(set) var photoImage: UIImage? {
         didSet {
             DispatchQueue.main.async {
-                self.listener?(self.photoImage)
+                guard let photoImage = self.photoImage else { return }
+                self.listener?(photoImage)
             }
         }
     }
@@ -24,19 +25,13 @@ final class PhotoCellViewModel {
 
     private var listener: ((UIImage) -> Void)?
 
-	// MARK: Initializers
-
-    init(photoImage: UIImage) {
-        self.photoImage = photoImage
-    }
-
 	// MARK: Binding methods
 
     func bind(_ listener: @escaping ((UIImage) -> Void)) {
         self.listener = listener
     }
 
-    func fire() {
-        listener?(photoImage)
+    func setImage(_ image: UIImage) {
+        photoImage = image
     }
 }
