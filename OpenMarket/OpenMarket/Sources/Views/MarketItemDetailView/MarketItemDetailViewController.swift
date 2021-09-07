@@ -74,6 +74,7 @@ final class MarketItemDetailViewController: UIViewController {
         label.textColor = Style.TitleLabel.textColor
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = .zero
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.TitleLabel.accessibilityIdentifier
         return label
     }()
@@ -84,6 +85,7 @@ final class MarketItemDetailViewController: UIViewController {
         label.textColor = Style.StockLabel.textColor
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.StockLabel.accessibilityIdentifier
         return label
     }()
@@ -100,6 +102,7 @@ final class MarketItemDetailViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.DiscountedPriceLabel.font)
         label.textColor = Style.DiscountedPriceLabel.textColor
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.DiscountedPriceLabel.accessibilityIdentifier
         return label
     }()
@@ -108,6 +111,7 @@ final class MarketItemDetailViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.PriceLabel.font)
         label.textColor = Style.PriceLabel.textColor
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.PriceLabel.accessibilityIdentifier
         return label
     }()
@@ -119,6 +123,7 @@ final class MarketItemDetailViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.BodyTextLabel.accessibilityIdentifier
         return label
     }()
@@ -187,7 +192,8 @@ final class MarketItemDetailViewController: UIViewController {
         let backButton = UIBarButtonItem(title: Style.backButtonTitle, style: .plain, target: self, action: #selector(backButtonDidTapped))
         navigationItem.setLeftBarButton(backButton, animated: false)
 
-		let moreActionsButton = UIBarButtonItem(image: Style.moreActionButtonImage, style: .plain, target: self, action: #selector(moreActionsButtonTapped))
+		let moreActionsButton = UIBarButtonItem(image: Style.moreActionsButtonImage, style: .plain, target: self, action: #selector(moreActionsButtonTapped))
+        moreActionsButton.accessibilityIdentifier = Style.moreActionsButtonAccessibilityIdentifier
 		navigationItem.setRightBarButton(moreActionsButton, animated: false)
 	}
 
@@ -223,6 +229,7 @@ final class MarketItemDetailViewController: UIViewController {
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
         imageView.alpha = .zero
+        imageView.accessibilityIdentifier = "itemDetail\(index)"
         imageScrollView.insertSubview(imageView, belowSubview: imageScrollViewPageControl)
         imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
         imageViews.append(imageView)

@@ -21,6 +21,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = Style.ThumbnailImageView.cornerRadius
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
         imageView.accessibilityIdentifier = Style.ThumbnailImageView.accessibilityIdentifier
         return imageView
     }()
@@ -42,6 +43,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         label.numberOfLines = Style.TitleLabel.numberOfLines
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.TitleLabel.accessibilityIdentifier
         return label
     }()
@@ -52,6 +54,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         label.textColor = Style.StockLabel.textColor
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .horizontal)
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.StockLabel.accessibilityIdentifier
         return label
     }()
@@ -70,6 +73,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: Style.DiscountedPriceLabel.font)
         label.textColor = Style.DiscountedPriceLabel.textColor
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.DiscountedPriceLabel.accessibilityIdentifier
         return label
     }()
@@ -78,6 +82,7 @@ final class MarketItemGridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.PriceLabel.font)
         label.textColor = Style.PriceLabel.textColor
+        label.adjustsFontForContentSizeCategory = true
         label.accessibilityIdentifier = Style.PriceLabel.accessibilityIdentifier
         return label
     }()

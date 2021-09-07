@@ -15,8 +15,8 @@ extension MarketItemDetailViewController {
 
         static let navigationTitle: String = "Item Detail"
         static let backButtonTitle: String = "< Back"
-        static let moreActionButtonImage = UIImage(systemName: "ellipsis")
-        static let moreActionButtonAccessibilityIdentifier: String = "moreAction"
+        static let moreActionsButtonImage = UIImage(systemName: "ellipsis")
+        static let moreActionsButtonAccessibilityIdentifier: String = "moreActions"
         static let outOfStockString: String = "품절"
         static let outOfStockLabelColor: UIColor = .systemOrange
         static let backgroundColor: UIColor = .systemBackground
@@ -66,6 +66,7 @@ extension MarketItemDetailViewController {
             static let moreActionTitle: String = "무엇을 해볼까요?"
             static let editItemActionTitle: String = "상품 수정"
             static let deleteItemActionTitle: String = "상품 삭제"
+            static let inputPasswordAccessibilityIdentifier: String = "enterPassword"
             static let inputPasswordTitle: String = "비밀번호를 입력해주세요."
             static let inputPasswordTextFieldPlaceholderText: String = "비밀번호"
             static let wrongPasswordInputTitle: String = "비밀번호가 다릅니다."

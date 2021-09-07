@@ -32,11 +32,11 @@ final class MarketItemListViewUISpec: QuickSpec {
                         expect(ryanMarketNavigationBar.exists).to(beTrue())
                         
                         expect(ryanMarketNavigationBar.buttons["changeCellStyle"].exists).to(beTrue())
-                        expect(ryanMarketNavigationBar/*@START_MENU_TOKEN@*/.buttons["refreshMarketItems"]/*[[".buttons[\"Refresh\"]",".buttons[\"refreshMarketItems\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(ryanMarketNavigationBar.buttons["refreshMarketItems"].exists).to(beTrue())
                         
                         let marketItemListCollectionView = app.collectionViews["marketItemList"]
                         expect(marketItemListCollectionView.exists).to(beTrue())
-                        expect(marketItemListCollectionView/*@START_MENU_TOKEN@*/.buttons["addNewPost"]/*[[".buttons[\"plus.circle\"]",".buttons[\"addNewPost\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(marketItemListCollectionView.buttons["addNewPost"].exists).to(beTrue())
 
                         let cell = marketItemListCollectionView
                             .children(matching: .cell)
@@ -48,11 +48,11 @@ final class MarketItemListViewUISpec: QuickSpec {
 
                         expect(cell.exists).to(beTrue())
                         expect(cell.images["thumbnail"].exists).to(beTrue())
-                        expect(cell/*@START_MENU_TOKEN@*/.staticTexts["marketItemTitle"]/*[[".staticTexts[\"MacBook Air\"]",".staticTexts[\"marketItemTitle\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(cell/*@START_MENU_TOKEN@*/.staticTexts["price"]/*[[".staticTexts[\"KRW 100,000\"]",".staticTexts[\"price\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(cell/*@START_MENU_TOKEN@*/.staticTexts["stock"]/*[[".staticTexts[\"재고: 5\"]",".staticTexts[\"stock\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(cell.staticTexts["marketItemTitle"].exists).to(beTrue())
+                        expect(cell.staticTexts["price"].exists).to(beTrue())
+                        expect(cell.staticTexts["stock"].exists).to(beTrue())
                         
-                        let discountedPriceLabel = marketItemListCollectionView/*@START_MENU_TOKEN@*/.staticTexts["discountedPrice"]/*[[".cells",".staticTexts[\"USD 165\"]",".staticTexts[\"discountedPrice\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/
+                        let discountedPriceLabel = marketItemListCollectionView.staticTexts["discountedPrice"]
                         try XCTSkipUnless(discountedPriceLabel.exists, "할인가를 가진 Cell이 화면 내에 없습니다")
                         expect(discountedPriceLabel.exists).to(beTrue())
                     }
@@ -66,11 +66,11 @@ final class MarketItemListViewUISpec: QuickSpec {
                         expect(ryanMarketNavigationBar.exists).to(beTrue())
                         
                         expect(ryanMarketNavigationBar.buttons["changeCellStyle"].exists).to(beTrue())
-                        expect(ryanMarketNavigationBar/*@START_MENU_TOKEN@*/.buttons["refreshMarketItems"]/*[[".buttons[\"Refresh\"]",".buttons[\"refreshMarketItems\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(ryanMarketNavigationBar.buttons["refreshMarketItems"].exists).to(beTrue())
                         
                         let marketItemListCollectionView = app.collectionViews["marketItemList"]
                         expect(marketItemListCollectionView.exists).to(beTrue())
-                        expect(marketItemListCollectionView/*@START_MENU_TOKEN@*/.buttons["addNewPost"]/*[[".buttons[\"plus.circle\"]",".buttons[\"addNewPost\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(marketItemListCollectionView.buttons["addNewPost"].exists).to(beTrue())
 
                         let cell = marketItemListCollectionView
                             .children(matching: .cell)
@@ -82,11 +82,11 @@ final class MarketItemListViewUISpec: QuickSpec {
 
                         expect(cell.exists).to(beTrue())
                         expect(cell.images["thumbnail"].exists).to(beTrue())
-                        expect(cell/*@START_MENU_TOKEN@*/.staticTexts["marketItemTitle"]/*[[".staticTexts[\"MacBook Air\"]",".staticTexts[\"marketItemTitle\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(cell/*@START_MENU_TOKEN@*/.staticTexts["price"]/*[[".staticTexts[\"KRW 100,000\"]",".staticTexts[\"price\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(cell/*@START_MENU_TOKEN@*/.staticTexts["stock"]/*[[".staticTexts[\"재고: 5\"]",".staticTexts[\"stock\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(cell.staticTexts["marketItemTitle"].exists).to(beTrue())
+                        expect(cell.staticTexts["price"].exists).to(beTrue())
+                        expect(cell.staticTexts["stock"].exists).to(beTrue())
                         
-                        let discountedPriceLabel = marketItemListCollectionView/*@START_MENU_TOKEN@*/.staticTexts["discountedPrice"]/*[[".cells",".staticTexts[\"USD 165\"]",".staticTexts[\"discountedPrice\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/
+                        let discountedPriceLabel = marketItemListCollectionView.staticTexts["discountedPrice"]
                         try XCTSkipUnless(discountedPriceLabel.exists, "할인가를 가진 Cell이 화면 내에 없습니다")
                         expect(discountedPriceLabel.exists).to(beTrue())
                     }
@@ -116,10 +116,10 @@ final class MarketItemListViewUISpec: QuickSpec {
 
                         expect(ryanMarketNavigationBar.exists).to(beTrue())
                         expect(changeCellStyleButton.exists).to(beTrue())
-                        expect(ryanMarketNavigationBar/*@START_MENU_TOKEN@*/.buttons["refreshMarketItems"]/*[[".buttons[\"Refresh\"]",".buttons[\"refreshMarketItems\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(ryanMarketNavigationBar.buttons["refreshMarketItems"].exists).to(beTrue())
 
                         expect(marketItemListCollectionView.exists).to(beTrue())
-                        expect(marketItemListCollectionView/*@START_MENU_TOKEN@*/.buttons["addNewPost"]/*[[".buttons[\"plus.circle\"]",".buttons[\"addNewPost\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(marketItemListCollectionView.buttons["addNewPost"].exists).to(beTrue())
 
                         let gridCell = marketItemListCollectionView
                             .children(matching: .cell)
@@ -128,9 +128,9 @@ final class MarketItemListViewUISpec: QuickSpec {
 
                         expect(gridCell.exists).to(beTrue())
                         expect(gridCell.images["thumbnail"].exists).to(beTrue())
-                        expect(gridCell/*@START_MENU_TOKEN@*/.staticTexts["marketItemTitle"]/*[[".staticTexts[\"MacBook Air\"]",".staticTexts[\"marketItemTitle\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(gridCell/*@START_MENU_TOKEN@*/.staticTexts["price"]/*[[".staticTexts[\"KRW 100,000\"]",".staticTexts[\"price\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(gridCell/*@START_MENU_TOKEN@*/.staticTexts["stock"]/*[[".staticTexts[\"재고: 5\"]",".staticTexts[\"stock\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(gridCell.staticTexts["marketItemTitle"].exists).to(beTrue())
+                        expect(gridCell.staticTexts["price"].exists).to(beTrue())
+                        expect(gridCell.staticTexts["stock"].exists).to(beTrue())
                         
                         let discountedPriceLabel = marketItemListCollectionView/*@START_MENU_TOKEN@*/.staticTexts["discountedPrice"]/*[[".cells",".staticTexts[\"USD 165\"]",".staticTexts[\"discountedPrice\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/
                         try XCTSkipUnless(discountedPriceLabel.exists, "할인가를 가진 Cell이 화면 내에 없습니다")
@@ -161,10 +161,10 @@ final class MarketItemListViewUISpec: QuickSpec {
 
                         expect(ryanMarketNavigationBar.exists).to(beTrue())
                         expect(changeCellStyleButton.exists).to(beTrue())
-                        expect(ryanMarketNavigationBar/*@START_MENU_TOKEN@*/.buttons["refreshMarketItems"]/*[[".buttons[\"Refresh\"]",".buttons[\"refreshMarketItems\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(ryanMarketNavigationBar.buttons["refreshMarketItems"].exists).to(beTrue())
 
                         expect(marketItemListCollectionView.exists).to(beTrue())
-                        expect(marketItemListCollectionView/*@START_MENU_TOKEN@*/.buttons["addNewPost"]/*[[".buttons[\"plus.circle\"]",".buttons[\"addNewPost\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(marketItemListCollectionView.buttons["addNewPost"].exists).to(beTrue())
 
                         let gridCell = marketItemListCollectionView
                             .children(matching: .cell)
@@ -173,11 +173,11 @@ final class MarketItemListViewUISpec: QuickSpec {
 
                         expect(gridCell.exists).to(beTrue())
                         expect(gridCell.images["thumbnail"].exists).to(beTrue())
-                        expect(gridCell/*@START_MENU_TOKEN@*/.staticTexts["marketItemTitle"]/*[[".staticTexts[\"MacBook Air\"]",".staticTexts[\"marketItemTitle\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(gridCell/*@START_MENU_TOKEN@*/.staticTexts["price"]/*[[".staticTexts[\"KRW 100,000\"]",".staticTexts[\"price\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
-                        expect(gridCell/*@START_MENU_TOKEN@*/.staticTexts["stock"]/*[[".staticTexts[\"재고: 5\"]",".staticTexts[\"stock\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.exists).to(beTrue())
+                        expect(gridCell.staticTexts["marketItemTitle"].exists).to(beTrue())
+                        expect(gridCell.staticTexts["price"].exists).to(beTrue())
+                        expect(gridCell.staticTexts["stock"].exists).to(beTrue())
                         
-                        let discountedPriceLabel = marketItemListCollectionView/*@START_MENU_TOKEN@*/.staticTexts["discountedPrice"]/*[[".cells",".staticTexts[\"USD 165\"]",".staticTexts[\"discountedPrice\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/
+                        let discountedPriceLabel = marketItemListCollectionView.staticTexts["discountedPrice"]
                         try XCTSkipUnless(discountedPriceLabel.exists, "할인가를 가진 Cell이 화면 내에 없습니다")
                         expect(discountedPriceLabel.exists).to(beTrue())
                     }
@@ -267,7 +267,7 @@ final class MarketItemListViewUISpec: QuickSpec {
                     expect(listCell.exists).to(beTrue())
                     expect(listCell.isEnabled).to(beTrue())
 
-                    let refreshButton = ryanMarketNavigationBar/*@START_MENU_TOKEN@*/.buttons["refreshMarketItems"]/*[[".buttons[\"Refresh\"]",".buttons[\"refreshMarketItems\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+                    let refreshButton = ryanMarketNavigationBar.buttons["refreshMarketItems"]
                     refreshButton.tap()
 
                     expect(listCell.exists).to(beTrue())
@@ -346,7 +346,7 @@ final class MarketItemListViewUISpec: QuickSpec {
                 context("탭하면") {
                     it("새 상품 등록 화면으로 이동한다") {
                         let marketItemListCollectionView = app.collectionViews["marketItemList"]
-                        let addNewPostButton = marketItemListCollectionView/*@START_MENU_TOKEN@*/.buttons["addNewPost"]/*[[".buttons[\"plus.circle\"]",".buttons[\"addNewPost\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+                        let addNewPostButton = marketItemListCollectionView.buttons["addNewPost"]
                         addNewPostButton.tap()
 
                         let itemRegistrationNavigationBar = app.navigationBars["Item Registration"]

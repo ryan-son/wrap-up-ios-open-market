@@ -43,6 +43,7 @@ final class MarketItemListViewController: UIViewController {
         button.layer.cornerRadius = Style.AddNewPostButton.cornerRadius
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.adjustsImageSizeForAccessibilityContentSizeCategory = true
         button.accessibilityIdentifier = Style.AddNewPostButton.accessibilityIdentifier
         return button
     }()
