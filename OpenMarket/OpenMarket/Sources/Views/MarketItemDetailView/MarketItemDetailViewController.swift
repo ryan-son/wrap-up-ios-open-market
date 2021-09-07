@@ -25,6 +25,7 @@ final class MarketItemDetailViewController: UIViewController {
     private let contentScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.accessibilityIdentifier = Style.contentScrollViewAccessibilityIdentifier
         return scrollView
     }()
 
@@ -33,6 +34,7 @@ final class MarketItemDetailViewController: UIViewController {
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.accessibilityIdentifier = Style.imageScrollViewAccessibilityIdentifier
         return scrollView
     }()
 
@@ -44,6 +46,7 @@ final class MarketItemDetailViewController: UIViewController {
         pageControl.pageIndicatorTintColor = Style.ImageScrollViewPageControl.pageIndicatorTintColor
         pageControl.hidesForSinglePage = true
         pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.accessibilityIdentifier = Style.ImageScrollViewPageControl.accessibilityIdentifier
         return pageControl
     }()
 
@@ -71,6 +74,7 @@ final class MarketItemDetailViewController: UIViewController {
         label.textColor = Style.TitleLabel.textColor
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = .zero
+        label.accessibilityIdentifier = Style.TitleLabel.accessibilityIdentifier
         return label
     }()
 
@@ -80,6 +84,7 @@ final class MarketItemDetailViewController: UIViewController {
         label.textColor = Style.StockLabel.textColor
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.accessibilityIdentifier = Style.StockLabel.accessibilityIdentifier
         return label
     }()
 
@@ -95,6 +100,7 @@ final class MarketItemDetailViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.DiscountedPriceLabel.font)
         label.textColor = Style.DiscountedPriceLabel.textColor
+        label.accessibilityIdentifier = Style.DiscountedPriceLabel.accessibilityIdentifier
         return label
     }()
 
@@ -102,6 +108,7 @@ final class MarketItemDetailViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: Style.PriceLabel.font)
         label.textColor = Style.PriceLabel.textColor
+        label.accessibilityIdentifier = Style.PriceLabel.accessibilityIdentifier
         return label
     }()
 
@@ -112,6 +119,7 @@ final class MarketItemDetailViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.accessibilityIdentifier = Style.BodyTextLabel.accessibilityIdentifier
         return label
     }()
 

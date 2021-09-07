@@ -1,5 +1,5 @@
 //
-//  MarketItemListUISpec.swift
+//  MarketItemListViewUISpec.swift
 //  OpenMarketUITests
 //
 //  Created by Ryan-Son on 2021/09/07.
@@ -8,7 +8,7 @@
 import Nimble
 import Quick
 
-final class MarketItemListUISpec: QuickSpec {
+final class MarketItemListViewUISpec: QuickSpec {
 
     override func spec() {
         describe("MarketItemListUI") {
