@@ -79,7 +79,6 @@ final class MarketItemListViewController: UIViewController {
                 self?.collectionView.insertItems(at: indexPaths)
                 self?.activityIndicator.stopAnimating()
             case .refreshed:
-                self?.scrollToTop()
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()
                 self?.activityIndicator.stopAnimating()
@@ -181,12 +180,9 @@ final class MarketItemListViewController: UIViewController {
     }
 
     @objc private func refreshMarketItems() {
+        collectionView.refreshControl?.beginRefreshing()
         activityIndicator.startAnimating()
         viewModel.refresh()
-    }
-
-    private func scrollToTop() {
-        collectionView.scrollToItem(at: IndexPath(item: .zero, section: .zero), at: .top, animated: false)
     }
 }
 
@@ -364,7 +360,7 @@ extension MarketItemListViewController {
 		enum ChangeCellStyleBarButton {
 			static let listCellButtonImage = UIImage(systemName: "list.dash")
 			static let gridCellButtonImage = UIImage(systemName: "square.grid.2x2")
-            static let accessibilityIdentifier: String = "ChangeCellStyle"
+            static let accessibilityIdentifier: String = "changeCellStyle"
 		}
 
 		enum AddNewPostButton {

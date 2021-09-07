@@ -194,11 +194,11 @@ extension MarketItemGridCollectionViewCell {
 
 		static let borderWidth: CGFloat = 0.5
 		static let cornerRadius: CGFloat = 10
-        static let cellAccessibilityIdentifier: String = "marketItem"
+        static let cellAccessibilityIdentifier: String = "gridMarketItem"
 
 		enum ThumbnailImageView {
 			static let cornerRadius: CGFloat = 10
-            static let accessibilityIdentifier: String = "Thumbnail"
+            static let accessibilityIdentifier: String = "thumbnail"
 		}
 
 		enum TextContentStackView {

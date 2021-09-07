@@ -13,7 +13,7 @@ extension MarketItemRegisterViewController {
 
 	enum Style {
 
-		static let registerTitle: String = "Registration"
+		static let registerTitle: String = "Item Registration"
 		static let editTitle: String = "Edit"
 		static let backgroundColor: UIColor = .systemBackground
 		static let placeholderTextColor: UIColor = .secondaryLabel

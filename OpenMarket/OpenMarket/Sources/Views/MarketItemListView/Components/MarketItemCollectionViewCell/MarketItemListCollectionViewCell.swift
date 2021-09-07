@@ -101,6 +101,7 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setAttributes()
         setupViews()
         setupConstraints()
     }
@@ -108,11 +109,16 @@ final class MarketItemListCollectionViewCell: UICollectionViewCell {
 	@available(iOS, unavailable, message: "Use init(frame:) instead")
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setAttributes()
         setupViews()
         setupConstraints()
     }
 
 	// MARK: Set up views
+
+    private func setAttributes() {
+        accessibilityIdentifier = Style.cellAccessibilityIdentifier
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -211,7 +217,7 @@ extension MarketItemListCollectionViewCell {
 
 	private enum Style {
 
-        static let cellAccessibilityIdentifier: String = "marketItem"
+        static let cellAccessibilityIdentifier: String = "listMarketItem"
 
 		enum ThumbnailImageView {
 			static let cornerRadius: CGFloat = 10
