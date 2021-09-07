@@ -24,8 +24,14 @@ final class OpenMarketUITests: XCTestCase {
 
     func testExample() throws {
         // UI tests must launch the application that they test.
+        
         let app = XCUIApplication()
-        app.launch()
+        app.navigationBars["Item Registration"].buttons["Ryan Market"].tap()
+        app.collectionViews["marketItemList"]/*@START_MENU_TOKEN@*/.buttons["addNewPost"]/*[[".buttons[\"plus.circle\"]",".buttons[\"addNewPost\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.collectionViews/*[[".scrollViews.collectionViews",".collectionViews"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.cells.children(matching: .other).element.children(matching: .other).element.tap()
+        app.sheets["사진을 어디서 가져올까요?"].scrollViews.otherElements.buttons["사진첩"].tap()
+        app.scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .image).matching(identifier: "Photo, September 06, 9:34 PM").element(boundBy: 0).tap()
+
         
     }
 

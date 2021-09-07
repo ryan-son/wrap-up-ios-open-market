@@ -44,6 +44,7 @@ final class CurrencyTextField: UITextField {
         textColor = Style.textColor
         placeholder = Style.placeholderText
         textAlignment = .center
+        accessibilityIdentifier = "currency"
     }
 
     private func setDelegates() {

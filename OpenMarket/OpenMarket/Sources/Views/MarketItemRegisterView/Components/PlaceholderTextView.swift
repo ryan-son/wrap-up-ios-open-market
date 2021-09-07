@@ -14,7 +14,7 @@ protocol PlaceholderTextViewDelegate: AnyObject {
 
 final class PlaceholderTextView: UITextView {
 
-    enum TextViewType {
+    enum TextViewType: String {
         case title
         case discountedPrice
         case price
@@ -70,6 +70,7 @@ final class PlaceholderTextView: UITextView {
         textColor = text == placeholderText ? Style.placeholderTextColor : Style.textColor
         isScrollEnabled = false
 		autocorrectionType = .no
+        accessibilityIdentifier = type.rawValue
     }
 
     private func setPlaceholderText() {

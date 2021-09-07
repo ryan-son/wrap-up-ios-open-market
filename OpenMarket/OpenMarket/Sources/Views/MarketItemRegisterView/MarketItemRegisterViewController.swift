@@ -48,6 +48,7 @@ final class MarketItemRegisterViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isDirectionalLockEnabled = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.accessibilityIdentifier = Style.contentScrollViewAccessibilityIdentifier
         return scrollView
     }()
 
@@ -61,6 +62,7 @@ final class MarketItemRegisterViewController: UIViewController {
         collectionView.register(AddPhotoCollectionViewCell.self, forCellWithReuseIdentifier: AddPhotoCollectionViewCell.reuseIdentifier)
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.accessibilityIdentifier = Style.PhotoCollectionView.accessibilityIdentifier
         return collectionView
     }()
 
