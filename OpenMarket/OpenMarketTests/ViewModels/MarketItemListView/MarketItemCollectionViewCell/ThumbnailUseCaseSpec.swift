@@ -27,27 +27,6 @@ final class ThumbnailUseCaseSpec: QuickSpec {
             }
 
             describe("fetchThumbnail") {
-                context("thumbnail이 있는 인터넷 url path를 문자열 형태로 전달하면") {
-                    let path: String = TestAssets.Expected.thumbnailURLString
-
-                    it("UIImage 형태로 반환하고 fetch한 thumbnail은 sharedCache 타입 프로퍼티에 NSURL 타입의 키값을 가지고 저장된다") {
-                        let expected: Data = TestAssets.Expected.image.pngData()!
-                        let _ = sut.fetchThumbnail(from: path) { result in
-                            switch result {
-                            case .success(let thumbnail):
-                                let thumbnailData: Data = thumbnail!.pngData()!
-                                expect(thumbnailData).to(equal(expected))
-                            case .failure(let error):
-                                XCTFail("동작이 예상과 다릅니다. Error: \(error)")
-                            }
-                        }
-                        expect(stubNetworkManager.fetchCallCount).toEventually(equal(1))
-                        
-                        let url = NSURL(string: path)!
-                        let cached: Data = ThumbnailUseCase.sharedCache.object(forKey: url)!.pngData()!
-                        expect(cached).to(equal(expected))
-                    }
-                }
 
                 context("기존 네트워크 요청 결과에 따라 cache된 thumbnail이 있으면") {
                     let path: String = TestAssets.Expected.thumbnailURLString

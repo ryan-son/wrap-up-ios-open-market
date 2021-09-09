@@ -68,12 +68,14 @@ extension MarketItemDetailViewController {
             static let deleteItemActionTitle: String = "상품 삭제"
             static let inputPasswordAccessibilityIdentifier: String = "enterPassword"
             static let inputPasswordTitle: String = "비밀번호를 입력해주세요."
+            static let deletePasswordInputTitle: String = "삭제를 위해 비밀번호를 입력해주세요."
             static let inputPasswordTextFieldPlaceholderText: String = "비밀번호"
             static let wrongPasswordInputTitle: String = "비밀번호가 다릅니다."
             static let marketItemDeletedTitle: String = "삭제되었습니다."
             static let retryActionTitle: String = "재시도"
             static let okActionTitle: String = "확인"
             static let cancelActionTitle: String = "취소"
+            static let deleteOKButton: String = "삭제"
         }
     }
 }

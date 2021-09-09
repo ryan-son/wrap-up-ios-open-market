@@ -63,6 +63,7 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
         contentView.layer.borderWidth = Style.borderWidth
         contentView.layer.cornerRadius = Style.cornerRadius
         contentView.isUserInteractionEnabled = true
+        accessibilityIdentifier = "addPhoto"
     }
 
     private func setupViews() {

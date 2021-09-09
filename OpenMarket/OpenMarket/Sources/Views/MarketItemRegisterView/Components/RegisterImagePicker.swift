@@ -34,7 +34,7 @@ final class ImagePicker: NSObject {
         self.delegate = delegate
 
         self.imagePickerController.delegate = self
-        self.imagePickerController.allowsEditing = true
+        self.imagePickerController.allowsEditing = false
         self.imagePickerController.mediaTypes = ImagePicker.allowedMediaTypes
     }
 
@@ -91,7 +91,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let image = info[.editedImage] as? UIImage else {
+        guard let image = info[.originalImage] as? UIImage else {
             pickerController(picker, didSelect: nil)
             return
         }

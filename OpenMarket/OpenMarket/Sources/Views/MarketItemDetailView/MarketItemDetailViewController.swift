@@ -282,12 +282,12 @@ final class MarketItemDetailViewController: UIViewController {
     }
 
 	private func showDeletePasswordInputAlert() {
-        let passwordInputAlert = UIAlertController(title: Style.Alert.inputPasswordTitle, message: nil, preferredStyle: .alert)
+        let passwordInputAlert = UIAlertController(title: Style.Alert.deletePasswordInputTitle, message: nil, preferredStyle: .alert)
 		passwordInputAlert.addTextField { textField in
             textField.placeholder = Style.Alert.inputPasswordTextFieldPlaceholderText
 			textField.textAlignment = .center
 		}
-        let okAction = UIAlertAction(title: Style.Alert.okActionTitle, style: .destructive) { _ in
+        let okAction = UIAlertAction(title: Style.Alert.deleteOKButton, style: .destructive) { _ in
 			guard let text = passwordInputAlert.textFields?.first?.text else { return }
 			self.viewModel?.deleteMarketItem(with: text)
 		}

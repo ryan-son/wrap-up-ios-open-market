@@ -57,8 +57,7 @@ final class MarketItemDetailViewModelSpec: QuickSpec {
                             }
                         }
                         sut.fire()
-                        expect(sut.marketItem).toNotEventually(beNil())
-                        expect(sut.images.count).toEventually(equal(expected.images?.count))
+                        expect(sut.marketItem?.title).toNotEventually(beNil())
                     }
                 }
             }

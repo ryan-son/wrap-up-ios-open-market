@@ -208,7 +208,7 @@ final class MarketItemDetailViewUISpec: QuickSpec {
                         let editItemButton = moreActionSheet.buttons["상품 삭제"]
                         editItemButton.tap()
 
-                        let passwordInputAlert = app.alerts["비밀번호를 입력해주세요."]
+                        let passwordInputAlert = app.alerts["삭제를 위해 비밀번호를 입력해주세요."]
 
                         guard passwordInputAlert.waitForExistence(timeout: 2) else {
                             return XCTFail("비밀번호 입력창이 로드되지 않았습니다")
@@ -216,7 +216,7 @@ final class MarketItemDetailViewUISpec: QuickSpec {
 
                         let passwordInputTextField = passwordInputAlert.textFields["비밀번호"]
                         let cancelButton = passwordInputAlert.buttons["취소"]
-                        let okButton = passwordInputAlert.buttons["확인"]
+                        let okButton = passwordInputAlert.buttons["삭제"]
                         expect(passwordInputAlert.exists).to(beTrue())
                         expect(passwordInputTextField.exists).to(beTrue())
                         expect(cancelButton.exists).to(beTrue())
@@ -232,16 +232,16 @@ final class MarketItemDetailViewUISpec: QuickSpec {
                         moreActionsButton.tap()
                         
                         let moreActionSheet = app.sheets["무엇을 해볼까요?"]
-                        let editItemButton = moreActionSheet.buttons["상품 삭제"]
-                        editItemButton.tap()
+                        let deleteItemButton = moreActionSheet.buttons["상품 삭제"]
+                        deleteItemButton.tap()
 
-                        let passwordInputAlert = app.alerts["비밀번호를 입력해주세요."]
+                        let passwordInputAlert = app.alerts["삭제를 위해 비밀번호를 입력해주세요."]
 
                         guard passwordInputAlert.waitForExistence(timeout: 2) else {
                             return XCTFail("비밀번호 입력창이 로드되지 않았습니다")
                         }
 
-                        let okButton = passwordInputAlert.buttons["확인"]
+                        let okButton = passwordInputAlert.buttons["삭제"]
                         okButton.tap()
 
                         let wrongPasswordAlert = app.alerts["비밀번호가 다릅니다."]
@@ -266,16 +266,16 @@ final class MarketItemDetailViewUISpec: QuickSpec {
                         moreActionsButton.tap()
                         
                         let moreActionSheet = app.sheets["무엇을 해볼까요?"]
-                        let editItemButton = moreActionSheet.buttons["상품 삭제"]
-                        editItemButton.tap()
+                        let deleteItemButton = moreActionSheet.buttons["상품 삭제"]
+                        deleteItemButton.tap()
 
-                        let passwordInputAlert = app.alerts["비밀번호를 입력해주세요."]
+                        let passwordInputAlert = app.alerts["삭제를 위해 비밀번호를 입력해주세요."]
 
                         guard passwordInputAlert.waitForExistence(timeout: 2) else {
                             return XCTFail("비밀번호 입력창이 로드되지 않았습니다")
                         }
 
-                        let okButton = passwordInputAlert.buttons["확인"]
+                        let okButton = passwordInputAlert.buttons["삭제"]
                         okButton.tap()
 
                         let wrongPasswordAlert = app.alerts["비밀번호가 다릅니다."]
