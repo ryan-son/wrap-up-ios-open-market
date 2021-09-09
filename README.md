@@ -9,6 +9,6 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 
 ---
 
-<img src="https://user-images.githubusercontent.com/69730931/132734214-96675a31-78d9-43e5-8830-e8a84cbd0e39.gif" alt="marketItemListView" width="280"/>  <img src="https://user-images.githubusercontent.com/69730931/132735322-88e41e0e-44e1-4410-82f3-5525a6be34a0.gif" alt="marketItemDetailView" width="280"/>  <img src="https://user-images.githubusercontent.com/69730931/132742366-8713888c-4927-4553-acdb-99cb5b818e18.gif" alt="marketItemRegisterView" width="280"/>
+<img src="https://user-images.githubusercontent.com/69730931/132734214-96675a31-78d9-43e5-8830-e8a84cbd0e39.gif" alt="marketItemListView" width="270"/>  <img src="https://user-images.githubusercontent.com/69730931/132735322-88e41e0e-44e1-4410-82f3-5525a6be34a0.gif" alt="marketItemDetailView" width="270"/>  <img src="https://user-images.githubusercontent.com/69730931/132742366-8713888c-4927-4553-acdb-99cb5b818e18.gif" alt="marketItemRegisterView" width="270"/>
 
 ---
