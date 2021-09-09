@@ -31,6 +31,11 @@ extension MarketItemRegisterViewController: UICollectionViewDataSource {
             let photoCellViewModel = PhotoCellViewModel()
             photoCell.bind(with: photoCellViewModel)
             photoCell.setImage(photoImage)
+
+            guard let addPhotoCell = collectionView.cellForItem(at: IndexPath(item: .zero, section: .zero)) as? AddPhotoCollectionViewCell,
+                  let imageCount = viewModel?.images.count else { return UICollectionViewCell() }
+            addPhotoCell.setImageCount(to: imageCount)
+
             return photoCell
         }
     }
