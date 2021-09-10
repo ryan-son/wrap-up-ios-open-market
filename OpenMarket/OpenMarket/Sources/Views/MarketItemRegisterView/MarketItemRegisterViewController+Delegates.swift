@@ -19,7 +19,9 @@ extension MarketItemRegisterViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.item {
         case .zero:
-            let addPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: AddPhotoCollectionViewCell.reuseIdentifier, for: indexPath)
+            guard let addPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: AddPhotoCollectionViewCell.reuseIdentifier, for: indexPath) as? AddPhotoCollectionViewCell,
+                  let imageCount = viewModel?.images.count else { return UICollectionViewCell() }
+            addPhotoCell.setImageCount(to: imageCount)
             return addPhotoCell
         default:
             guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier, for: indexPath)
@@ -31,6 +33,11 @@ extension MarketItemRegisterViewController: UICollectionViewDataSource {
             let photoCellViewModel = PhotoCellViewModel()
             photoCell.bind(with: photoCellViewModel)
             photoCell.setImage(photoImage)
+
+            guard let addPhotoCell = collectionView.cellForItem(at: IndexPath(item: .zero, section: .zero)) as? AddPhotoCollectionViewCell,
+                  let imageCount = viewModel?.images.count else { return UICollectionViewCell() }
+            addPhotoCell.setImageCount(to: imageCount)
+
             return photoCell
         }
     }

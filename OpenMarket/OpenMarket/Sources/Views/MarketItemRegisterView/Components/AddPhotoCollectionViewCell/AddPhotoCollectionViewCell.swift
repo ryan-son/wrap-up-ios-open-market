@@ -87,6 +87,10 @@ final class AddPhotoCollectionViewCell: UICollectionViewCell {
                                                         multiplier: Style.CameraIconImageView.heightAgainstOwnWidth)
         ])
     }
+
+    func setImageCount(to count: Int) {
+        imageCountLabel.text = "\(count)/\(Style.ImageCountLabel.maxImageCount)"
+    }
 }
 
 // MARK: - Namespaces
@@ -115,6 +119,7 @@ extension AddPhotoCollectionViewCell {
 			static let font: UIFont.TextStyle = .callout
 			static let textColor: UIColor = .secondaryLabel
 			static let initialText: String = "0/5"
+            static let maxImageCount: Int = 5
 		}
 	}
 }
