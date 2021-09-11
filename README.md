@@ -2,12 +2,21 @@
 REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정 및 삭제가 가능하도록 구현한 앱
 
 # Table of Contents
-1. 프로젝트 개요
-2. 기능
-3. 설계 및 구현
-4. 유닛 테스트 및 UI 테스트
-5. Trouble shooting
-6. 학습 내용
+- [1. 프로젝트 개요](#1-프로젝트-개요)
+    + [MVVM](#mvvm)
+    + [코드를 통한 레이아웃 구성](#코드를-통한-레이아웃-구성)
+    + [적용된 기술 스택 일람](#적용된-기술-스택-일람)
+- [2. 기능](#2-기능)
+- [3. 설계 및 구현](#3-설계-및-구현)
+- [4. 유닛 테스트 및 UI 테스트](#4-유닛-테스트-및-ui-테스트)
+  * [유닛 테스트](#유닛-테스트)
+    + [네트워크 가용 여부와 무관한 테스트 구현](#네트워크-가용-여부와-무관한-테스트-구현)
+  * [UI 테스트](#ui-테스트)
+- [5. Trouble shooting](#5-trouble-shooting)
+  * [상품 상세 조회 화면 이미지 로드 시 비동기 동작으로 인한 문제](#상품-상세-조회-화면-이미지-로드-시-비동기-동작으로-인한-문제)
+  * [상품 등록 또는 수정 후 즉시 게시글 조회 시 서버 업로드 시간으로 인해 이미지가 보이지 않던 문제](#상품-등록-또는-수정-후-즉시-게시글-조회-시-서버-업로드-시간으로-인해-이미지가-보이지-않던-문제)
+  * [상품 등록 또는 수정 시 textView가 firstResponder일 때 완료 버튼을 누르면 내용이 반영되지 않는 문제](#상품-등록-또는-수정-시-textView가-firstResponder일-때-완료-버튼을-누르면-내용이-반영되지-않는-문제)
+
 
 ---
 
@@ -139,7 +148,9 @@ escaping closure를 통해 mutating 인스턴스가 강제되는 경우를 제�
 ## 상품 조회
 ![image](https://user-images.githubusercontent.com/69730931/132931082-aba3fb1e-25b3-4d39-92b2-0486a11742f2.png)
 
-![image](https://user-images.githubusercontent.com/69730931/132937600-db880732-938a-49a2-b994-0efab4330c40.png)
+![image](https://user-images.githubusercontent.com/69730931/132949446-0114cada-1585-4909-bc3d-6f3252961676.png)
+
+![image](https://user-images.githubusercontent.com/69730931/132949458-d43822e3-5566-48d5-8e39-37c722568899.png)
 
 ![image](https://user-images.githubusercontent.com/69730931/132937906-c245ee5f-3423-4411-96f7-491d1140b8a8.png)
 
@@ -705,6 +716,169 @@ describe("multipartUpload post") {
 <img src="https://user-images.githubusercontent.com/69730931/132948009-65268ab9-ce0b-4327-97f6-07448eae8492.png" alt="marketItemRegisterView" width="270"/>
 
 # 5. Trouble shooting
+## 상품 상세 조회 화면 이미지 로드 시 비동기 동작으로 인한 문제
+서버에 GET 요청으로 상세 정보를 요청하면 JSON은 아래와 같이 상품 상세 정보를 제공합니다. 주목해야할 부분은 `images`로, 이미지가 위치한 인터넷 URL을 반환합니다.
+
+```json
+{
+  "registration_date": 1620634155.476605,
+  "stock": 1500000000,
+  "id": 49,
+  "descriptions": "MagSafe 충전기를 사용하면 무선 충전이 더욱 간편해집니다.\n완벽하게 정렬된 자석이 iPhone 12 또는 iPhone 12 Pro에 딱 들어맞아 최대 15W 출력으로 더욱 빠른 무선 충전을 제공하죠.",
+  "currency": "KRW",
+  "images": [
+    "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/2B42F97E-96F4-4778-B8A5-826C4E44D670.png",
+    "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/486BE1B1-7C3C-4F8D-8B11-2AECB3F759BC.png",
+    "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/C2C14AA2-A6EF-4934-B71E-D12FC1E79C9B.png",
+    "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/C8FFC8BF-C991-476B-8208-A068DF27254F.png"
+  ],
+  "price": 55000,
+  "title": "MagSafe 충전기"
+}
+```
+
+그렇다면 이미지를 `Data` 형태로 받아오기 위해서는 이미지가 위치한 인터넷 URL에 다시 GET 요청을 보내야 합니다. 문제는 여기서 발생합니다. 상품 상세정보를 불러오는 `URLSessionDataTask`와 이미지를 불러오는 `URLSessionDataTask`가 각각 비동기적으로 동작하기 때문에 별도의 동작 제어를 하지 않는 이상 이미지를 불러오는 task는 아직 상품 상세 정보 요청에 대한 응답을 받기 전, 이미지 URL들을 서버로부터 받지 못한 상태에서 task를 실행하게 됩니다.
+
+```swift
+// 상품 상세정보 및 이미지 불러오기를 동작하게 하는 메서드
+
+func fire() {
+    fetchMarketItemDetail() // 아직 서버로부터 response를 받지 않음 (이미지 URL 없음)
+
+    // fetchMarketItemDetail()의 결과가 marketItem 프로퍼티에 반영되지 않았으므로 `marketItem == nil` 상태임
+    guard let images = marketItem?.images else { return } 
+
+    // `marketItem == nil` 이었으므로 아래는 실행되지 않고 위의 코드에서 early exit함
+    for (index, path) in images.enumerated() {
+        fetchImage(for: index, from: path)
+    }
+}
+```
+
+이를 해결하기 위해서는 `fetchMarketItemDetail()`이 실행되고 서버로부터 response를 받아 해당 내용이 디코딩되어 `marketItem` 프로퍼티에 반영된 후 `marketItem?.images`에 접근하여 URL들을 받아와 각각 서버에 이미지 요청을 하여야 합니다.
+
+이 때 적용할 수 있는 쉬운 방법으로 `NSLock`과 `DispatchSemaphore`가 있습니다. 둘 모두 수행할 작업에 대한 컨트롤을 할 수 있지만, semaphore는 동시에 처리할 작업의 수를 `value`를 통해 지정할 수 있습니다.
+
+```swift
+private let semaphore = DispatchSemaphore(value: 1)
+```
+
+저는 상품 상세 정보를 받아오는 작업을 먼저 수행 한 후 이미지 요청 작업을 수행하려 하니 상품 상세정보 시작시 semaphore의 상태를 `wait()`, 서버로부터 응답을 받아 completion handler가 실행될 때 다음 작업을 수행할 수 있도록 `signal()`으로 표시했습니다.
+
+```swift
+private func fetchMarketItemDetail() {
+    semaphore.wait()
+    itemDetailTask = useCase.fetchMarketItemDetail(itemID: marketItemID) { [weak self] result in
+        self?.semaphore.signal()
+        switch result {
+        case .success(let marketItem):
+            self?.marketItem = marketItem
+            guard let metaData = self?.setupMetaData(with: marketItem) else { return }
+            self?.state = .fetch(metaData)
+        case .failure(let error):
+            self?.state = .error(error)
+        }
+    }
+}
+```
+
+이제 이미지를 받아오는 작업도 semaphore의 영향을 받을 수 있게끔 전후로 semaphore의 상태를 제어해주고, 이 비용이 큰 작업들이 별도의 queue에서 처리되어 결과만 받아올 수 있게끔 queue를 구성했습니다.
+
+```swift
+func fire() {
+    let serialQueue = DispatchQueue(label: Style.serialQueueName)
+    serialQueue.async {
+        self.fetchMarketItemDetail()
+
+        self.semaphore.wait()
+        guard let images = self.marketItem?.images else { return }
+        self.semaphore.signal()
+
+        for (index, path) in images.enumerated() {
+            self.fetchImage(for: index, from: path)
+        }
+    }
+}
+```
+
+이제 또 한가지 중요한 점은 이미지도 URL 배열 순으로 로드해야한다는 것입니다. 따라서 순서를 지켜주기 위해 이미지를 가져오는 작업에도 semaphore를 적용합니다.
+
+```swift
+private func fetchImage(for index: Int, from path: String) {
+    semaphore.wait()
+    let imageTask = useCase.fetchImage(from: path) { [weak self] result in
+        self?.semaphore.signal()
+        switch result {
+        case .success(let image):
+            self?.images.append(image)
+            self?.state = .fetchImage(image, index)
+        case .failure(let error):
+            self?.state = .error(.networkError(error))
+        }
+    }
+    detailImageTasks.append(imageTask)
+}
+```
+
+마지막으로 서버로부터 받아온 데이터들을 view에 반영할 때 view 동기화 작업을 위해 반드시 main queue에서 UI 작업을 수행하여야 합니다. 이 때 viewModel이 UI를 업데이트 하는 작업을 호출하는 과정에서 기존 작업이 미처 끝나지 않은 상태에서 다른 상태로 덮어씌워질 수 있습니다. 이를 제어하기 위해 main queue의 UI 업데이트 작업을 위한 semaphore를 별도로 정의하여 적용합니다.
+
+```swift
+private let listenerSemaphore = DispatchSemaphore(value: 1)
+
+// viewModel의 view를 업데이트하기 위한 상태. listener 클로저를 통해 변경된 상태에 적합한 view 업데이트를 수행한다.
+private var state: State = .empty {
+    willSet {
+        listenerSemaphore.wait()
+    }
+    didSet {
+        DispatchQueue.main.async {
+            self.listener?(self.state)
+            self.listenerSemaphore.signal()
+        }
+    }
+}
+```
+
+이제 비동기 작업으로 인한 문제가 해결되었습니다.
 
 
-# 6. 학습 내용
+## 상품 등록 또는 수정 후 즉시 게시글 조회 시 서버 업로드 시간으로 인해 이미지가 보이지 않던 문제
+이미지 파일이 가볍지 않은 만큼 서버에 등록되기까지 시간이 필요하여 발생했던 문제입니다. 서버에 등록 요청을 보내고 이에 바로 접근하려하면 서버가 `404 Not Found` 응답을 반환합니다.
+
+`asyncAfter`를 통해 등록 또는 수정된 상품에의 접근을 의도적으로 늦춤으로써 이러한 상황을 방지하였습니다.
+
+아래와 같은 방식으로 이미지가 서버에 등록되는 동안 의도적으로 시간을 지연시킵니다.
+
+```swift
+extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate {
+
+    func didEndEditing(with marketItem: MarketItem) {
+	let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
+	let marketItemDetailViewController = MarketItemDetailViewController()
+	marketItemDetailViewController.delegate = self
+	marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.navigationController?.pushViewController(marketItemDetailViewController, animated: true)
+            marketItemDetailViewModel.fire()
+        }
+    }
+}
+```
+
+## 상품 등록 또는 수정 시 textView가 firstResponder일 때 완료 버튼을 누르면 내용이 반영되지 않는 문제
+최초 상품 등록 화면을 구현할 때 `UITextViewDelegate`의 `textViewDidEndEditing(_:)` API를 통해 textView의 내용을 viewModel에 반영하였습니다. 하지만 해당 API는 textView를 탭하여 수정한 이후 `firstResponder`에서 해제될 때 호출되기 때문에 상품 등록버튼을 누르기 전 반드시 textView를 firstResponder에서 해제해야한다는 번거로움이 있었습니다. 저는 이 작동양식이 사용자가 예상하는 앱의 동작과 다르다고 판단하여 textView에 수정사항이 발생할 때마다 viewModel에 변경 내용이 반영될 수 있게끔 `textViewDidChange(_:)` API로 변경하여 문제를 해결하였습니다.
+
+```swift
+func textViewDidChange(_ textView: UITextView) {
+    placeholderTextViewDelegate?.didFillTextView(category: type, with: text)
+}
+
+// delegate 메서드
+extension MarketItemRegisterViewController: PlaceholderTextViewDelegate {
+
+    func didFillTextView(category: PlaceholderTextView.TextViewType, with text: String) {
+	viewModel?.setMarketItemInfo(of: category, with: text)
+    }
+}
+```
