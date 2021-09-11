@@ -715,6 +715,56 @@ describe("multipartUpload post") {
 <img src="https://user-images.githubusercontent.com/69730931/132947994-8d120936-dae0-4b49-8227-9869f8ef5e69.png" alt="marketItemRegisterView" width="500"/>
 <img src="https://user-images.githubusercontent.com/69730931/132948009-65268ab9-ce0b-4327-97f6-07448eae8492.png" alt="marketItemRegisterView" width="270"/>
 
+```swift
+// 상품 셀을 탭하면 상세 페이지로 전환되는지 검증하는 UI 테스트
+
+describe("상품 셀") {
+    context("list cell tap") {
+        it("상품 상세 페이지로 이동한다") {
+            let marketItemListCollectionView = app.collectionViews["marketItemList"]
+            let cell = marketItemListCollectionView
+                .children(matching: .cell)
+                .matching(identifier: "listMarketItem")
+                .element(boundBy: .zero)
+            guard cell.waitForExistence(timeout: 3) else {
+                throw XCTSkip("등록된 상품이 없습니다")
+            }
+
+            cell.tap()
+
+            let itemDetailNavigationBar = app.navigationBars["Item Detail"]
+            expect(itemDetailNavigationBar.exists).to(beTrue())
+        }
+    }
+
+    context("grid cell tap") {
+        it("상품 상세 페이지로 이동한다") {
+            let marketItemListCollectionView = app.collectionViews["marketItemList"]
+            let cell = marketItemListCollectionView
+                .children(matching: .cell)
+                .matching(identifier: "listMarketItem")
+                .element(boundBy: .zero)
+            guard cell.waitForExistence(timeout: 3) else {
+                throw XCTSkip("등록된 상품이 없습니다")
+            }
+
+            let ryanMarketNavigationBar = app.navigationBars["Ryan Market"]
+            let changeCellStyleButton = ryanMarketNavigationBar.buttons["changeCellStyle"]
+            changeCellStyleButton.tap()
+
+            let gridCell = marketItemListCollectionView
+                .children(matching: .cell)
+                .matching(identifier: "gridMarketItem")
+                .element(boundBy: .zero)
+            gridCell.tap()
+
+            let itemDetailNavigationBar = app.navigationBars["Item Detail"]
+            expect(itemDetailNavigationBar.exists).to(beTrue())
+        }
+    }
+}
+```
+
 # 5. Trouble shooting
 ## 상품 상세 조회 화면 이미지 로드 시 비동기 동작으로 인한 문제
 서버에 GET 요청으로 상세 정보를 요청하면 JSON은 아래와 같이 상품 상세 정보를 제공합니다. 주목해야할 부분은 `images`로, 이미지가 위치한 인터넷 URL을 반환합니다.
