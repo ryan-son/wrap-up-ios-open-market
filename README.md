@@ -139,6 +139,10 @@ escaping closure를 통해 mutating 인스턴스가 강제되는 경우를 제�
 ## 상품 조회
 ![image](https://user-images.githubusercontent.com/69730931/132931082-aba3fb1e-25b3-4d39-92b2-0486a11742f2.png)
 
+![image](https://user-images.githubusercontent.com/69730931/132937600-db880732-938a-49a2-b994-0efab4330c40.png)
+
+![image](https://user-images.githubusercontent.com/69730931/132937906-c245ee5f-3423-4411-96f7-491d1140b8a8.png)
+
 ### Cell styling
 `UICollectionViewFlowLayoutDelegate` 메서드를 이용해 case별 Item의 사이즈를 달리하는 방식으로 구현하였습니다.
 
@@ -277,6 +281,40 @@ extension MarketItemListViewController: UICollectionViewDataSourcePrefetching {
 }
 ```
 
+### 이미지 caching
+서버에 한 번 요청한 이미지를 재요청하지 않고 캐시에서 가져옴으로써 서버 부담을 줄이고 사용자의 스크롤링 경험을 향상합니다.
+캐싱은 오직 메모리에서만 수행하여 앱이 과도한 메모리를 사용하지 않도록 합니다.
+
+```swift
+func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask? {
+    guard let cacheKey = NSURL(string: path) else {
+        completion(.failure(.emptyPath))
+        return nil
+    }
+
+    if let cachedThumbnail = ThumbnailUseCase.sharedCache.object(forKey: cacheKey) {
+        completion(.success(cachedThumbnail))
+        return nil
+    }
+
+    let task = networkManager.fetch(from: path) { result in
+        switch result {
+        case .success(let data):
+            guard let thumbnail = UIImage(data: data) else {
+                completion(.failure(.emptyData))
+                return
+            }
+            completion(.success(thumbnail))
+            ThumbnailUseCase.sharedCache.setObject(thumbnail, forKey: cacheKey)
+        case .failure(let error):
+            completion(.failure(.networkError(error)))
+        }
+    }
+    task?.resume()
+    return task
+}
+```
+
 ### Image paging
 서버로부터 이미지를 비동기적으로 불러와 viewModel에 반영되면 viewModel의 상태가 `.fetchImage` 상태로 변경되어 해당 상태에 등록된 viewController의 코드 블럭이 실행됩니다.
 
@@ -390,6 +428,8 @@ func bind(with viewModel: MarketItemDetailViewModel) {
 
 ## 상품 등록
 ![image](https://user-images.githubusercontent.com/69730931/132903453-2159699a-25c5-43b5-88f1-0cfff26f9d07.png)
+
+![image](https://user-images.githubusercontent.com/69730931/132938526-070945c3-1e15-4057-96dd-dcd3841b466c.png)
 
 ### 이미지 추가 및 스크롤링을 통한 이미지 확인
 이미지를 추가하는 영역은 [UICollectionView](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/MarketItemRegisterViewController%2BDelegates.swift)로 구현되어있으며, 첫번째 셀은 [AddPhotoCollectionViewCell](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/Components/AddPhotoCollectionViewCell/AddPhotoCollectionViewCell.swift), 이후 추가되는 이미지들은 [PhotoCollectionViewCell](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/Components/PhotoCollectionViewCell/PhotoCollectionViewCell.swift)로 구현되어 있습니다. 이미지를 사진첩에서 가져오는 기능은 `UIImagePickerController`를 구현한 [RegisterImagePicker](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/Components/RegisterImagePicker.swift)을 통해 수행하고 있습니다.
