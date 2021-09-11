@@ -504,16 +504,17 @@ private func pushToRegisteredPost(with marketItem: MarketItem) {
 ```swift
 extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate {
 
-	func didEndEditing(with marketItem: MarketItem) {
-		let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
-		let marketItemDetailViewController = MarketItemDetailViewController()
-		marketItemDetailViewController.delegate = self
-		marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+    func didEndEditing(with marketItem: MarketItem) {
+	let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
+	let marketItemDetailViewController = MarketItemDetailViewController()
+	marketItemDetailViewController.delegate = self
+	marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.navigationController?.pushViewController(marketItemDetailViewController, animated: true)
             marketItemDetailViewModel.fire()
         }
-	}
+    }
 }
 ```
 
@@ -624,14 +625,84 @@ private func presentSuccessfullyDeletedAlert() {
 
 extension MarketItemListViewController: MarketItemDetailViewControllerDelegate {
 
-	func didChangeMarketItem() {
-		refreshMarketItems()
-	}
+    func didChangeMarketItem() {
+        refreshMarketItems()
+    }
 }
 ```
 
 # 4. 유닛 테스트 및 UI 테스트
 
+테스트는 Behavior-Driven Development (BDD)과 Matcher 프레임워크인 [Quick](https://github.com/Quick/Quick)과 [Nimble](https://github.com/Quick/Nimble)을 이용하여 수행하였습니다.
+
+- `Quick`을 이용하면 `XCTest` 프레임워크에서 제목 또는 주석을 이용하여 Given-When-Then의 흐름 구분을 하던 방식을 describe-context-it의 흐름으로 충분히 표현할 수 있고, `XCTest`의 `setUpWithError()`, `tearDownWithError()`와 같이 매 테스트 케이스 전후로 이루어지는 초기화 작업을 `beforeEach(_:)`, `afterEach(_:)` 메서드로 수행할 수 있습니다.
+- 반면 `Quick`을 사용하며 불편했던 점은 describe-when-it의 흐름으로 잘 구분되어 있지만 `beforeEach(_:)`와 `afterEach(_:)`가 매 검증 메서드인 `it(_:)` 전후로만 실행된다는 점이었습니다. 테스트 상황에 따라 테스트 대상인 `System-Under-Test (SUT)`이 다른 조건으로 주어져야 할 경우가 있는데, 이 경우에는 어쩔 수 없이 검증 메서드인 `it(_:)`에 given-when-then의 상황을 제공하여야 했습니다.
+- `Nimble`은 `XCTest` 프레임워크에서 `XCTAssertEqual(_:)`, `XCTAssertTrue(_:)` 등으로 빈약하게 주어졌던 matcher를 Nimble의 `expect(_:)`, `to(_:)`, `equal(_:)` 등의 메서드와 조합하여 사용함으로써 예상하는 바를 명확하게 표현할 수 있게 해줍니다. 추가로 `XCTest` 프레임워크에서 비동기적으로 동작하는 메서드를 검증하고자 할 때 expectation을 정의하고 `fulfill()`을 통해 만족 상황을 별도로 정의해주었던 불편함을 `toEventually(_:)`, `toNotEventually(_:)`를 정의하여 사용함으로써 해소하고 있습니다.
+
+## 유닛 테스트
+
+네트워킹 등 앱의 핵심 로직을 구성하는 15개의 타입의 유닛 테스트를 62개의 명세를 통해 검증하였습니다. 타 타입에 대한 의존성이 있는 타입의 경우에는 Mock, Stub, Spy 등의 Test Double을 작성하여 의존성을 제거한 상태로 독립적인 기능 테스트가 가능하도록 구성하였습니다.
+
+제가 유닛 테스트를 수행하는 이유는 주변 코드가 끊임 없이 변경되는 상황에서도 작성한 테스트 케이스를 바탕으로 '주어진 명세'를 만족하는지 여부를 지속적으로 추적할 수 있고, 타 타입 또는 메서드가 의존하는 상황에서도 '내가 작성한 코드가 믿을만한가'를 검증할 수 있기 때문입니다. Test 시 Code Coverage를 목표로 작성한 테스트는 요구 기능 명세보다 코드 검증 여부에 중점을 두고 있어 코드 변경 시 테스트도 함께 변경하게 되어 손실이 클 수 있지만, 요구 기능 명세를 바탕으로 한 테스트는 이러한 변화에 강하여 개발 공수 등의 자원 손실을 최소화할 수 있습니다. 로직을 대상으로 한 유닛 테스트의 Code Coverage는 46%이며 예시는 아래와 같습니다.
+
+![image](https://user-images.githubusercontent.com/69730931/132947541-96c0393d-bfd0-4cd0-9385-39d96f2cda1f.png)
+<img src="https://user-images.githubusercontent.com/69730931/132947650-6583735f-e7c2-4064-93de-772e75ef104f.png" alt="marketItemRegisterView" width="270"/>
+
+```swift
+// NetworkManager 테스트 케이스 중 일부 발췌. sut은 NetworkManager를 의미함.
+
+describe("multipartUpload post") {
+    let postMarketItem: PostMarketItem = TestAssets.Dummies.postMarketItem
+    
+    context("지정된 path에 PostMarketItem 인스턴스를 전달하면") {
+        let path = EndPoint.uploadItem.path
+
+        it("등록된 상품이 MarketItem json 형태로 반환된다") {
+            let expected: Data = TestAssets.Expected.postMarketItemData
+            let expectedEncodeCallCount: Int = 1
+            self.setLoadingHandler(shouldSuccessNetwork: true, expected)
+
+            sut.multipartUpload(postMarketItem, to: path, method: .post) { result in
+                switch result {
+                case .success(let data):
+                    expect(data).to(equal(expected))
+                case .failure(let error):
+                    XCTFail("응답이 예상과 다릅니다. Error: \(error)")
+                }
+            }
+            expect(spyMultipartFormData.encodeCallCount).to(equal(expectedEncodeCallCount))
+            expect(spyMultipartFormData.body).to(beEmpty())
+        }
+
+        it("통신에 실패하면 Result 타입으로 래핑된 NetworkManagerError를 반환한다") {
+            let failedInput = TestAssets.Expected.postMarketItemData
+            self.setLoadingHandler(shouldSuccessNetwork: false, failedInput)
+            let expected: NetworkManagerError = TestAssets.Expected.Post.error
+
+            sut.multipartUpload(postMarketItem, to: path, method: .post) { result in
+                switch result {
+                case .success:
+                    XCTFail("응답이 예상과 다릅니다.")
+                case .failure(let error):
+                    expect(error).to(equal(expected))
+                }
+            }
+            expect(spyMultipartFormData.body).to(beEmpty())
+        }
+    }
+}
+```
+
+### 네트워크 가용 여부와 무관한 테스트 구현
+본 프로젝트의 유닛 테스트에서 한 가지 강조할 수 있는 부분은 `MockURLProtocol`을 정의하여 의도적인 응답을 설정할 수 있게 만듦으로써 네트워크 가용 여부와 무관한 테스트를 구현했다는 것입니다. 이 방식은 [WWDC18 - Testing tips & tricks](https://developer.apple.com/videos/play/wwdc2018/417/)에서 소개된 방식으로 Request를 처리하는 `URLSessionConfiguration`의 프로퍼티인 `protocolClasses`에 커스텀 프로토콜을 주입함으로써 의도된 방식으로 request에 응답하는 `URLSessionConfiguration`을 만들고, 이를 `URLSession(configuration:)` 이니셜라이저를 통해 주입함으로써 구현합니다.
+
+본 프로젝트에서 정의하여 사용한 [MockURLProtocol](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarketTests/Helpers/TestDoubles/MockURLProtocol.swift)과 이를 이용한 [유닛 테스트](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarketTests/Networking/NetworkManagerSpec.swift)는 각 링크를 통해 확인하실 수 있습니다.
+
+## UI 테스트
+의도한 흐름으로 각 View별 앱 사용 시나리오를 정의하여 UI 테스트를 수행하였으며, 주로 View 단의 코드를 검증할 수 있었습니다. 총 3 개의 뷰에 대해 21 개의 테스트 케이스 또는 사용 시나리오를 정의하여 테스트를 수행하였으며 Test를 통한 Code Coverage는 93.8%입니다.
+
+<img src="https://user-images.githubusercontent.com/69730931/132947994-8d120936-dae0-4b49-8227-9869f8ef5e69.png" alt="marketItemRegisterView" width="500"/>
+<img src="https://user-images.githubusercontent.com/69730931/132948009-65268ab9-ce0b-4327-97f6-07448eae8492.png" alt="marketItemRegisterView" width="270"/>
 
 # 5. Trouble shooting
 
