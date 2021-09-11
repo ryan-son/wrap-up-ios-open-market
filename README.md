@@ -34,7 +34,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 # 2. 기능
 ## 상품 조회
 
-### Cell styling ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#cell-styling-1))
+### Cell styling ([구현 방식 바로가기](#cell-styling-1))
 우측 상단의 셀 스타일 변경 버튼을 통해 상품 목록 조회 시 보기 모드를 변경할 수 있습니다.
 
 ![image](https://user-images.githubusercontent.com/69730931/132921089-a510ce0c-a5b8-458e-b7ac-a844cc830995.png)
@@ -44,27 +44,27 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 <img src="https://user-images.githubusercontent.com/69730931/132921816-06c9e20f-f39e-4d06-ba73-13389466924f.png" alt="CellStyleByDeviceOrientation" width="630"/>
 
 
-### Infinite scrolling ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#infinite-scrolling-1))
+### Infinite scrolling ([구현 방식 바로가기](#infinite-scrolling-1))
 로드된 잔여 상품 개수를 통해 다음 리스트를 불러와 스크롤링을 통해 전체 상품을 조회할 수 있습니다.
 
 ![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/69730931/132920635-94ccfff6-eb8f-4ed9-be91-a1767e73ef90.gif)
 ![ezgif com-gif-maker (6)](https://user-images.githubusercontent.com/69730931/132920771-0b00629b-610e-45d3-9fe0-e9f873564e02.gif)
 
 
-### Refreshing ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#refreshing-1))
+### Refreshing ([구현 방식 바로가기](#refreshing-1))
 상품 목록 최상단에서 상품 목록을 잡아 당기거나, 우측 상단의 refresh 버튼을 통해 상품 목록을 갱신할 수 있습니다.  
 
 ![ezgif com-gif-maker (7)](https://user-images.githubusercontent.com/69730931/132921496-0c8065af-7de3-4776-aecf-12d9c82b2d59.gif)
 ![ezgif com-gif-maker (8)](https://user-images.githubusercontent.com/69730931/132921656-1a6c4791-943f-4ede-bcfa-65ff2386d229.gif)
 
 
-### 최초 상품 목록 로드 시 대기 효과 표시 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%B5%9C%EC%B4%88-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-%EB%A1%9C%EB%93%9C-%EC%8B%9C-%EB%8C%80%EA%B8%B0-%ED%9A%A8%EA%B3%BC-%ED%91%9C%EC%8B%9C-1))
+### 최초 상품 목록 로드 시 대기 효과 표시 ([구현 방식 바로가기](#%EC%B5%9C%EC%B4%88-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-%EB%A1%9C%EB%93%9C-%EC%8B%9C-%EB%8C%80%EA%B8%B0-%ED%9A%A8%EA%B3%BC-%ED%91%9C%EC%8B%9C-1))
 앱이 최초에 실행되어 상품이 로드될 때까지 대기 효과를 표시합니다.
 
 ![ezgif com-gif-maker (9)](https://user-images.githubusercontent.com/69730931/132922068-217ed4b9-a121-4c2b-ab44-c7160ecb69b9.gif)
 
 
-### Image paging ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#image-paging-1))
+### Image paging ([구현 방식 바로가기](#image-paging-1))
 상품 상세 조회 시 페이징을 통해 여러 이미지를 조회할 수 있습니다.
 
 ![ezgif com-gif-maker (10)](https://user-images.githubusercontent.com/69730931/132922364-6036ffe5-314a-4b57-91d1-316b825e3c43.gif)
@@ -75,23 +75,23 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 
 ![image](https://user-images.githubusercontent.com/69730931/132924589-266ac104-51e6-49d2-a246-3388efee4ee0.png)
 
-### 이미지 추가 및 스크롤링을 통한 이미지 확인 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B6%94%EA%B0%80-%EB%B0%8F-%EC%8A%A4%ED%81%AC%EB%A1%A4%EB%A7%81%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%ED%99%95%EC%9D%B8-1))
+### 이미지 추가 및 스크롤링을 통한 이미지 확인 ([구현 방식 바로가기](#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B6%94%EA%B0%80-%EB%B0%8F-%EC%8A%A4%ED%81%AC%EB%A1%A4%EB%A7%81%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%ED%99%95%EC%9D%B8-1))
 사진첩에서 등록할 사진을 선택할 수 있으며 기존에 등록한 사진을 스크롤링을 통해 확인할 수 있습니다.
 
 ![ezgif com-gif-maker (15)](https://user-images.githubusercontent.com/69730931/132925063-96130df3-ae01-49dd-bf3f-d8b24d2fad05.gif)
 
-### 등록한 이미지 삭제 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%82%AD%EC%A0%9C-1))
+### 등록한 이미지 삭제 ([구현 방식 바로가기](#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%82%AD%EC%A0%9C-1))
 등록한 이미지의 우측 상단에 위치한 버튼을 통해 등록한 이미지를 삭제할 수 있습니다.
 
 ![ezgif com-gif-maker (16)](https://user-images.githubusercontent.com/69730931/132925383-6f79272a-2604-4d89-aa01-abe18b7af9ca.gif)
 
-### 키보드 프레임을 고려한 레이아웃 설정 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%ED%82%A4%EB%B3%B4%EB%93%9C-%ED%94%84%EB%A0%88%EC%9E%84%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%9C-%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83-%EC%84%A4%EC%A0%95-1))
+### 키보드 프레임을 고려한 레이아웃 설정 ([구현 방식 바로가기](#%ED%82%A4%EB%B3%B4%EB%93%9C-%ED%94%84%EB%A0%88%EC%9E%84%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%9C-%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83-%EC%84%A4%EC%A0%95-1))
 입력할 TextView가 키보드에 가리지 않게끔 제약을 조정합니다.
 
 ![ezgif com-gif-maker (17)](https://user-images.githubusercontent.com/69730931/132925591-afd22fa4-1d13-49fd-b9b7-e20d89b89056.gif)
 
 
-### 등록한 상품 바로 보기 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0-1))
+### 등록한 상품 바로 보기 ([구현 방식 바로가기](#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0-1))
 상품 등록 후 등록한 상품의 상세 조회 화면으로 바로 이동합니다.
 
 ![ezgif com-gif-maker (18)](https://user-images.githubusercontent.com/69730931/132926309-a8172dd2-e818-4173-96f4-a5def0a4a57b.gif)
@@ -103,18 +103,18 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 ![image](https://user-images.githubusercontent.com/69730931/132924566-7394a438-4d86-47e0-b9d0-418bc6176895.png)
 
 
-### Alert을 이용한 비밀번호 선 확인 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#alert%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%84%A0-%ED%99%95%EC%9D%B8-1))
+### Alert을 이용한 비밀번호 선 확인 ([구현 방식 바로가기](#alert%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%84%A0-%ED%99%95%EC%9D%B8-1))
 상품 수정 시 비밀번호를 먼저 입력하고 수정화면으로 진입합니다. 올바르지 않은 비밀번호를 입력한 경우에는 재시도 또는 취소를 선택할 수 있습니다.
 
 ![ezgif com-gif-maker (11)](https://user-images.githubusercontent.com/69730931/132923242-2d7f2fa6-47b0-4f2b-8530-432cebb6f478.gif)
 
-### 수정한 상품 바로 보기 ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%88%98%EC%A0%95%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0-1))
+### 수정한 상품 바로 보기 ([구현 방식 바로가기](#%EC%88%98%EC%A0%95%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0-1))
 상품 수정 후 수정된 상품을 기존 화면에 바로 업데이트하여 보여줍니다.
 
 ![ezgif com-gif-maker (12)](https://user-images.githubusercontent.com/69730931/132923545-26908bbd-c239-49ee-91f7-1e22776c7810.gif)
 
 
-### 상품 수정 후 상품 목록 refreshing ([구현 방식 바로가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95-%ED%9B%84-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-refreshing-1))
+### 상품 수정 후 상품 목록 refreshing ([구현 방식 바로가기](#%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95-%ED%9B%84-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-refreshing-1))
 상품 수정 후 상품 상세 조회 화면을 벗어나면 상품 목록을 갱신합니다.
 
 ![ezgif com-gif-maker (13)](https://user-images.githubusercontent.com/69730931/132923694-f059a85f-9041-4d6f-844f-6c7844d905cc.gif)
@@ -122,7 +122,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 
 ## 상품 삭제
 
-### 상품 삭제 후 상품 목록 refreshing ([구현 방식 바로가기]())
+### 상품 삭제 후 상품 목록 refreshing ([구현 방식 바로가기](#상품-삭제-후-상품-목록-refreshing-기능으로-돌아가기))
 상품 삭제 후에는 확인 버튼 클릭 즉시 상품 상세 조회 화면을 벗어나며 상품 목록을 갱신합니다.
 
 ![ezgif com-gif-maker (14)](https://user-images.githubusercontent.com/69730931/132923988-58da7d8b-c897-47c4-83b2-819de72866c1.gif)
@@ -143,7 +143,7 @@ escaping closure를 통해 mutating 인스턴스가 강제되는 경우를 제�
 
 ![image](https://user-images.githubusercontent.com/69730931/132937906-c245ee5f-3423-4411-96f7-491d1140b8a8.png)
 
-### Cell styling ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#cell-styling))
+### Cell styling ([기능으로 돌아가기](#cell-styling))
 `UICollectionViewFlowLayoutDelegate` 메서드를 이용해 case별 Item의 사이즈를 달리하는 방식으로 구현하였습니다.
 
 ```swift
@@ -184,7 +184,7 @@ private func toggleCellStyle() {
 }
 ```
 
-### Infinite scrolling ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#infinite-scrolling))
+### Infinite scrolling ([기능으로 돌아가기](#infinite-scrolling))
 
 `collectionView(_:willDisplay:forItemAt:)` 메서드를 이용해 잔여 상품 개수가 특정 개수 이하 (10개)가 되면 다음 목록을 요청합니다 (`list()` 메서드).
 
@@ -196,7 +196,7 @@ func collectionView(_ collectionView: UICollectionView, willDisplay cell: UIColl
 }
 ```
 
-### Refreshing ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#refreshing))
+### Refreshing ([기능으로 돌아가기](#refreshing))
 Refresh는 `MarketItemListViewModel`의 `refresh()` 메서드를 작동시킴으로써 수행합니다. 
 
 viewModel의 refresh는 현재까지 불러온 상품 목록 정보, 페이지 번호, 캐시에 저장된 이미지들을 모두 초기 상태로 초기화하고 다시 상품 목록을 불러옵니다. 
@@ -228,7 +228,7 @@ private func setupViews() {
 }
 ```
 
-### 최초 상품 목록 로드 시 대기 효과 표시 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%B5%9C%EC%B4%88-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-%EB%A1%9C%EB%93%9C-%EC%8B%9C-%EB%8C%80%EA%B8%B0-%ED%9A%A8%EA%B3%BC-%ED%91%9C%EC%8B%9C))
+### 최초 상품 목록 로드 시 대기 효과 표시 ([기능으로 돌아가기](#%EC%B5%9C%EC%B4%88-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-%EB%A1%9C%EB%93%9C-%EC%8B%9C-%EB%8C%80%EA%B8%B0-%ED%9A%A8%EA%B3%BC-%ED%91%9C%EC%8B%9C))
 최초 앱 실행 시 `MarketItemListViewController`는 `bindWithViewModel()` 데이터 바인딩 메서드를 통해 서버로부터 상품 리스트를 불러왔을 때 collectionView를 리로드하고 refreshControl의 애니메이션 효과를 중지합니다.
 
 ```swift
@@ -315,7 +315,7 @@ func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, T
 }
 ```
 
-### Image paging ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#image-paging))
+### Image paging ([기능으로 돌아가기](#image-paging))
 서버로부터 이미지를 비동기적으로 불러와 viewModel에 반영되면 viewModel의 상태가 `.fetchImage` 상태로 변경되어 해당 상태에 등록된 viewController의 코드 블럭이 실행됩니다.
 
 ```swift
@@ -431,10 +431,10 @@ func bind(with viewModel: MarketItemDetailViewModel) {
 
 ![image](https://user-images.githubusercontent.com/69730931/132938526-070945c3-1e15-4057-96dd-dcd3841b466c.png)
 
-### 이미지 추가 및 스크롤링을 통한 이미지 확인 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B6%94%EA%B0%80-%EB%B0%8F-%EC%8A%A4%ED%81%AC%EB%A1%A4%EB%A7%81%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%ED%99%95%EC%9D%B8))
+### 이미지 추가 및 스크롤링을 통한 이미지 확인 ([기능으로 돌아가기](#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B6%94%EA%B0%80-%EB%B0%8F-%EC%8A%A4%ED%81%AC%EB%A1%A4%EB%A7%81%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%ED%99%95%EC%9D%B8))
 이미지를 추가하는 영역은 [UICollectionView](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/MarketItemRegisterViewController%2BDelegates.swift)로 구현되어있으며, 첫번째 셀은 [AddPhotoCollectionViewCell](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/Components/AddPhotoCollectionViewCell/AddPhotoCollectionViewCell.swift), 이후 추가되는 이미지들은 [PhotoCollectionViewCell](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/Components/PhotoCollectionViewCell/PhotoCollectionViewCell.swift)로 구현되어 있습니다. 이미지를 사진첩에서 가져오는 기능은 `UIImagePickerController`를 구현한 [RegisterImagePicker](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarket/Sources/Views/MarketItemRegisterView/Components/RegisterImagePicker.swift)을 통해 수행하고 있습니다.
 
-### 등록한 이미지 삭제 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%82%AD%EC%A0%9C))
+### 등록한 이미지 삭제 ([기능으로 돌아가기](#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%82%AD%EC%A0%9C))
 `collectionView(_:cellForItemAt:)` 메서드에서 `PhotoCollectionViewCell`을 dequeue할 때 삭제 버튼에 대해 target을 설정함으로써 이미지 삭제를 수행합니다.
 
 ```swift
@@ -446,7 +446,7 @@ photoCell.addDeleteButtonTarget(target: self, action: #selector(removePhoto(_:))
 ...
 ```
 
-### 키보드 프레임을 고려한 레이아웃 설정 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%ED%82%A4%EB%B3%B4%EB%93%9C-%ED%94%84%EB%A0%88%EC%9E%84%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%9C-%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83-%EC%84%A4%EC%A0%95))
+### 키보드 프레임을 고려한 레이아웃 설정 ([기능으로 돌아가기](#%ED%82%A4%EB%B3%B4%EB%93%9C-%ED%94%84%EB%A0%88%EC%9E%84%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%9C-%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83-%EC%84%A4%EC%A0%95))
 키보드가 나타날 때 `NotificationCenter`를 통해 전달되는 Notification을 통해 `keyboardWillShow`, `keyboardWillHide` 이벤트에 대응합니다. 키보드가 나타날 때는 스크롤뷰의 `contentInset`을 추가하며 스크롤뷰의 하단 제약을 조정하고, 사라질 때는 추가한 `contentInset`과 하단 제약을 기존 상태로 되돌립니다.
 
 ```swift
@@ -476,7 +476,7 @@ photoCell.addDeleteButtonTarget(target: self, action: #selector(removePhoto(_:))
 }
 ```
 
-### 등록한 상품 바로 보기 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0))
+### 등록한 상품 바로 보기 ([기능으로 돌아가기](#%EB%93%B1%EB%A1%9D%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0))
 상품 등록이 완료되면 등록 완료 응답으로 서버로부터 등록된 상품 정보를 반환 받습니다. 이를 통해 viewModel의 상태가 `.register` 케이스로 변경되어 view가 등록된 상황에 맞는 코드 블럭을 실행할 수 있는 기회를 가집니다.
 ```swift
 func bind(with viewModel: MarketItemRegisterViewModel) {
@@ -520,7 +520,7 @@ extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate
 ## 상품 수정
 ![image](https://user-images.githubusercontent.com/69730931/132903714-edaf5ccb-104c-4921-b5fa-ed28a6e7d9b7.png)
 
-### Alert을 이용한 비밀번호 선 확인 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#alert%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%84%A0-%ED%99%95%EC%9D%B8))
+### Alert을 이용한 비밀번호 선 확인 ([기능으로 돌아가기](#alert%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%84%A0-%ED%99%95%EC%9D%B8))
 상품 수정을 위해서는 수정 사항과 함께 multipart/form-data 형식으로 password를 전송하여야 합니다. alert을 통해 password를 미리 입력 받아 서버에 PATCH 메서드를 통해 password 검증을 수행하여 password를 알지 못하면 수정화면으로 진입할 수 없도록하는 기능을 제공합니다.
 
 ```swift
@@ -548,7 +548,7 @@ func verifyPassword(
 }
 ```
 
-### 수정한 상품 바로 보기 ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%88%98%EC%A0%95%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0))
+### 수정한 상품 바로 보기 ([기능으로 돌아가기](#%EC%88%98%EC%A0%95%ED%95%9C-%EC%83%81%ED%92%88-%EB%B0%94%EB%A1%9C-%EB%B3%B4%EA%B8%B0))
 상품 등록 섹션의 '등록한 상품 바로 보기' 기능과 마찬가지로 상품이 수정되어 viewModel에 수정된 상품 정보가 할당되면 viewModel이 `.updated` 상태로 변화되어 이에 적합하게 view가 업데이트 될 수 있는 코드 블럭이 실행됩니다.
 
 ```swift
@@ -575,7 +575,7 @@ private func popToUpdatedPost(with marketItem: MarketItem) {
 }
 ```
 
-### 상품 수정 후 상품 목록 refreshing ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95-%ED%9B%84-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-refreshing))
+### 상품 수정 후 상품 목록 refreshing ([기능으로 돌아가기](#%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95-%ED%9B%84-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-refreshing))
 상품이 수정되면 상품 리스트를 서버로부터 다시 받아와야 합니다. 이를 판별하기 위해 `MarketItemDetailViewController`는 `isUpdated`라는 Bool 타입의 변수를 가지고 있으며, 이는 상품이 수정되었을 때 상태가 `true`로 변경됩니다. 이 경우 `back` 버튼을 통해 상품 목록으로 이동하면 아래의 `backButtonDidTapped()` 메서드가 실행되어 상품 정보를 서버로부터 다시 받아오게 됩니다.
 
 ```swift
@@ -591,7 +591,7 @@ private func popToUpdatedPost(with marketItem: MarketItem) {
 ## 상품 삭제
 ![image](https://user-images.githubusercontent.com/69730931/132903777-5027c0e7-3442-46fd-8b11-679e3e80f86a.png)
 
-### 상품 삭제 후 상품 목록 refreshing ([기능으로 돌아가기](https://github.com/ryan-son/wrap-up-ios-open-market#%EC%83%81%ED%92%88-%EC%82%AD%EC%A0%9C-%ED%9B%84-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-refreshing))
+### 상품 삭제 후 상품 목록 refreshing ([기능으로 돌아가기](#%EC%83%81%ED%92%88-%EC%82%AD%EC%A0%9C-%ED%9B%84-%EC%83%81%ED%92%88-%EB%AA%A9%EB%A1%9D-refreshing))
 상품 수정의 경우와 유사한 로직으로, 상품의 삭제가 완료되면 viewModel의 `marketItem`이 새로 할당되며 viewModel의 상태가 `.delete`로 변경되며 바인딩된 아래의 코드블럭이 실행됩니다.
 
 ```swift
