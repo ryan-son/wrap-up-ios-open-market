@@ -58,7 +58,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 ![ezgif com-gif-maker (8)](https://user-images.githubusercontent.com/69730931/132921656-1a6c4791-943f-4ede-bcfa-65ff2386d229.gif)
 
 
-### 로드 시 Activity Indicator를 통한 대기 효과 표시
+### 최초 상품 목록 로드 시 대기 효과 표시
 앱이 최초에 실행되어 상품이 로드될 때까지 대기 효과를 표시합니다.
 
 ![ezgif com-gif-maker (9)](https://user-images.githubusercontent.com/69730931/132922068-217ed4b9-a121-4c2b-ab44-c7160ecb69b9.gif)
@@ -130,8 +130,14 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 
 # 3. 설계 및 구현
 
+최종적으로 활용되는 타입이 아닌 경우 타입 간의 느슨한 결합을 위해 프로토콜을 통해 추상화하여 의존성 주입이 가능하도록 구성하였습니다. 이를 통해 프로토콜을 통해 요구된 인터페이스를 가진 타입을 설계함으로써 테스트를 수행합니다.
+
+escaping closure를 통해 mutating 인스턴스가 강제되는 경우를 제외하고는 값 타입인 struct를 이용하여 타입을 설계함으로써 ARC를 통한 참조 카운팅을 고려하지 않도록 하였습니다.
+![image](https://user-images.githubusercontent.com/69730931/132930476-90ff2f57-41d9-41f5-9df1-71895acf74d2.png)
+
+
 ## 상품 조회
-![image](https://user-images.githubusercontent.com/69730931/132912758-2e880cf5-b820-4740-9caa-c3c2a6285d8e.png)
+![image](https://user-images.githubusercontent.com/69730931/132931082-aba3fb1e-25b3-4d39-92b2-0486a11742f2.png)
 
 
 ## 상품 등록
