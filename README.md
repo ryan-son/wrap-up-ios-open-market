@@ -11,7 +11,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 - [4. 유닛 테스트 및 UI 테스트](#4-유닛-테스트-및-ui-테스트)
   * [필자가 테스트를 하는 이유](#필자가-테스트를-하는-이유)
   * [유닛 테스트](#유닛-테스트)
-    + [네트워크 가용 여부와 무관한 테스트 구현](#네트워크-가용-여부와-무관한-테스트-구현)
+    + [네트워크에 의존하지 않는 테스트 구현](#네트워크에-의존하지-않는-테스트-구현)
   * [UI 테스트](#ui-테스트)
 - [5. Trouble shooting](#5-trouble-shooting)
   * [상품 상세 조회 화면 이미지 로드 시 비동기 동작으로 인한 문제](#상품-상세-조회-화면-이미지-로드-시-비동기-동작으로-인한-문제)
@@ -708,7 +708,7 @@ describe("multipartUpload post") {
 }
 ```
 
-### 네트워크 가용 여부와 무관한 테스트 구현
+### 네트워크에 의존하지 않는 테스트 구현
 본 프로젝트의 유닛 테스트에서 한 가지 강조할 수 있는 부분은 `MockURLProtocol`을 정의하여 의도적인 응답을 설정할 수 있게 만듦으로써 네트워크 가용 여부와 무관한 테스트를 구현했다는 것입니다. 이 방식은 [WWDC18 - Testing tips & tricks](https://developer.apple.com/videos/play/wwdc2018/417/)에서 소개된 방식으로 Request를 처리하는 `URLSessionConfiguration`의 프로퍼티인 `protocolClasses`에 커스텀 프로토콜을 주입함으로써 의도된 방식으로 request에 응답하는 `URLSessionConfiguration`을 만들고, 이를 `URLSession(configuration:)` 이니셜라이저를 통해 주입함으로써 구현합니다.
 
 본 프로젝트에서 정의하여 사용한 [MockURLProtocol](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarketTests/Helpers/TestDoubles/MockURLProtocol.swift)과 이를 이용한 [유닛 테스트](https://github.com/ryan-son/wrap-up-ios-open-market/blob/main/OpenMarket/OpenMarketTests/Networking/NetworkManagerSpec.swift)는 각 링크를 통해 확인하실 수 있습니다.
