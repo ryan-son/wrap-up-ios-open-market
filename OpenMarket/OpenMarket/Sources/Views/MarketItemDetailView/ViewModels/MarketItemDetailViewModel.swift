@@ -61,10 +61,15 @@ final class MarketItemDetailViewModel {
     private let marketItemID: Int
 	private let useCase: MarketItemDetailUseCaseProtocol
 
-	// MARK: Asynchronous task handlers
+    // MARK: Asynchronous task handlers
 
     private let semaphore = DispatchSemaphore(value: 1)
     private let listenerSemaphore = DispatchSemaphore(value: 1)
+
+    // MARK: Data tasks
+
+    private var itemDetailTask: URLSessionDataTask?
+    private var detailImageTasks: [URLSessionDataTask?] = []
 
 	// MARK: Initializers
 
@@ -96,7 +101,7 @@ final class MarketItemDetailViewModel {
 
     private func fetchMarketItemDetail() {
         semaphore.wait()
-        useCase.fetchMarketItemDetail(itemID: marketItemID) { [weak self] result in
+        itemDetailTask = useCase.fetchMarketItemDetail(itemID: marketItemID) { [weak self] result in
             self?.semaphore.signal()
             switch result {
             case .success(let marketItem):
@@ -111,7 +116,7 @@ final class MarketItemDetailViewModel {
 
     private func fetchImage(for index: Int, from path: String) {
         semaphore.wait()
-        useCase.fetchImage(from: path) { [weak self] result in
+        let imageTask = useCase.fetchImage(from: path) { [weak self] result in
             self?.semaphore.signal()
             switch result {
             case .success(let image):
@@ -121,6 +126,7 @@ final class MarketItemDetailViewModel {
                 self?.state = .error(.networkError(error))
             }
         }
+        detailImageTasks.append(imageTask)
     }
 
     private func setupMetaData(with marketItem: MarketItem) -> MetaData {
@@ -194,6 +200,11 @@ final class MarketItemDetailViewModel {
         marketItem = nil
         images.removeAll()
         fire()
+    }
+
+    func cancelDataTasks() {
+        itemDetailTask?.cancel()
+        detailImageTasks.forEach { $0?.cancel() }
     }
 }
 

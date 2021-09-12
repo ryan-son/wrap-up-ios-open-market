@@ -19,8 +19,10 @@ enum MarketItemDetailUseCaseError: Error {
 
 protocol MarketItemDetailUseCaseProtocol {
 
-    func fetchMarketItemDetail(itemID: Int, completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void))
-    func fetchImage(from path: String, completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void)
+    @discardableResult
+    func fetchMarketItemDetail(itemID: Int, completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)) -> URLSessionDataTask?
+    @discardableResult
+    func fetchImage(from path: String, completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void) -> URLSessionDataTask?
 	func deleteMarketItem(
 		itemID: Int,
 		password: String,
@@ -33,7 +35,7 @@ protocol MarketItemDetailUseCaseProtocol {
     )
 }
 
-final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
+struct MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
 
 	// MARK: Properties
 
@@ -57,17 +59,15 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
 
 	// MARK: Use case methods
 
-    func fetchMarketItemDetail(itemID: Int, completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)) {
+    @discardableResult
+    func fetchMarketItemDetail(itemID: Int, completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)) -> URLSessionDataTask? {
         let path = EndPoint.item(id: itemID).path
 
-        networkManager.fetch(from: path) { [weak self] result in
+        let task = networkManager.fetch(from: path) { result in
             switch result {
             case .success(let data):
                 do {
-                    guard let marketItem = try self?.decoder.decode(MarketItem.self, from: data) else {
-                        completion(.failure(.selfNotFound))
-                        return
-                    }
+                    let marketItem = try decoder.decode(MarketItem.self, from: data)
                     completion(.success(marketItem))
                 } catch {
                     completion(.failure(.unknown(error)))
@@ -76,10 +76,12 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
                 completion(.failure(.networkError(error)))
             }
         }
+        return task
     }
 
-    func fetchImage(from path: String, completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void) {
-        networkManager.fetch(from: path) { result in
+    @discardableResult
+    func fetchImage(from path: String, completion: @escaping(Result<UIImage, MarketItemDetailUseCaseError>) -> Void) -> URLSessionDataTask? {
+        let task = networkManager.fetch(from: path) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else {
@@ -91,6 +93,7 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
                 completion(.failure(.networkError(error)))
             }
         }
+        return task
     }
 
 	func deleteMarketItem(
@@ -103,14 +106,11 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
 		do {
 			let deleteData = try encoder.encode(deleteMarketItem)
 
-			networkManager.delete(deleteData, at: path) { [weak self] result in
+			networkManager.delete(deleteData, at: path) { result in
 				switch result {
 				case .success(let data):
                     do {
-                        guard let marketItem = try self?.decoder.decode(MarketItem.self, from: data) else {
-                            completion(.failure(.selfNotFound))
-                            return
-                        }
+                        let marketItem = try decoder.decode(MarketItem.self, from: data)
                         completion(.success(marketItem))
                     } catch {
                         completion(.failure(.unknown(error)))
@@ -133,14 +133,11 @@ final class MarketItemDetailUseCase: MarketItemDetailUseCaseProtocol {
         let path = EndPoint.item(id: itemID).path
         let marketItem = PatchMarketItem(title: nil, descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: password)
 
-        networkManager.multipartUpload(marketItem, to: path, method: .patch) { [weak self] result in
+        networkManager.multipartUpload(marketItem, to: path, method: .patch) { result in
             switch result {
             case .success(let data):
                 do {
-                    guard let marketItem = try self?.decoder.decode(MarketItem.self, from: data) else {
-                        completion(.failure(.selfNotFound))
-                        return
-                    }
+                    let marketItem = try decoder.decode(MarketItem.self, from: data)
                     completion(.success((marketItem)))
                 } catch {
                     completion(.failure(.unknown(error)))

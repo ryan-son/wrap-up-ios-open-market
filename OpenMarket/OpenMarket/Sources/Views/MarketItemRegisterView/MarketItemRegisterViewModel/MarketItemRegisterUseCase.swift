@@ -24,7 +24,7 @@ protocol MarketItemRegisterUseCaseProtocol {
     )
 }
 
-final class MarketItemRegisterUseCase: MarketItemRegisterUseCaseProtocol {
+struct MarketItemRegisterUseCase: MarketItemRegisterUseCaseProtocol {
 
 	// MARK: Properties
 
@@ -48,14 +48,11 @@ final class MarketItemRegisterUseCase: MarketItemRegisterUseCaseProtocol {
         to path: String, method: NetworkManager.UploadHTTPMethod,
         completion: @escaping ((Result<MarketItem, MarketItemRegisterUseCaseError>) -> Void)
     ) {
-        networkManager.multipartUpload(marketItem, to: path, method: method) { [weak self] result in
+        networkManager.multipartUpload(marketItem, to: path, method: method) { result in
             switch result {
             case .success(let data):
                 do {
-                    guard let registered = try self?.decoder.decode(MarketItem.self, from: data) else {
-                        completion(.failure(.selfNotFound))
-                        return
-                    }
+                    let registered = try decoder.decode(MarketItem.self, from: data)
                     completion(.success((registered)))
                 } catch {
                     completion(.failure(.unknown(error)))

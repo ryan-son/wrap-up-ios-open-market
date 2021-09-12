@@ -32,7 +32,7 @@ protocol NetworkManageable {
                 completion: @escaping ((Result<Data, NetworkManagerError>) -> Void))
 }
 
-final class NetworkManager: NetworkManageable {
+struct NetworkManager: NetworkManageable {
 
     enum UploadHTTPMethod: String {
         case post, patch, delete

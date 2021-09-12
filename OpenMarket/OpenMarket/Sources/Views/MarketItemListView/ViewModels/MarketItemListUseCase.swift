@@ -15,7 +15,7 @@ enum MarketItemListUseCaseError: Error {
     case lastPage
 }
 
-protocol MarketItemListUseCaseProtocol {
+protocol MarketItemListUseCaseProtocol: AnyObject {
 
     var isFetching: Bool { get }
     var isLastPage: Bool { get }

@@ -20,7 +20,7 @@ protocol ThumbnailUseCaseProtocol {
     func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask?
 }
 
-final class ThumbnailUseCase: ThumbnailUseCaseProtocol {
+struct ThumbnailUseCase: ThumbnailUseCaseProtocol {
 
 	// MARK: Type properties
 

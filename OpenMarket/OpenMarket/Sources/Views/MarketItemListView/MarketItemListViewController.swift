@@ -307,6 +307,7 @@ extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate
 		let marketItemDetailViewController = MarketItemDetailViewController()
 		marketItemDetailViewController.delegate = self
 		marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.navigationController?.pushViewController(marketItemDetailViewController, animated: true)
             marketItemDetailViewModel.fire()
