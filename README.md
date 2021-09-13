@@ -143,7 +143,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 최종적으로 활용되는 타입이 아닌 경우 타입 간의 느슨한 결합을 위해 프로토콜을 통해 추상화하여 의존성 주입이 가능하도록 구성하였습니다. 이를 통해 프로토콜을 통해 요구된 인터페이스를 가진 타입을 설계함으로써 테스트를 수행합니다.
 
 escaping closure를 통해 mutating 인스턴스가 강제되는 경우를 제외하고는 값 타입인 struct를 이용하여 타입을 설계함으로써 ARC를 통한 참조 카운팅을 고려하지 않아도 되도록 구성하였습니다.
-![image](https://user-images.githubusercontent.com/69730931/132930476-90ff2f57-41d9-41f5-9df1-71895acf74d2.png)
+![image](https://user-images.githubusercontent.com/69730931/133153406-ce2d4ffb-5873-4259-b06d-bbac9eb20f9d.png)
 
 
 ## 상품 조회
