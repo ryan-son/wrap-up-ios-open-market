@@ -102,12 +102,6 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 ![ezgif com-gif-maker (17)](https://user-images.githubusercontent.com/69730931/132925591-afd22fa4-1d13-49fd-b9b7-e20d89b89056.gif)
 
 
-### 등록한 상품 바로 보기 ([구현 방식 바로가기](#등록한-상품-바로-보기-기능으로-돌아가기))
-상품 등록 후 등록한 상품의 상세 조회 화면으로 바로 이동합니다.
-
-![ezgif com-gif-maker (18)](https://user-images.githubusercontent.com/69730931/132926309-a8172dd2-e818-4173-96f4-a5def0a4a57b.gif)
-
-
 ## 상품 수정
 상품 상세 조회 화면 우측 상단의 더보기 버튼을 통해 상품을 수정할 수 있습니다.
 
@@ -118,11 +112,6 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 상품 수정 시 비밀번호를 먼저 입력하고 수정화면으로 진입합니다. 올바르지 않은 비밀번호를 입력한 경우에는 재시도 또는 취소를 선택할 수 있습니다.
 
 ![ezgif com-gif-maker (11)](https://user-images.githubusercontent.com/69730931/132923242-2d7f2fa6-47b0-4f2b-8530-432cebb6f478.gif)
-
-### 수정한 상품 바로 보기 ([구현 방식 바로가기](#수정한-상품-바로-보기-기능으로-돌아가기))
-상품 수정 후 수정된 상품을 기존 화면에 바로 업데이트하여 보여줍니다.
-
-![ezgif com-gif-maker (12)](https://user-images.githubusercontent.com/69730931/132923545-26908bbd-c239-49ee-91f7-1e22776c7810.gif)
 
 
 ### 상품 수정 후 상품 목록 refreshing ([구현 방식 바로가기](#상품-수정-후-상품-목록-refreshing-기능으로-돌아가기))
@@ -489,48 +478,6 @@ photoCell.addDeleteButtonTarget(target: self, action: #selector(removePhoto(_:))
 }
 ```
 
-### 등록한 상품 바로 보기 ([기능으로 돌아가기](#등록한-상품-바로-보기-구현-방식-바로가기))
-상품 등록이 완료되면 등록 완료 응답으로 서버로부터 등록된 상품 정보를 반환 받습니다. 이를 통해 viewModel의 상태가 `.register` 케이스로 변경되어 view가 등록된 상황에 맞는 코드 블럭을 실행할 수 있는 기회를 가집니다.
-```swift
-func bind(with viewModel: MarketItemRegisterViewModel) {
-    self.viewModel = viewModel
-
-    viewModel.bind { [weak self] state in
-        switch state {
-        ...
-        case .register(let marketItem):
-            self?.pushToRegisteredPost(with: marketItem)
-            self?.activityIndicator.stopAnimating()
-        ...
-        }
-    }
-}
-
-private func pushToRegisteredPost(with marketItem: MarketItem) {
-    navigationController?.popViewController(animated: false)
-    delegate?.didEndEditing(with: marketItem)
-}
-```
-
-이후 기존화면을 pop 시키며 상품 목록 화면으로 잠시 이동한 후 `MarketItemRegisterViewControllerDelegate` 타입인 `delegate`를 통해 등록한 상품의 상세화면으로 이동하게끔 만들어주는 `didEndEditing(with:)` 메서드를 실행하여 등록한 상품 상세 화면으로 이동합니다.
-
-```swift
-extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate {
-
-    func didEndEditing(with marketItem: MarketItem) {
-	let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
-	let marketItemDetailViewController = MarketItemDetailViewController()
-	marketItemDetailViewController.delegate = self
-	marketItemDetailViewController.bind(with: marketItemDetailViewModel)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.navigationController?.pushViewController(marketItemDetailViewController, animated: true)
-            marketItemDetailViewModel.fire()
-        }
-    }
-}
-```
-
 ## 상품 수정
 ![image](https://user-images.githubusercontent.com/69730931/132903714-edaf5ccb-104c-4921-b5fa-ed28a6e7d9b7.png)
 
@@ -559,33 +506,6 @@ func verifyPassword(
             completion(.failure(.networkError(error)))
         }
     }
-}
-```
-
-### 수정한 상품 바로 보기 ([기능으로 돌아가기](#수정한-상품-바로-보기-구현-방식-바로가기))
-상품 등록 섹션의 '등록한 상품 바로 보기' 기능과 마찬가지로 상품이 수정되어 viewModel에 수정된 상품 정보가 할당되면 viewModel이 `.updated` 상태로 변화되어 이에 적합하게 view가 업데이트 될 수 있는 코드 블럭이 실행됩니다.
-
-```swift
-func bind(with viewModel: MarketItemRegisterViewModel) {
-    self.viewModel = viewModel
-
-    viewModel.bind { [weak self] state in
-        switch state {
-        ...
-        case .update(let marketItem):
-            self?.popToUpdatedPost(with: marketItem)
-        ...
-        }
-    }
-}
-```
-
-이후 `delegate`를 통해 `didEndEditing(with:)` 메서드가 실행되어 수정된 상품 화면으로 이동합니다.
-
-```swift
-private func popToUpdatedPost(with marketItem: MarketItem) {
-    navigationController?.popViewController(animated: false)
-    delegate?.didEndEditing(with: marketItem)
 }
 ```
 
@@ -646,7 +566,84 @@ extension MarketItemListViewController: MarketItemDetailViewControllerDelegate {
 
 # 4. 구현 완료 후 개선 또는 수정된 사항
 
+## 등록한 상품으로 바로 이동 ([Issue #16](https://github.com/ryan-son/wrap-up-ios-open-market/issues/16))
+상품 등록 후 등록한 상품의 상세 조회 화면으로 바로 이동합니다.
 
+![ezgif com-gif-maker (18)](https://user-images.githubusercontent.com/69730931/132926309-a8172dd2-e818-4173-96f4-a5def0a4a57b.gif)
+
+### 구현
+상품 등록이 완료되면 등록 완료 응답으로 서버로부터 등록된 상품 정보를 반환 받습니다. 이를 통해 viewModel의 상태가 `.register` 케이스로 변경되어 view가 등록된 상황에 맞는 코드 블럭을 실행할 수 있는 기회를 가집니다.
+```swift
+func bind(with viewModel: MarketItemRegisterViewModel) {
+    self.viewModel = viewModel
+
+    viewModel.bind { [weak self] state in
+        switch state {
+        ...
+        case .register(let marketItem):
+            self?.pushToRegisteredPost(with: marketItem)
+            self?.activityIndicator.stopAnimating()
+        ...
+        }
+    }
+}
+
+private func pushToRegisteredPost(with marketItem: MarketItem) {
+    navigationController?.popViewController(animated: false)
+    delegate?.didEndEditing(with: marketItem)
+}
+```
+
+이후 기존화면을 pop 시키며 상품 목록 화면으로 잠시 이동한 후 `MarketItemRegisterViewControllerDelegate` 타입인 `delegate`를 통해 등록한 상품의 상세화면으로 이동하게끔 만들어주는 `didEndEditing(with:)` 메서드를 실행하여 등록한 상품 상세 화면으로 이동합니다.
+
+```swift
+extension MarketItemListViewController: MarketItemRegisterViewControllerDelegate {
+
+    func didEndEditing(with marketItem: MarketItem) {
+	let marketItemDetailViewModel = MarketItemDetailViewModel(marketItemID: marketItem.id)
+	let marketItemDetailViewController = MarketItemDetailViewController()
+	marketItemDetailViewController.delegate = self
+	marketItemDetailViewController.bind(with: marketItemDetailViewModel)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.navigationController?.pushViewController(marketItemDetailViewController, animated: true)
+            marketItemDetailViewModel.fire()
+        }
+    }
+}
+```
+
+## 수정한 상품으로 바로 이동 ([Issue #16](https://github.com/ryan-son/wrap-up-ios-open-market/issues/16))
+상품 수정 후 수정된 상품을 기존 화면에 바로 업데이트하여 보여줍니다.
+
+![ezgif com-gif-maker (12)](https://user-images.githubusercontent.com/69730931/132923545-26908bbd-c239-49ee-91f7-1e22776c7810.gif)
+
+### 구현
+상품 등록 섹션의 '등록한 상품 바로 보기' 기능과 마찬가지로 상품이 수정되어 viewModel에 수정된 상품 정보가 할당되면 viewModel이 `.updated` 상태로 변화되어 이에 적합하게 view가 업데이트 될 수 있는 코드 블럭이 실행됩니다.
+
+```swift
+func bind(with viewModel: MarketItemRegisterViewModel) {
+    self.viewModel = viewModel
+
+    viewModel.bind { [weak self] state in
+        switch state {
+        ...
+        case .update(let marketItem):
+            self?.popToUpdatedPost(with: marketItem)
+        ...
+        }
+    }
+}
+```
+
+이후 `delegate`를 통해 `didEndEditing(with:)` 메서드가 실행되어 수정된 상품 화면으로 이동합니다.
+
+```swift
+private func popToUpdatedPost(with marketItem: MarketItem) {
+    navigationController?.popViewController(animated: false)
+    delegate?.didEndEditing(with: marketItem)
+}
+```
 
 # 5. 유닛 테스트 및 UI 테스트
 
