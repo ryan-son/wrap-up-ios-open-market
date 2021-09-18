@@ -13,6 +13,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
   - [수정한 상품으로 바로 이동 (Issue #16)](#수정한-상품으로-바로-이동-issue-16)
   - [상품 수정 시 기존 게시글의 내용 확인 및 금번에 수정한 내용을 구분할 수 있게끔 화면 구성 (Issue #17)](#상품-수정-시-기존-게시글의-내용-확인-및-금번에-수정한-내용을-구분할-수-있게끔-화면-구성-issue-17)
   - [상품 수정 시 비밀번호를 아는 이용자만 수정 화면으로 진입할 수 있도록 구성 (Issue #18)](#상품-수정-시-비밀번호를-아는-이용자만-수정-화면으로-진입할-수-있도록-구성-issue-18)
+  - [상품 목록 화면 스크롤링 사용자 경험 향상 (Issue #19)](#상품-목록-화면-스크롤링-사용자-경험-향상-issue-19)
 - [5. 유닛 테스트 및 UI 테스트](#5-유닛-테스트-및-ui-테스트)
   * [필자가 테스트를 하는 이유](#필자가-테스트를-하는-이유)
   * [유닛 테스트](#유닛-테스트)
@@ -241,77 +242,6 @@ private func bindWithViewModel() {
         ...
         }
     }
-}
-```
-
-### 이미지 로드 취소
-CollectionViewCell이 재사용되는 과정에서 재사용되기 전의 이미지 로드 작업이 완료되지 않았다면 해당 `URLSessionDataTask`를 취소합니다. 이 작업은 재사용큐에 등록된 셀이 로드되기 전에 호출되는 메서드인 `prepareForReuse()`에서 수행됩니다.
-
-```swift
-override func prepareForReuse() {
-    super.prepareForReuse()
-    reset()
-}
-
-private func reset() {
-    viewModel?.cancelThumbnailRequest()
-    thumbnailImageView.image = nil
-    titleLabel.text = nil
-    stockLabel.text = nil
-    discountedPriceLabel.attributedText = nil
-    priceLabel.text = nil
-}
-```
-
-### 이미지 prefetch
-사용자의 스크롤링 경험 향상을 위해 이미지 요청 작업을 미리 수행합니다.
-
-```swift
-extension MarketItemListViewController: UICollectionViewDataSourcePrefetching {
-
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            DispatchQueue.global(qos: .utility).async {
-                let marketItem = self.viewModel.marketItems[indexPath.item]
-                let marketItemCellViewModel = MarketItemCellViewModel(marketItem: marketItem)
-                marketItemCellViewModel.prefetchThumbnail()
-            }
-        }
-    }
-}
-```
-
-### 이미지 caching
-서버에 한 번 요청한 이미지를 재요청하지 않고 캐시에서 가져옴으로써 서버 부담을 줄이고 사용자의 스크롤링 경험을 향상합니다.
-캐싱은 오직 메모리에서만 수행하여 앱이 과도한 메모리를 사용하지 않도록 합니다.
-
-```swift
-func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask? {
-    guard let cacheKey = NSURL(string: path) else {
-        completion(.failure(.emptyPath))
-        return nil
-    }
-
-    if let cachedThumbnail = ThumbnailUseCase.sharedCache.object(forKey: cacheKey) {
-        completion(.success(cachedThumbnail))
-        return nil
-    }
-
-    let task = networkManager.fetch(from: path) { result in
-        switch result {
-        case .success(let data):
-            guard let thumbnail = UIImage(data: data) else {
-                completion(.failure(.emptyData))
-                return
-            }
-            completion(.success(thumbnail))
-            ThumbnailUseCase.sharedCache.setObject(thumbnail, forKey: cacheKey)
-        case .failure(let error):
-            completion(.failure(.networkError(error)))
-        }
-    }
-    task?.resume()
-    return task
 }
 ```
 
@@ -673,6 +603,82 @@ func verifyPassword(
     }
 }
 ```
+
+## 상품 목록 화면 스크롤링 사용자 경험 향상 (Issue #19)
+이미지 로딩 취소, caching, prefetching 기술을 이용해 프로세싱, 네트워킹에 필요한 제한된 리소스를 최대한 균일하게 사용할 수 있도록 구성하여 프레임 드랍을 최대한 억제함으로써 사용자의 스크롤링 경험을 향상합니다.
+
+### 이미지 로드 취소
+CollectionViewCell이 재사용되는 과정에서 재사용되기 전의 이미지 로드 작업이 완료되지 않았다면 해당 `URLSessionDataTask`를 취소합니다. 이 작업은 재사용큐에 등록된 셀이 로드되기 전에 호출되는 메서드인 `prepareForReuse()`에서 수행됩니다.
+
+```swift
+override func prepareForReuse() {
+    super.prepareForReuse()
+    reset()
+}
+
+private func reset() {
+    viewModel?.cancelThumbnailRequest()
+    thumbnailImageView.image = nil
+    titleLabel.text = nil
+    stockLabel.text = nil
+    discountedPriceLabel.attributedText = nil
+    priceLabel.text = nil
+}
+```
+
+### 이미지 caching
+서버에 한 번 요청한 이미지를 재요청하지 않고 캐시에서 가져옴으로써 서버 부담을 줄이고 사용자의 스크롤링 경험을 향상합니다.
+캐싱은 오직 메모리에서만 수행하여 앱이 과도한 메모리를 사용하지 않도록 합니다.
+
+```swift
+func fetchThumbnail(from path: String, completion: @escaping (Result<UIImage?, ThumbnailUseCaseError>) -> Void) -> URLSessionDataTask? {
+    guard let cacheKey = NSURL(string: path) else {
+        completion(.failure(.emptyPath))
+        return nil
+    }
+
+    if let cachedThumbnail = ThumbnailUseCase.sharedCache.object(forKey: cacheKey) {
+        completion(.success(cachedThumbnail))
+        return nil
+    }
+
+    let task = networkManager.fetch(from: path) { result in
+        switch result {
+        case .success(let data):
+            guard let thumbnail = UIImage(data: data) else {
+                completion(.failure(.emptyData))
+                return
+            }
+            completion(.success(thumbnail))
+            ThumbnailUseCase.sharedCache.setObject(thumbnail, forKey: cacheKey)
+        case .failure(let error):
+            completion(.failure(.networkError(error)))
+        }
+    }
+    task?.resume()
+    return task
+}
+```
+
+
+### 이미지 prefetch
+사용자의 스크롤링 경험 향상을 위해 이미지 요청 작업을 미리 수행합니다.
+
+```swift
+extension MarketItemListViewController: UICollectionViewDataSourcePrefetching {
+
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            DispatchQueue.global(qos: .utility).async {
+                let marketItem = self.viewModel.marketItems[indexPath.item]
+                let marketItemCellViewModel = MarketItemCellViewModel(marketItem: marketItem)
+                marketItemCellViewModel.prefetchThumbnail()
+            }
+        }
+    }
+}
+```
+
 
 # 5. 유닛 테스트 및 UI 테스트
 
