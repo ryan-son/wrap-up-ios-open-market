@@ -4,6 +4,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 # Table of Contents
 - [1. 프로젝트 개요](#1-프로젝트-개요)
     + [프로젝트 관리](#프로젝트-관리)
+    + [Linting tool을 이용한 일관성 있는 코드 품질 유지](#linting-tool을-이용한-일관성-있는-코드-품질-유지)
     + [MVVM](#mvvm)
     + [코드를 통한 레이아웃 구성](#코드를-통한-레이아웃-구성)
     + [적용된 기술 스택 일람](#적용된-기술-스택-일람)
@@ -37,6 +38,9 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 - 구현 사항을 단계별로 정의 후 필요 기능을 이슈로 남기고 GitHub Project로 관리함으로써 체계적으로 요구기능명세에 따른 개발을 할 수 있도록 목표를 잡았습니다 ([구현 Project](https://github.com/ryan-son/wrap-up-ios-open-market/projects/1), [issue board](https://github.com/ryan-son/wrap-up-ios-open-market/issues?q=is%3Aissue+is%3Aclosed)).
 - 앱을 사용해보며 사용자 관점에서 필요한 편의성 기능을 구현하고 예상치 못한 버그를 추적하여 수정함으로써 지속적인 유지보수를 하고 있습니다 ([기능 개선 Project](https://github.com/ryan-son/wrap-up-ios-open-market/projects/2), [on-going issue board](https://github.com/ryan-son/wrap-up-ios-open-market/issues), [resolved issue board](https://github.com/ryan-son/wrap-up-ios-open-market/issues?q=is%3Aissue+is%3Aclosed)).
 - 지금까지 개선된 사항들은 [여기](#4-구현-완료-후-개선-또는-수정된-사항)에서 간편히 확인하실 수 있습니다.
+
+### Linting tool을 이용한 일관성 있는 코드 품질 유지
+일관된 코드 스타일 및 컨벤션을 유지하기 위해 개발 간 SwiftLint를 적용하였습니다.
 
 ### MVVM
 향후 기능 수정 및 추가가 이루어지더라도 요구한 기능 명세에 따라 동작함을 보장하기 위해 MVVM 아키텍쳐를 적용하여 뷰-로직을 분리 후 각 View Model에 대해 유닛테스트를 수행하였습니다.
