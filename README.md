@@ -12,6 +12,7 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
   - [등록한 상품으로 바로 이동 (Issue #16)](#등록한-상품으로-바로-이동-issue-16)
   - [수정한 상품으로 바로 이동 (Issue #16)](#수정한-상품으로-바로-이동-issue-16)
   - [상품 수정 시 기존 게시글의 내용 확인 및 금번에 수정한 내용을 구분할 수 있게끔 화면 구성 (Issue #17)](#상품-수정-시-기존-게시글의-내용-확인-및-금번에-수정한-내용을-구분할-수-있게끔-화면-구성-issue-17)
+  - [상품 수정 시 비밀번호를 아는 이용자만 수정 화면으로 진입할 수 있도록 구성 (Issue #18)](#상품-수정-시-비밀번호를-아는-이용자만-수정-화면으로-진입할-수-있도록-구성-issue-18)
 - [5. 유닛 테스트 및 UI 테스트](#5-유닛-테스트-및-ui-테스트)
   * [필자가 테스트를 하는 이유](#필자가-테스트를-하는-이유)
   * [유닛 테스트](#유닛-테스트)
@@ -109,12 +110,6 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 상품 상세 조회 화면 우측 상단의 더보기 버튼을 통해 상품을 수정할 수 있습니다.
 
 ![image](https://user-images.githubusercontent.com/69730931/132924566-7394a438-4d86-47e0-b9d0-418bc6176895.png)
-
-
-### Alert을 이용한 비밀번호 선 확인 ([구현 방식 바로가기](#alert을-이용한-비밀번호-선-확인-기능으로-돌아가기))
-상품 수정 시 비밀번호를 먼저 입력하고 수정화면으로 진입합니다. 올바르지 않은 비밀번호를 입력한 경우에는 재시도 또는 취소를 선택할 수 있습니다.
-
-![ezgif com-gif-maker (11)](https://user-images.githubusercontent.com/69730931/132923242-2d7f2fa6-47b0-4f2b-8530-432cebb6f478.gif)
 
 
 ### 상품 수정 후 상품 목록 refreshing ([구현 방식 바로가기](#상품-수정-후-상품-목록-refreshing-기능으로-돌아가기))
@@ -484,34 +479,6 @@ photoCell.addDeleteButtonTarget(target: self, action: #selector(removePhoto(_:))
 ## 상품 수정
 ![image](https://user-images.githubusercontent.com/69730931/132903714-edaf5ccb-104c-4921-b5fa-ed28a6e7d9b7.png)
 
-### Alert을 이용한 비밀번호 선 확인 ([기능으로 돌아가기](#alert을-이용한-비밀번호-선-확인-구현-방식-바로가기))
-상품 수정을 위해서는 수정 사항과 함께 multipart/form-data 형식으로 password를 전송하여야 합니다. alert을 통해 password를 미리 입력 받아 서버에 PATCH 메서드를 통해 password 검증을 수행하여 password를 알지 못하면 수정화면으로 진입할 수 없도록하는 기능을 제공합니다.
-
-```swift
-func verifyPassword(
-    itemID: Int,
-    password: String,
-    completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
-) {
-    let path = EndPoint.item(id: itemID).path
-    let marketItem = PatchMarketItem(title: nil, descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: password)
-
-    networkManager.multipartUpload(marketItem, to: path, method: .patch) { result in
-        switch result {
-        case .success(let data):
-            do {
-                let marketItem = try decoder.decode(MarketItem.self, from: data)
-                completion(.success((marketItem)))
-            } catch {
-                completion(.failure(.unknown(error)))
-            }
-        case .failure(let error):
-            completion(.failure(.networkError(error)))
-        }
-    }
-}
-```
-
 ### 상품 수정 후 상품 목록 refreshing ([기능으로 돌아가기](#상품-수정-후-상품-목록-refreshing-구현-방식-바로가기))
 상품이 수정되면 상품 리스트를 서버로부터 다시 받아와야 합니다. 이를 판별하기 위해 `MarketItemDetailViewController`는 `isUpdated`라는 Bool 타입의 변수를 가지고 있으며, 이는 상품이 수정되었을 때 상태가 `true`로 변경됩니다. 이 경우 `back` 버튼을 통해 상품 목록으로 이동하면 아래의 `backButtonDidTapped()` 메서드가 실행되어 상품 정보를 서버로부터 다시 받아오게 됩니다.
 
@@ -649,7 +616,7 @@ private func popToUpdatedPost(with marketItem: MarketItem) {
 ```
 
 
-## 상품 수정 시 기존 게시글의 내용 확인 및 금번에 수정한 내용을 구분할 수 있게끔 화면 구성 (Issue #17)
+## 상품 수정 시 기존 게시글의 내용 확인 및 금번에 수정한 내용을 구분할 수 있게끔 화면 구성 ([Issue #17](https://github.com/ryan-son/wrap-up-ios-open-market/issues/17))
 금번에 수정한 사항을 강조하여 표시함으로써 계획한 변경사항을 모두 반영할 수 있도록 편의성을 제공합니다. 
 
 <img src="https://user-images.githubusercontent.com/69730931/133865304-d271da8d-6fb7-43f3-8755-ae1cce27e0df.png" alt="text-color-before-editing" width="270"/>
@@ -665,6 +632,44 @@ extension PlaceholderTextView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         text = text == placeholderText ? "" : text
         textColor = Style.textColor
+    }
+}
+```
+
+## 상품 수정 시 비밀번호를 아는 이용자만 수정 화면으로 진입할 수 있도록 구성 ([Issue #18](https://github.com/ryan-son/wrap-up-ios-open-market/issues/18))
+
+상품 수정 시 비밀번호를 먼저 입력하고 수정화면으로 진입합니다. 올바르지 않은 비밀번호를 입력한 경우에는 재시도 또는 취소를 선택할 수 있습니다.
+
+- 도입 목적
+  + 현재는 서버에 수정할 사항들과 함께 비밀번호를 PATCH 방식으로 요청하면 비밀번호가 맞고 틀림에 따라 성공, 실패가 정해져 권한을 가지지 않은 사용자가 게시물의 수정 기능에 접근할 수 있음.
+  + 게시물 작성자가 접근했다고 하더라도 비밀번호를 모를 경우 반영되지 못할 수정 작업을 하는 등 불필요한 낭비가 이루어질 수 있음.
+
+![ezgif com-gif-maker (11)](https://user-images.githubusercontent.com/69730931/132923242-2d7f2fa6-47b0-4f2b-8530-432cebb6f478.gif)
+
+### 구현
+상품 수정을 위해서는 수정 사항과 함께 multipart/form-data 형식으로 password를 전송하여야 합니다. alert을 통해 password를 미리 입력 받아 서버에 PATCH 메서드를 통해 password 검증을 수행하여 password를 알지 못하면 수정화면으로 진입할 수 없도록하는 기능을 제공합니다.
+
+```swift
+func verifyPassword(
+    itemID: Int,
+    password: String,
+    completion: @escaping ((Result<MarketItem, MarketItemDetailUseCaseError>) -> Void)
+) {
+    let path = EndPoint.item(id: itemID).path
+    let marketItem = PatchMarketItem(title: nil, descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: password)
+
+    networkManager.multipartUpload(marketItem, to: path, method: .patch) { result in
+        switch result {
+        case .success(let data):
+            do {
+                let marketItem = try decoder.decode(MarketItem.self, from: data)
+                completion(.success((marketItem)))
+            } catch {
+                completion(.failure(.unknown(error)))
+            }
+        case .failure(let error):
+            completion(.failure(.networkError(error)))
+        }
     }
 }
 ```
