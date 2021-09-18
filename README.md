@@ -9,6 +9,9 @@ REST API와의 연동을 통해 상품 리스트 / 상세 조회, 등록, 수정
 - [2. 기능](#2-기능)
 - [3. 설계 및 구현](#3-설계-및-구현)
 - [4. 구현 완료 후 개선 또는 수정된 사항](#4-구현-완료-후-개선-또는-수정된-사항)
+  - [등록한 상품으로 바로 이동 (Issue #16)](#등록한-상품으로-바로-이동-issue-16)
+  - [수정한 상품으로 바로 이동 (Issue #16)](#수정한-상품으로-바로-이동-issue-16)
+  - [상품 수정 시 기존 게시글의 내용 확인 및 금번에 수정한 내용을 구분할 수 있게끔 화면 구성 (Issue #17)](#상품-수정-시-기존-게시글의-내용-확인-및-금번에-수정한-내용을-구분할-수-있게끔-화면-구성-issue-17)
 - [5. 유닛 테스트 및 UI 테스트](#5-유닛-테스트-및-ui-테스트)
   * [필자가 테스트를 하는 이유](#필자가-테스트를-하는-이유)
   * [유닛 테스트](#유닛-테스트)
@@ -642,6 +645,27 @@ func bind(with viewModel: MarketItemRegisterViewModel) {
 private func popToUpdatedPost(with marketItem: MarketItem) {
     navigationController?.popViewController(animated: false)
     delegate?.didEndEditing(with: marketItem)
+}
+```
+
+
+## 상품 수정 시 기존 게시글의 내용 확인 및 금번에 수정한 내용을 구분할 수 있게끔 화면 구성 (Issue #17)
+금번에 수정한 사항을 강조하여 표시함으로써 계획한 변경사항을 모두 반영할 수 있도록 편의성을 제공합니다. 
+
+<img src="https://user-images.githubusercontent.com/69730931/133865304-d271da8d-6fb7-43f3-8755-ae1cce27e0df.png" alt="text-color-before-editing" width="270"/>
+
+### 구현
+`UITextViewDelegate` 메서드인 `textViewDidBeginEditing(_:)`을 이용하여 변경이 일어나기 전에는 placeholder text 색상으로 표현하게끔 구성합니다.
+
+```swift
+// MARK: - UITextViewDelegate
+
+extension PlaceholderTextView: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        text = text == placeholderText ? "" : text
+        textColor = Style.textColor
+    }
 }
 ```
 
